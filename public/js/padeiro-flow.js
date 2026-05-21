@@ -301,7 +301,7 @@ const PadeiroFlow = {
           <div class="pf-photo-add" onclick="PadeiroFlow.saveDraftLocally(); document.getElementById('flow-fotos-hidden').click()">
             <i data-lucide="plus-circle" style="width:24px;height:24px"></i>
             <span>Adicionar</span>
-            <input type="file" id="flow-fotos-hidden" accept="image/*" style="display:none">
+            <input type="file" id="flow-fotos-hidden" accept="image/*" capture="environment" multiple style="display:none">
           </div>
         </div>
       </div>
@@ -310,28 +310,16 @@ const PadeiroFlow = {
         <i data-lucide="arrow-right" style="width:18px;height:18px"></i> Continuar
       </button>`;
 
-    document.getElementById('flow-fotos-hidden').addEventListener('change', async e => {
+    document.getElementById('flow-fotos-hidden').addEventListener('change', e => {
       const files = Array.from(e.target.files);
       if (files.length === 0) return;
       
-      const btn = document.querySelector('.pf-photo-add');
-      const originalHtml = btn.innerHTML;
-      btn.innerHTML = `<div class="comodato-spinner"></div><span style="font-size:12px;margin-top:8px">Processando...</span>`;
-      btn.style.pointerEvents = 'none';
-
-      for (const f of files) {
-        try {
-          const compressed = await PadeiroFlow.compressImage(f);
-          this.selectedFiles.push(compressed.file);
-          PadeiroFlow.renderPhotoPreviewBase64(compressed.dataUrl, compressed.file.name);
-        } catch (err) {
-          console.error("Erro ao comprimir imagem:", err);
-          Components.toast('Erro ao processar imagem', 'error');
-        }
-      }
+      files.forEach(f => {
+        this.selectedFiles.push(f);
+        const dataUrl = URL.createObjectURL(f);
+        PadeiroFlow.renderPhotoPreviewBase64(dataUrl, f.name);
+      });
       
-      btn.innerHTML = originalHtml;
-      btn.style.pointerEvents = 'auto';
       e.target.value = '';
     });
 
@@ -457,54 +445,6 @@ const PadeiroFlow = {
       }
       this.calculateTotals();
     } catch(e) {}
-  },
-
-  async compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.6) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const objectUrl = URL.createObjectURL(file);
-      img.src = objectUrl;
-      img.onload = () => {
-        URL.revokeObjectURL(objectUrl);
-        let width = img.width;
-        let height = img.height;
-
-        if (width > height) {
-          if (width > maxWidth) {
-            height = Math.round((height *= maxWidth / width));
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width = Math.round((width *= maxHeight / height));
-            height = maxHeight;
-          }
-        }
-
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-
-        const dataUrl = canvas.toDataURL('image/jpeg', quality);
-        canvas.toBlob((blob) => {
-          if (!blob) {
-            reject(new Error('Canvas to Blob failed'));
-            return;
-          }
-          const newFile = new File([blob], file.name, {
-            type: 'image/jpeg',
-            lastModified: Date.now()
-          });
-          resolve({ file: newFile, dataUrl: dataUrl });
-        }, 'image/jpeg', quality);
-      };
-      img.onerror = (err) => {
-        URL.revokeObjectURL(objectUrl);
-        reject(err);
-      };
-    });
   },
 
   renderPhotoPreviewBase64(dataUrl, fileName) {
