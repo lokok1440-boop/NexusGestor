@@ -205,7 +205,6 @@ const PadeiroFlow = {
       </div>
       <div class="pf-step-header" style="text-align: center; justify-content: center; width: 100%;">
         <div>
-          <h2 class="pf-step-title">Iniciar Atendimento</h2>
           <p class="pf-step-sub">${canSelect ? 'Selecione uma das suas tarefas de hoje.' : 'Confirme sua tarefa agendada para hoje.'}</p>
         </div>
       </div>
@@ -427,6 +426,11 @@ const PadeiroFlow = {
       if (prod && !isNaN(v)) items.push({ produtoId: prod.id, produtoNome: sv, unidade: un, quantidade: v });
     });
     if (items.length === 0) { Components.toast('Adicione pelo menos um produto.', 'error'); return; }
+
+    if (this.selectedFiles.length === 0 && (!this.activity.fotos || this.activity.fotos.length === 0)) {
+      Components.toast('Adicione pelo menos uma foto da produção.', 'warning');
+      return;
+    }
 
     this.activity.kgTotal  = parseFloat(totalKg) || 0;
     this.activity.lTotal   = parseFloat(totalL)  || 0;

@@ -280,5 +280,6 @@ module.exports = {
   Cronograma: createProxy(new SqlCollection('Cronograma', 'cronogramas')),
   Criterio: createProxy(new SqlCollection('Criterio', 'criterios')),
   Localizacao: createProxy(new SqlCollection('Localizacao', 'localizacoes')),
-  HistoricoLocalizacao: createProxy(new SqlCollection('HistoricoLocalizacao', 'historico_localizacoes'))
+  HistoricoLocalizacao: createProxy(new SqlCollection('HistoricoLocalizacao', 'historico_localizacoes')),
+  CronogramaTemplate: createProxy(new SqlCollection('CronogramaTemplate', 'cronograma_templates'))
 };

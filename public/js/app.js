@@ -40,7 +40,8 @@ const App = {
     if (user && token) {
       if (user.role === 'padeiro') LocationService.init(user);
       const isManagement = ['admin', 'gestor', 'gestor_geral', 'gestor_regional'].includes(user.role);
-      this.navigate(isManagement ? 'admin-dashboard' : 'padeiro-inicio');
+      const savedRoute = sessionStorage.getItem('currentRoute');
+      this.navigate(savedRoute || (isManagement ? 'admin-dashboard' : 'padeiro-inicio'));
       
     } else {
       this.navigate('login');
@@ -50,6 +51,7 @@ const App = {
   navigate(route, data = {}) {
     this.currentRoute = route;
     this.routeData = data;
+    sessionStorage.setItem('currentRoute', route);
     const app = document.getElementById('app');
     if (!app) {
       console.error('❌ Elemento #app não encontrado no DOM!');

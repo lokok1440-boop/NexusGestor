@@ -64,6 +64,12 @@ Object.assign(Cronograma, {
           <button class="btn btn-primary btn-pill" onclick="Cronograma.openTaskForm()">
             <i data-lucide="plus"></i> Nova Tarefa
           </button>
+          <button class="btn btn-pill" style="background-color: rgba(52, 199, 89, 0.1); color: #34C759; border: none; font-weight: 600;" onclick="Cronograma.openSaveTemplateModal()">
+            <i data-lucide="save"></i> Salvar Template
+          </button>
+          <button class="btn btn-pill" style="background-color: rgba(0, 122, 255, 0.1); color: #007AFF; border: none; font-weight: 600;" onclick="Cronograma.openLoadTemplateModal()">
+            <i data-lucide="folder-open"></i> Carregar Template
+          </button>
           <button class="btn btn-pill" style="background-color: rgba(175, 82, 222, 0.1); color: #AF52DE; border: none; font-weight: 600;" onclick="Cronograma.openSmartSchedule()">
             <i data-lucide="sparkles"></i> Inteligente
           </button>

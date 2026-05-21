@@ -814,7 +814,7 @@ const Gestao = {
           <div style="font-weight:600; font-size:14px;">${item.produtoNome}</div>
           <div class="text-tertiary" style="font-size:12px;">ID: ${item.produtoId}</div>
         </div>
-        <div style="font-weight:700; color:var(--primary);">${item.kg} kg</div>
+        <div style="font-weight:700; color:var(--primary);">${item.quantidade !== undefined ? item.quantidade : (item.kg || 0)} ${item.unidade ? item.unidade.toLowerCase() : 'kg'}</div>
       </div>
     `).join('') || '<div class="text-tertiary">Nenhum produto detalhado.</div>';
 
@@ -851,7 +851,9 @@ const Gestao = {
         </div>
       ` : ''}
 
-      ${a.observacao ? `<div style="margin-top:20px; padding:12px; background:var(--system-bg); border-radius:8px; font-size:13px;"><strong>Obs:</strong> ${a.observacao}</div>` : ''}
+      ${a.observacaoCliente ? `<div style="margin-top:20px; padding:12px; background:var(--system-bg); border-radius:8px; font-size:13px;"><strong>Obs Padeiro:</strong> ${a.observacaoCliente}</div>` : ''}
+      ${a.comentario ? `<div style="margin-top:10px; padding:12px; background:var(--system-bg); border-radius:8px; font-size:13px;"><strong>Obs Cliente:</strong> ${a.comentario}</div>` : ''}
+      ${a.observacao ? `<div style="margin-top:10px; padding:12px; background:var(--system-bg); border-radius:8px; font-size:13px;"><strong>Obs Geral:</strong> ${a.observacao}</div>` : ''}
     `, `<button class="btn btn-primary" onclick="Components.closeModal()">Fechar</button>`, 'modal-lg');
 
     Components.renderIcons();

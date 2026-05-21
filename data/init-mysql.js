@@ -219,6 +219,18 @@ const TABLES = [
           INDEX (userId),
           INDEX (timestamp)
         )`
+      },
+      {
+        name: 'cronograma_templates',
+        schema: `CREATE TABLE IF NOT EXISTS cronograma_templates (
+          id VARCHAR(50) PRIMARY KEY,
+          nome VARCHAR(255) NOT NULL,
+          descricao TEXT,
+          itens TEXT NOT NULL,
+          criadoPor VARCHAR(50),
+          criadoEm VARCHAR(100),
+          atualizadoEm VARCHAR(100)
+        )`
       }
 ];
 

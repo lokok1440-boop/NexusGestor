@@ -152,6 +152,7 @@ const cronogramaSchema = new Schema({
   clienteNome: String,
   data: { type: String, index: true },
   horario: String,
+  horarioFim: String,
   status: { type: String, default: 'pendente' },
   tempoMinimoMinutos: { type: Number, default: 0 },
   posicao: { type: Number, default: 0 },
@@ -165,6 +166,16 @@ const cronogramaSchema = new Schema({
 const criterioSchema = new Schema({
   texto: String,
   tipo: String
+}, { timestamps: false, versionKey: false });
+
+// ─── CRONOGRAMA TEMPLATE ───────────────────
+const cronogramaTemplateSchema = new Schema({
+  nome: { type: String, required: true },
+  descricao: String,
+  itens: { type: Schema.Types.Mixed }, // Array de itens do template
+  criadoPor: String,
+  criadoEm: String,
+  atualizadoEm: String
 }, { timestamps: false, versionKey: false });
 
 // ─── EXPORT MODELS ─────────────────────────
@@ -189,7 +200,8 @@ function addIdTransform(schema) {
 }
 
 [padeiroSchema, produtoSchema, clienteSchema, colaboradorSchema, adminSchema,
- metaSchema, atividadeSchema, avaliacaoSchema, cronogramaSchema, criterioSchema
+ metaSchema, atividadeSchema, avaliacaoSchema, cronogramaSchema, criterioSchema,
+ cronogramaTemplateSchema
 ].forEach(addIdTransform);
 
 module.exports = {
@@ -202,5 +214,6 @@ module.exports = {
   Atividade: mongoose.model('Atividade', atividadeSchema),
   Avaliacao: mongoose.model('Avaliacao', avaliacaoSchema),
   Cronograma: mongoose.model('Cronograma', cronogramaSchema),
-  Criterio: mongoose.model('Criterio', criterioSchema)
+  Criterio: mongoose.model('Criterio', criterioSchema),
+  CronogramaTemplate: mongoose.model('CronogramaTemplate', cronogramaTemplateSchema)
 };

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'brago-padeiro-v18';
+const CACHE_NAME = 'brago-padeiro-v19';
 
 // Arquivos externos (CDN) — cache-first, raramente mudam
 const STATIC_CDN = [
@@ -10,10 +10,41 @@ const STATIC_CDN = [
   'https://unpkg.com/@turf/turf@6/turf.min.js'
 ];
 
-// Assets locais que devem ser pré-cacheados (fallback offline)
+// Assets locais que devem ser pré-cacheados (fallback offline imediato)
 const LOCAL_ASSETS = [
   '/',
   '/index.html',
+  '/css/variables.css',
+  '/css/reset.css',
+  '/css/layout.css',
+  '/css/components.css',
+  '/css/animations.css',
+  '/css/styles.css',
+  '/css/modal-move.css',
+  '/css/padeiro-flow.css',
+  '/js/app.js',
+  '/js/auth.js',
+  '/js/components.js',
+  '/js/admin-dashboard.js',
+  '/js/gestao.js',
+  '/js/filiais.js',
+  '/js/metas.js',
+  '/js/avaliacoes.js',
+  '/js/cronograma.js',
+  '/js/padeiro-flow.js',
+  '/js/padeiro-agenda.js',
+  '/js/padeiro-dashboard.js',
+  '/js/relatorios.js',
+  '/js/location-service.js',
+  '/js/rastreamento.js',
+  '/js/dev.js',
+  '/js/modules/cronograma/cronograma.styles.js',
+  '/js/modules/cronograma/cronograma.render.js',
+  '/js/modules/cronograma/cronograma.drag.js',
+  '/js/modules/cronograma/cronograma.tasks.js',
+  '/js/modules/cronograma/cronograma.mensal.js',
+  '/js/modules/cronograma/cronograma.smart.js',
+  '/js/modules/cronograma/cronograma.templates.js',
   '/assets/logo.svg'
 ];
 
