@@ -298,10 +298,9 @@ const PadeiroFlow = {
       <div class="pf-section">
         <div class="pf-section-label"><i data-lucide="camera" style="width:14px;height:14px"></i> Fotos da Produção</div>
         <div id="foto-preview-grid">
-          <div class="pf-photo-add" onclick="PadeiroFlow.saveDraftLocally(); document.getElementById('flow-fotos-hidden').click()">
+          <div class="pf-photo-add" onclick="PadeiroFlow.triggerCamera()">
             <i data-lucide="plus-circle" style="width:24px;height:24px"></i>
             <span>Adicionar</span>
-            <input type="file" id="flow-fotos-hidden" accept="image/*" capture="environment" multiple style="display:none">
           </div>
         </div>
       </div>
@@ -310,7 +309,10 @@ const PadeiroFlow = {
         <i data-lucide="arrow-right" style="width:18px;height:18px"></i> Continuar
       </button>`;
 
-    document.getElementById('flow-fotos-hidden').addEventListener('change', e => {
+    const staticInput = document.getElementById('camera-input-static');
+    
+    // Normal Flow (no crash)
+    staticInput.onchange = (e) => {
       const files = Array.from(e.target.files);
       if (files.length === 0) return;
       
@@ -321,7 +323,21 @@ const PadeiroFlow = {
       });
       
       e.target.value = '';
-    });
+      this.saveDraftLocally();
+    };
+
+    // Crash Recovery Flow: Check if OS restored files after OOM kill
+    if (staticInput && staticInput.files && staticInput.files.length > 0) {
+      console.log('Recuperando fotos pós-crash OOM...');
+      const files = Array.from(staticInput.files);
+      files.forEach(f => {
+        this.selectedFiles.push(f);
+        const dataUrl = URL.createObjectURL(f);
+        PadeiroFlow.renderPhotoPreviewBase64(dataUrl, f.name);
+      });
+      staticInput.value = '';
+      this.saveDraftLocally();
+    }
 
     // Event delegation for real-time calculation
     const itemsContainer = document.getElementById('kg-items');
@@ -400,6 +416,12 @@ const PadeiroFlow = {
       row.remove();
       this.calculateTotals();
     }
+  },
+
+  triggerCamera() {
+    this.saveDraftLocally();
+    const staticInput = document.getElementById('camera-input-static');
+    if (staticInput) staticInput.click();
   },
 
   saveDraftLocally() {
