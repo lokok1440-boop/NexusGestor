@@ -85,7 +85,7 @@ const PadeiroDashboard = {
                 <h1 class="pd-hero-name">${firstName}</h1>
                 <div class="pd-hero-meta">
                   <span class="pd-hero-badge"><i data-lucide="briefcase" style="width:14px;height:14px"></i> ${user.cargo || 'Padeiro'}</span>
-                  <span class="pd-hero-badge pd-hero-badge-code"><i data-lucide="hash" style="width:14px;height:14px"></i> ${user.codTec || '—'}</span>
+                  <span class="pd-hero-badge pd-hero-badge-code">COD: ${user.codTec || '—'}</span>
                 </div>
               </div>
             </div>
