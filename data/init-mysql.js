@@ -127,6 +127,7 @@ const TABLES = [
           produtoId VARCHAR(50),
           produtoNome VARCHAR(255),
           kgTotal DOUBLE,
+          lTotal DOUBLE,
           status VARCHAR(50),
           data VARCHAR(50),
           hora VARCHAR(20),
@@ -291,7 +292,8 @@ async function initTables() {
       { name: 'observacao', type: 'TEXT' },
       { name: 'kgItens', type: 'TEXT' },
       { name: 'notaPadeiroCliente', type: 'INT' },
-      { name: 'terminadoEm', type: 'VARCHAR(100)' }
+      { name: 'terminadoEm', type: 'VARCHAR(100)' },
+      { name: 'lTotal', type: 'DOUBLE' }
     ];
 
     for (const f of fields) {

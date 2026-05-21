@@ -277,15 +277,21 @@ const PadeiroFlow = {
         <button class="pf-add-row" onclick="PadeiroFlow.addKgRow()"><i data-lucide="plus" style="width:16px;height:16px"></i> Adicionar produto</button>
       </div>
 
-      <!-- Peso Total -->
+      <!-- Totais (KG + Litros) -->
       <div class="pf-total-section">
         <label class="pf-label-center">Resumo da Produção</label>
         <div id="pf-units-summary" class="pf-units-summary">
           <!-- Dynamically filled -->
         </div>
-        <div class="pf-total-wrap">
-          <input class="pf-total-input" id="flow-kg-total" type="number" step="0.1" value="${this.activity.kgTotal||''}" placeholder="0.0">
-          <span class="pf-total-unit">KG Total</span>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <div class="pf-total-wrap">
+            <input class="pf-total-input" id="flow-kg-total" type="number" step="0.1" value="${this.activity.kgTotal||''}" placeholder="0.0">
+            <span class="pf-total-unit">KG Total</span>
+          </div>
+          <div class="pf-total-wrap">
+            <input class="pf-total-input" id="flow-l-total" type="number" step="0.1" value="${this.activity.lTotal||''}" placeholder="0.0" style="border-color:rgba(16,185,129,0.4);">
+            <span class="pf-total-unit" style="color:#10b981;">L Total</span>
+          </div>
         </div>
       </div>
 
@@ -320,25 +326,31 @@ const PadeiroFlow = {
 
   calculateTotals() {
     let totalKg = 0;
+    let totalL = 0;
     const totalsByUnit = {};
 
     document.querySelectorAll('.pf-prod-row').forEach(row => {
       const val = parseFloat(row.querySelector('.kg-valor').value) || 0;
       const unit = row.querySelector('.kg-unidade').value;
 
-      if (unit === 'KG' || unit === 'L') {
-        totalKg += val;
-      }
+      if (unit === 'KG') totalKg += val;
+      if (unit === 'L')  totalL  += val;
 
       if (val > 0) {
         totalsByUnit[unit] = (totalsByUnit[unit] || 0) + val;
       }
     });
 
-    // Update the main KG total input
-    const totalInput = document.getElementById('flow-kg-total');
-    if (totalInput) {
-      totalInput.value = totalKg > 0 ? totalKg.toFixed(2) : '';
+    // Update KG total input
+    const totalKgInput = document.getElementById('flow-kg-total');
+    if (totalKgInput) {
+      totalKgInput.value = totalKg > 0 ? totalKg.toFixed(2) : '';
+    }
+
+    // Update L total input
+    const totalLInput = document.getElementById('flow-l-total');
+    if (totalLInput) {
+      totalLInput.value = totalL > 0 ? totalL.toFixed(2) : '';
     }
 
     // Update units summary
@@ -400,8 +412,9 @@ const PadeiroFlow = {
   },
 
   async saveProducao() {
-    const total = document.getElementById('flow-kg-total').value;
-    if (!total) { Components.toast('Informe o KG total.', 'error'); return; }
+    const totalKg = document.getElementById('flow-kg-total').value;
+    const totalL  = document.getElementById('flow-l-total').value;
+    if (!totalKg && !totalL) { Components.toast('Informe o total em KG ou Litros.', 'error'); return; }
     const items = [];
     document.querySelectorAll('.pf-prod-row').forEach(row => {
       const sv = row.querySelector('.kg-produto-search')?.value;
@@ -411,12 +424,13 @@ const PadeiroFlow = {
         const fl = `${p.codigo?p.codigo+' - ':''}${p.descricao}`;
         return fl === sv;
       });
-      if (prod && !isNaN(v)) items.push({ produtoId: prod.id, produtoNome: sv, unidade: un, kg: v });
+      if (prod && !isNaN(v)) items.push({ produtoId: prod.id, produtoNome: sv, unidade: un, quantidade: v });
     });
     if (items.length === 0) { Components.toast('Adicione pelo menos um produto.', 'error'); return; }
 
-    this.activity.kgTotal = parseFloat(total);
-    this.activity.kgItens = items;
+    this.activity.kgTotal  = parseFloat(totalKg) || 0;
+    this.activity.lTotal   = parseFloat(totalL)  || 0;
+    this.activity.kgItens  = items;
     this.activity.lastStep = 2;
 
     // Upload fotos if any
@@ -626,7 +640,8 @@ const PadeiroFlow = {
       <!-- Summary -->
       <div class="pf-summary">
         <div class="pf-summary-row"><span>Cliente</span><strong>${this.activity.clienteNome||'—'}</strong></div>
-        <div class="pf-summary-row"><span>Produção</span><strong>${this.activity.kgTotal||0} kg</strong></div>
+        ${this.activity.kgTotal > 0 ? `<div class="pf-summary-row"><span>Produção (KG)</span><strong>${this.activity.kgTotal} kg</strong></div>` : ''}
+        ${this.activity.lTotal  > 0 ? `<div class="pf-summary-row"><span>Produção (Litros)</span><strong>${this.activity.lTotal} L</strong></div>`  : ''}
         <div class="pf-summary-row"><span>Produtos</span><strong>${(this.activity.kgItens||[]).length} itens</strong></div>
         <div class="pf-summary-row"><span>Sua Nota ao Cliente</span><strong>${this.activity.notaPadeiroCliente||0} ★</strong></div>
         <div class="pf-summary-row"><span>Nota Recebida do Cliente</span><strong>${this.activity.notaCliente||0} ★</strong></div>
@@ -681,8 +696,8 @@ const PadeiroFlow = {
           <h1 class="pf-success-title">Atividade Concluída!</h1>
           <p class="pf-success-sub">Seu registro foi salvo com sucesso.</p>
           <div class="pf-success-stats" style="flex-wrap:wrap;gap:16px;">
-            <div class="pf-stat"><span class="pf-stat-val">${this.activity.kgTotal||0}</span><span class="pf-stat-label">KG</span></div>
-            <div class="pf-stat-divider"></div>
+            ${this.activity.kgTotal > 0 ? `<div class="pf-stat"><span class="pf-stat-val">${this.activity.kgTotal}</span><span class="pf-stat-label">KG</span></div><div class="pf-stat-divider"></div>` : ''}
+            ${this.activity.lTotal  > 0 ? `<div class="pf-stat"><span class="pf-stat-val" style="color:#10b981;">${this.activity.lTotal}</span><span class="pf-stat-label">Litros</span></div><div class="pf-stat-divider"></div>` : ''}
             <div class="pf-stat"><span class="pf-stat-val">${(this.activity.kgItens||[]).length}</span><span class="pf-stat-label">Produtos</span></div>
             <div class="pf-stat-divider"></div>
             <div class="pf-stat"><span class="pf-stat-val">${this.activity.notaPadeiroCliente||0}★</span><span class="pf-stat-label">Nota ao Cliente</span></div>

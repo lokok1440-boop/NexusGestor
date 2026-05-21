@@ -63,7 +63,7 @@ exports.createAtividade = async (req, res) => {
     // Filtro de campos permitidos para a tabela MySQL 'atividades'
     const allowedFields = [
       'padeiroId', 'padeiroNome', 'clienteId', 'clienteNome', 'cronogramaId',
-      'produtoId', 'produtoNome', 'kgTotal', 'status', 'data', 'hora',
+      'produtoId', 'produtoNome', 'kgTotal', 'lTotal', 'status', 'data', 'hora',
       'inicioEm', 'terminadoEm', 'fimEm', 'tempoMinimoMinutos', 'fotos',
       'assinatura', 'localizacao', 'latitude', 'longitude', 'observacao',
       'notaCliente', 'notaPadeiroCliente', 'kgItens', 'atualizadoEm', 'lastStep'
@@ -100,7 +100,7 @@ exports.updateAtividade = async (req, res) => {
   try {
     const allowedFields = [
       'padeiroId', 'padeiroNome', 'clienteId', 'clienteNome', 'cronogramaId',
-      'produtoId', 'produtoNome', 'kgTotal', 'status', 'data', 'hora',
+      'produtoId', 'produtoNome', 'kgTotal', 'lTotal', 'status', 'data', 'hora',
       'inicioEm', 'terminadoEm', 'fimEm', 'tempoMinimoMinutos', 'fotos',
       'assinatura', 'localizacao', 'latitude', 'longitude', 'observacao',
       'notaCliente', 'notaPadeiroCliente', 'atualizadoEm', 'lastStep'
@@ -108,7 +108,7 @@ exports.updateAtividade = async (req, res) => {
 
     const tableColumns = [
       'padeiroId', 'padeiroNome', 'clienteId', 'clienteNome', 'cronogramaId',
-      'produtoId', 'produtoNome', 'kgTotal', 'status', 'data', 'hora',
+      'produtoId', 'produtoNome', 'kgTotal', 'lTotal', 'status', 'data', 'hora',
       'inicioEm', 'terminadoEm', 'fimEm', 'tempoMinimoMinutos', 'fotos',
       'assinatura', 'localizacao', 'latitude', 'longitude', 'observacao',
       'notaCliente', 'notaPadeiroCliente', 'kgItens', 'atualizadoEm', 'lastStep'

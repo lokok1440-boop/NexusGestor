@@ -110,6 +110,7 @@ const atividadeSchema = new Schema({
   produtoId: String,
   produtoNome: String,
   kgTotal: Schema.Types.Mixed,
+  lTotal: Schema.Types.Mixed,
   status: { type: String, default: 'em_andamento' },
   data: { type: String, index: true },
   hora: String,
