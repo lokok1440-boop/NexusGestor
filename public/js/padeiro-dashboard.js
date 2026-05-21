@@ -22,7 +22,16 @@ const PadeiroDashboard = {
       const kgMes = atividadesMes.reduce((s, a) => s + (parseFloat(a.kgTotal) || 0), 0);
 
       // Avaliações
-      const minhasAvalCliente = avaliacoes.filter(a => a.padeiroId === user.id && a.tipo === 'cliente');
+      const seteDiasAtras = new Date();
+      seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
+
+      const minhasAvalCliente = avaliacoes.filter(a => {
+        if (a.padeiroId !== user.id || a.tipo !== 'cliente') return false;
+        if (a.criadoEm) {
+          return new Date(a.criadoEm) <= seteDiasAtras;
+        }
+        return true;
+      });
       const minhasAvalGestor = avaliacoes.filter(a => a.padeiroId === user.id && a.tipo === 'gestor');
       const mediaCliente = minhasAvalCliente.length > 0
         ? minhasAvalCliente.reduce((s, a) => s + (parseFloat(a.nota) || 0), 0) / minhasAvalCliente.length : null;
