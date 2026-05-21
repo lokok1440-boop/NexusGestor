@@ -42,7 +42,7 @@ const PadeiroFlow = {
     try {
       const atividades = await API.get('/api/atividades');
       const em = atividades.find(a => a.status === 'em_andamento' && a.data === today);
-      if (em) { this.pendingResume = em; this.renderResumeModal(container, em); return; }
+      if (em) { this.pendingResume = em; this.confirmResume(); return; }
     } catch(e) {}
 
     App.routeData = {};
