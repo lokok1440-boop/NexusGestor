@@ -33,7 +33,7 @@ const Auth = {
 
   loginForm() {
     return `
-    <form onsubmit="Auth.handleLogin(event)">
+    <form onsubmit="event.preventDefault(); Auth.handleLogin(event)">
       <div class="comodato-input-group">
         <label class="comodato-label">Usuário</label>
         <div class="comodato-input-wrapper">

@@ -59,6 +59,12 @@ const App = {
     }
 
     if (route === 'login') {
+      const user = API.getUser();
+      if (user && API.token) {
+        const isManagement = ['admin', 'gestor', 'gestor_geral', 'gestor_regional'].includes(user.role);
+        this.navigate(isManagement ? 'admin-dashboard' : 'padeiro-inicio');
+        return;
+      }
       app.innerHTML = Auth.renderLogin();
       Auth.initGoogleLogin();
       return;
