@@ -177,13 +177,6 @@ const PadeiroFlow = {
     const canSelect = agendaHoje.length > 1;
 
     c.innerHTML = `
-      <div class="pf-step-header">
-        <div class="pf-step-icon pf-icon-blue"><i data-lucide="play" style="width:24px;height:24px"></i></div>
-        <div>
-          <h2 class="pf-step-title">Iniciar Atendimento</h2>
-          <p class="pf-step-sub">${canSelect ? 'Selecione uma das suas tarefas de hoje.' : 'Confirme sua tarefa agendada para hoje.'}</p>
-        </div>
-      </div>
       <div class="pf-field-group">
         <label class="pf-label"><i data-lucide="store" style="width:14px;height:14px"></i> Cliente Agendado</label>
         <div class="pf-select-wrap">
@@ -200,6 +193,13 @@ const PadeiroFlow = {
             }
           </select>
           <div class="pf-select-lock"><i data-lucide="${canSelect ? 'chevron-down' : 'lock'}" style="width:14px;height:14px"></i></div>
+        </div>
+      </div>
+      <div class="pf-step-header">
+        <div class="pf-step-icon pf-icon-blue"><i data-lucide="play" style="width:24px;height:24px"></i></div>
+        <div>
+          <h2 class="pf-step-title">Iniciar Atendimento</h2>
+          <p class="pf-step-sub">${canSelect ? 'Selecione uma das suas tarefas de hoje.' : 'Confirme sua tarefa agendada para hoje.'}</p>
         </div>
       </div>
       <button id="pf-btn-start" class="pf-btn-primary pf-btn-full" ${!has?'disabled':''} onclick="PadeiroFlow.startActivity()">
