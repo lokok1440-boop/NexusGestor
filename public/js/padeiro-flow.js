@@ -177,10 +177,18 @@ const PadeiroFlow = {
     const canSelect = agendaHoje.length > 1;
 
     c.innerHTML = `
-      <div class="pf-field-group">
-        <label class="pf-label"><i data-lucide="store" style="width:14px;height:14px"></i> Cliente Agendado</label>
+      <div class="pf-highlight-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+          <label class="pf-label" style="color: #1E4BFF; font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">
+            <i data-lucide="store" style="width:18px;height:18px"></i> Cliente Agendado
+          </label>
+          <span class="pf-badge-hoje">
+            <span class="pf-pulse-dot"></span>
+            HOJE
+          </span>
+        </div>
         <div class="pf-select-wrap">
-          <select class="pf-select" id="flow-cliente" ${!canSelect ? 'disabled' : 'onchange="PadeiroFlow.onClientChange()"'}>
+          <select class="pf-select pf-select-highlight" id="flow-cliente" ${!canSelect ? 'disabled' : 'onchange="PadeiroFlow.onClientChange()"'}>
             ${agendaHoje.length === 0 
               ? '<option value="">Nenhuma tarefa para hoje...</option>' 
               : agendaHoje.map(a => `
@@ -192,7 +200,7 @@ const PadeiroFlow = {
                 </option>`).join('')
             }
           </select>
-          <div class="pf-select-lock"><i data-lucide="${canSelect ? 'chevron-down' : 'lock'}" style="width:14px;height:14px"></i></div>
+          <div class="pf-select-lock" style="color: #1E4BFF;"><i data-lucide="${canSelect ? 'chevron-down' : 'lock'}" style="width:14px;height:14px"></i></div>
         </div>
       </div>
       <div class="pf-step-header" style="text-align: center; justify-content: center; width: 100%;">
