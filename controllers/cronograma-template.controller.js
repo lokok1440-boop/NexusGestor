@@ -14,7 +14,7 @@ exports.saveTemplate = async (req, res) => {
   try {
     const { nome, descricao, semana } = req.body;
     
-    if (!nome || !semana) {
+    if (!nome || semana === undefined || semana === null) {
       return res.status(400).json({ error: 'Nome e semana (offset) são obrigatórios.' });
     }
 
