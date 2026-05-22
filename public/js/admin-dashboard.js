@@ -88,6 +88,7 @@ const AdminDashboard = {
         .ranking-role-v2 { font-size: 12px; color: #8E8E93; }
         .ranking-data-v2 { text-align: right; }
         .ranking-kg-v2 { font-size: 15px; font-weight: 700; color: #1C1C1E; }
+        .ranking-liters-v2 { font-size: 12px; font-weight: 700; color: #AF52DE; }
         
         /* Worst accent */
         .worst-item-v2 .ranking-pos-v2 { color: #FF3B30; }
@@ -140,6 +141,19 @@ const AdminDashboard = {
           .kpi-value-v2 { font-size: 24px; }
           .card-v2 { padding: 16px; }
           .chart-container { height: 180px !important; }
+          .metrics-row-v2 { 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px 8px;
+            padding: 16px;
+          }
+          .metric-v2-divider { display: none; }
+          .metric-v2-value { font-size: 22px !important; }
+          .metric-v2-unit { font-size: 12px !important; }
+          .metric-v2-label { font-size: 11px !important; }
+          .metric-v2-avg-val { font-size: 15px !important; }
+          .metric-v2-avg-unit { font-size: 9px !important; }
+          .metric-v2-avg-container { gap: 4px; height: auto; }
         }
         
         /* Card V2 Base */
@@ -170,6 +184,31 @@ const AdminDashboard = {
         .metric-v2-unit { font-size: 16px; font-weight: 600; color: #8E8E93; }
         .metric-v2-label { font-size: 13px; font-weight: 500; color: #8E8E93; margin-top: 4px; }
         .metric-v2-divider { width: 1px; height: 40px; background: #D1D1D6; }
+        .metric-v2-avg-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          height: 35px;
+        }
+        .metric-v2-avg-val {
+          font-size: 20px;
+          font-weight: 800;
+          letter-spacing: -0.5px;
+        }
+        .metric-v2-avg-val.kg-color { color: #1C7EF2; }
+        .metric-v2-avg-val.liters-color { color: #AF52DE; }
+        .metric-v2-avg-unit {
+          font-size: 11px;
+          font-weight: 600;
+          color: #8E8E93;
+          margin-left: 2px;
+        }
+        .metric-v2-avg-sep {
+          color: #D1D1D6;
+          font-size: 14px;
+          font-weight: 300;
+        }
       </style>
 
       <div class="admin-v2-container fade-in">
@@ -308,8 +347,13 @@ const AdminDashboard = {
           
           <div class="metrics-row-v2">
             <div class="metric-v2">
-              <div class="metric-v2-value" style="color: var(--primary);">${stats.totalProduzidoMes} <span class="metric-v2-unit">kg</span></div>
-              <div class="metric-v2-label">Total Produzido</div>
+              <div class="metric-v2-value" style="color: #1C7EF2;">${stats.totalProduzidoMes} <span class="metric-v2-unit">kg</span></div>
+              <div class="metric-v2-label">Total Produzido (Kg)</div>
+            </div>
+            <div class="metric-v2-divider"></div>
+            <div class="metric-v2">
+              <div class="metric-v2-value" style="color: #AF52DE;">${stats.totalLitrosMes || '0.0'} <span class="metric-v2-unit">L</span></div>
+              <div class="metric-v2-label">Total Produzido (Litros)</div>
             </div>
             <div class="metric-v2-divider"></div>
             <div class="metric-v2">
@@ -318,7 +362,11 @@ const AdminDashboard = {
             </div>
             <div class="metric-v2-divider"></div>
             <div class="metric-v2">
-              <div class="metric-v2-value" style="color: var(--success);">${(stats.rankingProducao || []).length > 0 ? (stats.totalProduzidoMes / (stats.rankingProducao || []).length).toFixed(1) : '0'} <span class="metric-v2-unit">kg</span></div>
+              <div class="metric-v2-avg-container">
+                <span class="metric-v2-avg-val kg-color">${(stats.rankingProducao || []).length > 0 ? (stats.totalProduzidoMes / (stats.rankingProducao || []).length).toFixed(1) : '0'}<span class="metric-v2-avg-unit">kg</span></span>
+                <span class="metric-v2-avg-sep">|</span>
+                <span class="metric-v2-avg-val liters-color">${(stats.rankingProducao || []).length > 0 ? ((stats.totalLitrosMes || 0) / (stats.rankingProducao || []).length).toFixed(1) : '0'}<span class="metric-v2-avg-unit">L</span></span>
+              </div>
               <div class="metric-v2-label">Média por Padeiro</div>
             </div>
           </div>
@@ -353,8 +401,9 @@ const AdminDashboard = {
                         <div class="ranking-role-v2">${p.cargo} • ${p.totalAtividades} ativ.</div>
                       </div>
                     </div>
-                    <div class="ranking-data-v2">
-                      <div class="ranking-kg-v2">${p.totalKg.toFixed(1)} kg</div>
+                    <div class="ranking-data-v2" style="display: flex; flex-direction: column; align-items: flex-end;">
+                      <div class="ranking-kg-v2" style="color: #1C7EF2;">${p.totalKg.toFixed(1)} kg</div>
+                      <div class="ranking-liters-v2">${(p.totalLiters || 0).toFixed(1)} L</div>
                       ${p.notaMedia !== null ? Components.starsDisplay(p.notaMedia) : ''}
                     </div>
                   </div>`;
@@ -427,10 +476,12 @@ const AdminDashboard = {
                   <div class="client-pos-v2 ${i < 3 ? 'top' : ''}">${i + 1}°</div>
                   <div class="client-info-v2">
                     <div class="client-name-v2">${c.nome || '—'}</div>
-                    <div class="flex items-center gap-2" style="margin-top: 2px;">
+                    <div class="flex items-center gap-2" style="margin-top: 2px; flex-wrap: wrap;">
                       <span class="client-data-v2">${c.totalAtendimentos} visitas</span>
                       <span style="color: #D1D1D6;">•</span>
-                      <span class="client-kg-v2">${c.totalKg.toFixed(1)} kg</span>
+                      <span class="client-kg-v2" style="color: #1C7EF2;">${c.totalKg.toFixed(1)} kg</span>
+                      <span style="color: #D1D1D6;">•</span>
+                      <span class="client-liters-v2" style="color: #AF52DE; font-weight: 700; font-size: 13px;">${(c.totalLiters || 0).toFixed(1)} L</span>
                     </div>
                   </div>
                   <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
@@ -487,8 +538,9 @@ const AdminDashboard = {
       setTimeout(() => {
         const prodData = stats.rankingProducao || [];
         const prodLabels = prodData.map(p => (p && p.nome) ? p.nome.split(' ').slice(0, 2).join(' ') : '—');
-        const prodVals = prodData.map(p => p ? p.totalKg : 0);
-        this.initBarChart('producaoChart', prodLabels, prodVals, 'rgba(30, 75, 255, 0.8)');
+        const prodKgVals = prodData.map(p => p ? p.totalKg : 0);
+        const prodLVals = prodData.map(p => p ? p.totalLiters : 0);
+        this.initBarChart('producaoChart', prodLabels, prodKgVals, prodLVals);
         
         this.initDoughnutChart('cargoChart', stats.porCargo);
         this.initDoughnutChart('filialChart', stats.porFilial);
@@ -500,39 +552,66 @@ const AdminDashboard = {
     }
   },
 
-  initBarChart(canvasId, labels, data, color) {
+  initBarChart(canvasId, labels, kgData, lData) {
     const ctx = document.getElementById(canvasId);
     if (!ctx) return;
     
-    // Configuração para Skeleton (Area Chart Vazio)
-    const isEmpty = !data || data.length === 0;
-    const chartType = isEmpty ? 'line' : 'bar';
+    const isEmpty = (!kgData || kgData.length === 0) && (!lData || lData.length === 0);
     const chartLabels = isEmpty ? ['Sem1', 'Sem2', 'Sem3', 'Sem4'] : labels;
-    const chartData = isEmpty ? [0, 0, 0, 0] : data;
-    const chartColor = isEmpty ? '#E5E7EB' : color;
     
+    const datasets = [];
+    if (isEmpty) {
+      datasets.push({
+        label: 'Produção (kg)',
+        data: [0, 0, 0, 0],
+        backgroundColor: 'rgba(229, 231, 235, 0.2)',
+        borderColor: '#E5E7EB',
+        borderWidth: 2,
+        borderRadius: 0,
+        barPercentage: 0.6
+      });
+    } else {
+      datasets.push({
+        label: 'Produção (kg)',
+        data: kgData,
+        backgroundColor: 'rgba(28, 126, 242, 0.85)',
+        borderColor: '#1C7EF2',
+        borderWidth: 0,
+        borderRadius: 8,
+        barPercentage: 0.45,
+        categoryPercentage: 0.7
+      });
+      datasets.push({
+        label: 'Produção (L)',
+        data: lData,
+        backgroundColor: 'rgba(175, 82, 222, 0.85)',
+        borderColor: '#AF52DE',
+        borderWidth: 0,
+        borderRadius: 8,
+        barPercentage: 0.45,
+        categoryPercentage: 0.7
+      });
+    }
+
     new Chart(ctx, {
-      type: chartType,
+      type: 'bar',
       data: {
         labels: chartLabels,
-        datasets: [{
-          label: 'Produção (kg)',
-          data: chartData,
-          backgroundColor: isEmpty ? 'rgba(229, 231, 235, 0.2)' : color,
-          borderColor: chartColor,
-          borderWidth: isEmpty ? 2 : 0,
-          fill: isEmpty,
-          borderRadius: isEmpty ? 0 : 8,
-          borderSkipped: false,
-          barPercentage: 0.6,
-          pointRadius: isEmpty ? 0 : 4
-        }]
+        datasets: datasets
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: false },
+          legend: { 
+            display: !isEmpty,
+            position: 'top',
+            labels: {
+              boxWidth: 12,
+              font: { family: 'Inter', size: 12, weight: '600' },
+              color: '#1C1C1E'
+            }
+          },
           tooltip: {
             enabled: !isEmpty,
             backgroundColor: 'rgba(28, 28, 30, 0.8)',
@@ -545,7 +624,6 @@ const AdminDashboard = {
         scales: {
           y: {
             beginAtZero: true,
-            max: isEmpty ? 100 : undefined,
             grid: { color: 'rgba(0, 0, 0, 0.04)', drawBorder: false },
             ticks: { font: { family: 'Inter', size: 12 }, color: '#AEAEB2' }
           },

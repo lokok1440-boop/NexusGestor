@@ -740,7 +740,6 @@ const PadeiroFlow = {
         <div class="pf-summary-row"><span>Produtos</span><strong>${(this.activity.kgItens||[]).length} itens</strong></div>
         <div class="pf-summary-row"><span>Sua Nota ao Cliente</span><strong>${this.activity.notaPadeiroCliente||0} ★</strong></div>
         ${this.activity.observacaoCliente ? `<div class="pf-summary-row"><span>Obs. do Atendimento</span><strong style="font-size:12px;color:#475569;text-align:right;max-width:60%;word-break:break-word;">${this.activity.observacaoCliente}</strong></div>` : ''}
-        <div class="pf-summary-row"><span>Nota Recebida do Cliente</span><strong>${this.activity.notaCliente||0} ★</strong></div>
       </div>
 
       <div id="timer-container" style="text-align:center;margin:24px 0;">
@@ -797,8 +796,6 @@ const PadeiroFlow = {
             <div class="pf-stat"><span class="pf-stat-val">${(this.activity.kgItens||[]).length}</span><span class="pf-stat-label">Produtos</span></div>
             <div class="pf-stat-divider"></div>
             <div class="pf-stat"><span class="pf-stat-val">${this.activity.notaPadeiroCliente||0}★</span><span class="pf-stat-label">Nota ao Cliente</span></div>
-            <div class="pf-stat-divider"></div>
-            <div class="pf-stat"><span class="pf-stat-val">${this.activity.notaCliente||0}★</span><span class="pf-stat-label">Nota do Cliente</span></div>
           </div>
           <button class="pf-btn-primary pf-btn-full" onclick="App.navigate('padeiro-inicio')">
             <i data-lucide="home" style="width:18px;height:18px"></i> Voltar ao Painel

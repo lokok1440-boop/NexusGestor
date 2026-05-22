@@ -2,7 +2,7 @@
  * Tracking Controller - BRAGO Sistema Padeiro
  * Manages user location history and trails
  */
-const { HistoricoLocalizacao } = require('../data/db-adapter');
+const { HistoricoLocalizacao, Localizacao } = require('../data/db-adapter');
 
 const TrackingController = {
   /**
@@ -72,6 +72,39 @@ const TrackingController = {
     } catch (error) {
       console.error('Error fetching trail:', error);
       res.status(500).json({ error: 'Erro ao buscar histórico de trajeto' });
+    }
+  },
+
+  /**
+   * Reset all tracking data
+   * DELETE /api/tracking/reset/all
+   */
+  async resetAllTracking(req, res) {
+    try {
+      // Strictly restrict to 'admin' profile as requested
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Acesso negado. Apenas administradores podem resetar o rastreamento.' });
+      }
+
+      // Clear DB tables
+      const resHistory = await HistoricoLocalizacao.deleteMany({});
+      const resCurrent = await Localizacao.deleteMany({});
+
+      // Clear memory Map and broadcast empty state to all clients
+      const { clearActiveLocations } = require('../sockets/location.socket');
+      clearActiveLocations();
+
+      res.json({
+        success: true,
+        message: 'Histórico de rastreamento e localizações atuais foram resetados com sucesso.',
+        details: {
+          historicoDeletado: resHistory.deletedCount || 0,
+          localizacoesDeletadas: resCurrent.deletedCount || 0
+        }
+      });
+    } catch (error) {
+      console.error('Error resetting tracking:', error);
+      res.status(500).json({ error: 'Erro ao resetar histórico de rastreamento' });
     }
   }
 };

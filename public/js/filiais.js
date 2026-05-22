@@ -55,7 +55,10 @@ window.Filiais = {
                   </div>
                   <div class="filial-metric">
                     <span class="metric-label">Produção Total</span>
-                    <span class="metric-value">${f.kgTotal} kg</span>
+                    <span class="metric-value" style="display:flex; flex-direction:column; align-items:flex-end;">
+                      <span style="color:#1C7EF2;">${f.kgTotal} kg</span>
+                      <span style="color:#AF52DE; font-size:11px; font-weight:700;">${f.lTotal} L</span>
+                    </span>
                   </div>
                   <div class="filial-metric">
                     <span class="metric-label">Atividades</span>
@@ -98,7 +101,10 @@ window.Filiais = {
             </div>
             <div class="metric-card" style="background:#f8f9fa; padding:12px; border-radius:12px; text-align:center;">
               <div style="font-size:12px; color:var(--text-secondary);">Produção</div>
-              <div style="font-size:20px; font-weight:700; color:var(--primary);">${data.kgTotal} kg</div>
+              <div style="font-size:16px; font-weight:700; display:flex; flex-direction:column; align-items:center; gap:2px; margin-top:2px;">
+                <span style="color:#1C7EF2;">${data.kgTotal} kg</span>
+                <span style="color:#AF52DE; font-size:12px;">${data.lTotal} L</span>
+              </div>
             </div>
             <div class="metric-card" style="background:#f8f9fa; padding:12px; border-radius:12px; text-align:center;">
               <div style="font-size:12px; color:var(--text-secondary);">Atividades</div>
@@ -125,7 +131,10 @@ window.Filiais = {
                         <span>${p.nome}</span>
                       </div>
                     </td>
-                    <td class="text-right font-bold">${p.kgTotal} kg</td>
+                    <td class="text-right font-bold">
+                      <div style="color:#1C7EF2; font-size:13px;">${p.kgTotal} kg</div>
+                      <div style="color:#AF52DE; font-size:11px; font-weight:700;">${p.lTotal} L</div>
+                    </td>
                     <td class="text-right">${p.notaMedia ? Components.starsDisplay(p.notaMedia) : '—'}</td>
                   </tr>
                 `).join('')}
@@ -142,7 +151,10 @@ window.Filiais = {
                     <div class="font-bold" style="font-size:13px;">${a.clienteNome}</div>
                     <div class="text-xs text-tertiary">${a.padeiroNome} • ${new Date(a.inicioEm).toLocaleDateString()}</div>
                   </div>
-                  <div class="badge badge-blue">${a.kgTotal || 0} kg</div>
+                  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                    <span class="badge badge-blue" style="font-size:10px; padding:2px 6px;">${a.kgTotal || 0} kg</span>
+                    <span class="badge" style="background:rgba(175,82,222,0.1); color:#AF52DE; font-size:10px; padding:2px 6px; border-radius:999px; font-weight:700;">${a.lTotal || 0} L</span>
+                  </div>
                 </div>
               `).join('')}
           </div>

@@ -77,7 +77,7 @@ window.Relatorios = {
 
       <div class="grid grid-cols-2 gap-6 mb-8 charts-grid">
         <div class="card">
-          <h3 class="card-title"><i data-lucide="bar-chart-3"></i> Produção por Padeiro (kg)</h3>
+          <h3 class="card-title"><i data-lucide="bar-chart-3"></i> Produção por Padeiro</h3>
           <div style="height: 300px;"><canvas id="chart-producao"></canvas></div>
         </div>
         <div class="card">
@@ -171,6 +171,7 @@ window.Relatorios = {
   renderSummaryCards() {
     const data = this.getFilteredData();
     const totalKg = data.atividades.reduce((acc, curr) => acc + (parseFloat(curr.kgTotal) || 0), 0);
+    const totalLitros = data.atividades.reduce((acc, curr) => acc + (parseFloat(curr.lTotal) || 0), 0);
     const validAvaliacoes = data.avaliacoes.filter(a => !isNaN(parseFloat(a.nota)) && parseFloat(a.nota) <= 5);
     const avgNota = validAvaliacoes.length > 0 
       ? validAvaliacoes.reduce((acc, curr) => acc + parseFloat(curr.nota), 0) / validAvaliacoes.length 
@@ -183,7 +184,11 @@ window.Relatorios = {
         <div class="flex justify-between items-start">
           <div>
             <p class="summary-label">Produção Total</p>
-            <h2 class="summary-value">${totalKg.toFixed(1)} <span style="font-size: 14px; font-weight: 500;">kg</span></h2>
+            <h2 class="summary-value" style="font-size: 20px; line-height: 1.2;">
+              <span style="color:#1C7EF2;">${totalKg.toFixed(1)} <span style="font-size: 11px; font-weight: 500;">kg</span></span>
+              <span style="color:#8E8E93; font-size:14px; font-weight:400; margin: 0 2px;">/</span>
+              <span style="color:#AF52DE;">${totalLitros.toFixed(1)} <span style="font-size: 11px; font-weight: 500;">L</span></span>
+            </h2>
           </div>
           <div class="summary-icon" style="background: rgba(28, 75, 255, 0.1); color: var(--primary);">
             <i data-lucide="package"></i>
@@ -231,11 +236,14 @@ window.Relatorios = {
     const stats = {};
 
     data.padeiros.forEach(p => {
-      stats[p.id] = { nome: p.nome, kg: 0, notas: [], metas: 0 };
+      stats[p.id] = { nome: p.nome, kg: 0, litros: 0, notas: [], metas: 0 };
     });
 
     data.atividades.forEach(a => {
-      if (stats[a.padeiroId]) stats[a.padeiroId].kg += parseFloat(a.kgTotal) || 0;
+      if (stats[a.padeiroId]) {
+        stats[a.padeiroId].kg += parseFloat(a.kgTotal) || 0;
+        stats[a.padeiroId].litros += parseFloat(a.lTotal) || 0;
+      }
     });
 
     data.avaliacoes.forEach(a => {
@@ -259,7 +267,10 @@ window.Relatorios = {
     return ranking.map(r => `
       <tr>
         <td style="font-weight: 600;">${r.nome}</td>
-        <td>${r.kg.toFixed(1)} kg</td>
+        <td>
+          <div style="color:#1C7EF2; font-size:13px; font-weight:700;">${r.kg.toFixed(1)} kg</div>
+          <div style="color:#AF52DE; font-size:11px; font-weight:600; margin-top:2px;">${r.litros.toFixed(1)} L</div>
+        </td>
         <td>
           <div class="flex items-center gap-2">
             <span style="font-weight: 700; color: var(--primary);">${r.avg.toFixed(1)}</span>
@@ -318,32 +329,49 @@ window.Relatorios = {
     const data = this.getFilteredData();
     
     // Chart Produção por Padeiro
-    const prodByPadeiro = {};
+    const prodByPadeiroKg = {};
+    const prodByPadeiroL = {};
     data.atividades.forEach(a => {
       const name = a.padeiroNome || 'Outros';
-      prodByPadeiro[name] = (prodByPadeiro[name] || 0) + (parseFloat(a.kgTotal) || 0);
+      prodByPadeiroKg[name] = (prodByPadeiroKg[name] || 0) + (parseFloat(a.kgTotal) || 0);
+      prodByPadeiroL[name] = (prodByPadeiroL[name] || 0) + (parseFloat(a.lTotal) || 0);
     });
 
-    const labelsProd = Object.keys(prodByPadeiro);
-    const valuesProd = Object.values(prodByPadeiro);
+    const labelsProd = Object.keys(prodByPadeiroKg);
+    const valuesProdKg = Object.values(prodByPadeiroKg);
+    const valuesProdL = Object.values(prodByPadeiroL);
 
     new Chart(document.getElementById('chart-producao'), {
       type: 'bar',
       data: {
         labels: labelsProd,
-        datasets: [{
-          label: 'Produção (kg)',
-          data: valuesProd,
-          backgroundColor: 'rgba(28, 75, 255, 0.6)',
-          borderColor: 'var(--primary)',
-          borderWidth: 1,
-          borderRadius: 6
-        }]
+        datasets: [
+          {
+            label: 'Produção (kg)',
+            data: valuesProdKg,
+            backgroundColor: 'rgba(28, 126, 242, 0.8)',
+            borderColor: '#1C7EF2',
+            borderWidth: 1,
+            borderRadius: 6,
+            barPercentage: 0.45,
+            categoryPercentage: 0.7
+          },
+          {
+            label: 'Produção (L)',
+            data: valuesProdL,
+            backgroundColor: 'rgba(175, 82, 222, 0.8)',
+            borderColor: '#AF52DE',
+            borderWidth: 1,
+            borderRadius: 6,
+            barPercentage: 0.45,
+            categoryPercentage: 0.7
+          }
+        ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: { legend: { display: true } },
         scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } }
       }
     });

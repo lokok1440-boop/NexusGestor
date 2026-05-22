@@ -25,7 +25,10 @@ const Avaliacoes = {
         <div class="apple-segmented-slider" style="width: calc(33.33% - 2px); transform: translateX(${this.currentTab === 'cliente' ? '100%' : this.currentTab === 'combinada' ? '200%' : '0'})"></div>
         <div id="tab-gestor" class="apple-segmented-item ${this.currentTab==='gestor'?'active':''}" onclick="Avaliacoes.setTab('gestor')">Gestor</div>
         <div id="tab-cliente" class="apple-segmented-item ${this.currentTab==='cliente'?'active':''}" onclick="Avaliacoes.setTab('cliente')">Clientes</div>
-        <div id="tab-combinada" class="apple-segmented-item ${this.currentTab==='combinada'?'active':''}" onclick="Avaliacoes.setTab('combinada')">Nota Combinada</div>
+        <div id="tab-combinada" class="apple-segmented-item ${this.currentTab==='combinada'?'active':''}" onclick="Avaliacoes.setTab('combinada')">
+          <span class="desktop-only">Nota Combinada</span>
+          <span class="mobile-only">Combinada</span>
+        </div>
       </div>
       <div id="aval-content"></div>
     </div>`;

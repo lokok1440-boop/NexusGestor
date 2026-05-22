@@ -4,6 +4,13 @@
  */
 const Dev = {
   async render() {
+    const user = API.getUser();
+    if (!user || user.role !== 'admin') {
+      const c = document.getElementById('page-container');
+      c.innerHTML = Components.empty('lock', 'Acesso negado. Esta página é restrita a administradores.');
+      return;
+    }
+
     const c = document.getElementById('page-container');
     c.innerHTML = `
     <div class="fade-in">
@@ -48,6 +55,18 @@ const Dev = {
             <p class="text-secondary" style="font-size:13px; margin-bottom:16px;">Remove todas as avaliações feitas por gestores e clientes (da coleção Avaliacao).</p>
             <button class="btn btn-primary bg-danger border-none w-full" onclick="Dev.resetAvaliacoes()">
               <i data-lucide="trash-2"></i> Resetar Todas as Avaliações
+            </button>
+          </div>
+
+          <!-- Reset Rastreamento -->
+          <div class="card" style="background:#fff5f5; border-color:#feb2b2;">
+            <div class="flex items-center gap-3 mb-3">
+              <i data-lucide="map-pin" class="text-danger"></i>
+              <strong style="color:var(--danger)">Resetar Rastreamento</strong>
+            </div>
+            <p class="text-secondary" style="font-size:13px; margin-bottom:16px;">Remove todo o histórico de trajeto registrado de todos os padeiros e limpa a localização em tempo real.</p>
+            <button class="btn btn-primary bg-danger border-none w-full" onclick="Dev.resetRastreamento()">
+              <i data-lucide="trash-2"></i> Resetar Todo o Rastreamento
             </button>
           </div>
         </div>
@@ -114,6 +133,18 @@ const Dev = {
         Components.toast('Avaliações resetadas!', 'success');
         this.render();
       } catch(e) { Components.toast(e.message, 'error'); }
+    }
+  },
+
+  async resetRastreamento() {
+    if (confirm('Deseja realmente apagar TODO o histórico de rastreamento?')) {
+      if (confirm('Atenção: Esta ação é irreversível e apagará todas as coordenadas e trajetos. Confirmar exclusão?')) {
+        try {
+          await API.delete('/api/tracking/reset/all');
+          Components.toast('Rastreamento resetado!', 'success');
+          this.render();
+        } catch(e) { Components.toast(e.message, 'error'); }
+      }
     }
   }
 };

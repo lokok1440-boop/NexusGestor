@@ -20,6 +20,7 @@ const PadeiroDashboard = {
       const mesAtual = new Date().toISOString().slice(0, 7);
       const atividadesMes = finalizadas.filter(a => a.data && a.data.startsWith(mesAtual));
       const kgMes = atividadesMes.reduce((s, a) => s + (parseFloat(a.kgTotal) || 0), 0);
+      const lMes = atividadesMes.reduce((s, a) => s + (parseFloat(a.lTotal) || 0), 0);
 
       // Avaliações
       const seteDiasAtras = new Date();
@@ -126,6 +127,18 @@ const PadeiroDashboard = {
             <div class="pd-kpi-label">Produção do Mês</div>
           </div>
 
+          <div class="pd-kpi-card pd-kpi-purple">
+            <div class="pd-kpi-glow"></div>
+            <div class="pd-kpi-top">
+              <div class="pd-kpi-icon-wrap pd-icon-purple"><i data-lucide="droplet" style="width:22px;height:22px"></i></div>
+              <div class="pd-kpi-trend ${lMes > 0 ? 'pd-trend-up' : ''}">
+                ${lMes > 0 ? '<i data-lucide="trending-up" style="width:14px;height:14px"></i>' : ''}
+              </div>
+            </div>
+            <div class="pd-kpi-value">${lMes.toFixed(1)}<span class="pd-kpi-unit">L</span></div>
+            <div class="pd-kpi-label">Produção (Litros)</div>
+          </div>
+
           <div class="pd-kpi-card pd-kpi-green">
             <div class="pd-kpi-glow"></div>
             <div class="pd-kpi-top">
@@ -138,6 +151,15 @@ const PadeiroDashboard = {
             <div class="pd-kpi-label">Atividades no Mês</div>
           </div>
 
+          <div class="pd-kpi-card pd-kpi-orange">
+            <div class="pd-kpi-glow"></div>
+            <div class="pd-kpi-top">
+              <div class="pd-kpi-icon-wrap pd-icon-orange"><i data-lucide="flame" style="width:22px;height:22px"></i></div>
+            </div>
+            <div class="pd-kpi-value">${streak}<span class="pd-kpi-unit">dias</span></div>
+            <div class="pd-kpi-label">Sequência Ativa</div>
+          </div>
+
           <div class="pd-kpi-card pd-kpi-amber">
             <div class="pd-kpi-glow"></div>
             <div class="pd-kpi-top">
@@ -145,15 +167,6 @@ const PadeiroDashboard = {
             </div>
             <div class="pd-kpi-value">${mediaCliente !== null ? mediaCliente.toFixed(1) : '—'}<span class="pd-kpi-unit">${mediaCliente !== null ? '/5' : ''}</span></div>
             <div class="pd-kpi-label">Nota dos Clientes</div>
-          </div>
-
-          <div class="pd-kpi-card pd-kpi-purple">
-            <div class="pd-kpi-glow"></div>
-            <div class="pd-kpi-top">
-              <div class="pd-kpi-icon-wrap pd-icon-purple"><i data-lucide="flame" style="width:22px;height:22px"></i></div>
-            </div>
-            <div class="pd-kpi-value">${streak}<span class="pd-kpi-unit">dias</span></div>
-            <div class="pd-kpi-label">Sequência Ativa</div>
           </div>
         </div>
 
@@ -299,7 +312,16 @@ const PadeiroDashboard = {
                   <td>
                     <span class="pd-kg-badge">${a.kgTotal || '0'} kg</span>
                   </td>
-                  <td>${a.notaCliente ? Components.starsDisplay(a.notaCliente) : '<span class="pd-no-rating">—</span>'}</td>
+                  <td>
+                    ${(() => {
+                      if (!a.notaCliente) return '<span class="pd-no-rating">—</span>';
+                      const actDate = a.data ? new Date(a.data + 'T12:00:00') : null;
+                      if (actDate && actDate > seteDiasAtras) {
+                        return '<span class="pd-no-rating" title="Confidencial por 7 dias" style="color:#94a3b8; font-size:12px; display:inline-flex; align-items:center; gap:4px;"><i data-lucide="lock" style="width:12px;height:12px"></i> Confidencial</span>';
+                      }
+                      return Components.starsDisplay(a.notaCliente);
+                    })()}
+                  </td>
                   <td>
                     ${a.status === 'finalizada' 
                       ? '<span class="pd-status pd-status-done"><i data-lucide="check-circle-2" style="width:14px;height:14px"></i> Finalizada</span>'

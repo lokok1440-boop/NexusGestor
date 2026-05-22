@@ -1,7 +1,10 @@
 const { Localizacao, HistoricoLocalizacao } = require('../data/db-adapter');
 
+let ioInstance = null;
+const activeLocations = new Map();
+
 async function initLocationSocket(io) {
-  const activeLocations = new Map();
+  ioInstance = io;
   
   // Load last known locations from DB
   try {
@@ -73,4 +76,11 @@ async function initLocationSocket(io) {
   });
 }
 
-module.exports = { initLocationSocket };
+function clearActiveLocations() {
+  activeLocations.clear();
+  if (ioInstance) {
+    ioInstance.emit('location-broadcast', []);
+  }
+}
+
+module.exports = { initLocationSocket, clearActiveLocations };
