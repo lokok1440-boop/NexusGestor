@@ -11,6 +11,15 @@ window.Rastreamento = {
 
   async render() {
     const container = document.getElementById('page-container');
+    
+    // Fetch all active padeiros to populate select dropdown
+    let padeiros = [];
+    try {
+      padeiros = await API.get('/api/padeiros');
+    } catch (e) {
+      console.error('Erro ao buscar padeiros:', e);
+    }
+
     container.innerHTML = `
       <style>
         @media (max-width: 430px) {
@@ -29,19 +38,23 @@ window.Rastreamento = {
           box-shadow: var(--shadow-md);
           margin-bottom: 20px;
           border: 1px solid var(--separator);
+          flex-wrap: wrap;
         }
-        .trail-date-picker {
+        .trail-user-picker, .trail-date-picker {
           display: flex;
           align-items: center;
           gap: 8px;
         }
-        .trail-date-picker input {
+        .trail-user-picker select, .trail-date-picker input {
           border: 1px solid var(--separator);
           border-radius: var(--radius-sm);
           padding: 6px 12px;
           font-family: inherit;
           font-size: 14px;
           outline: none;
+          background: var(--bg-body);
+          color: var(--text-primary);
+          min-width: 180px;
         }
         .trail-btn {
           display: inline-flex;
@@ -79,7 +92,7 @@ window.Rastreamento = {
         <div class="tracking-header mb-6">
           <div class="flex justify-between items-center">
             <div>
-              <p class="text-secondary desktop-only">Monitore a localização da sua equipe em tempo real</p>
+              <p class="text-secondary desktop-only">Monitore a localização da sua equipe e consulte o histórico de trajetos</p>
             </div>
             <div id="tracking-status" class="status-badge connected">
               <span class="status-dot"></span> <span>Servidor Conectado</span>
@@ -87,11 +100,18 @@ window.Rastreamento = {
           </div>
         </div>
 
-        <div id="trail-controls-container" style="display: none;">
+        <div id="trail-controls-container">
           <div class="trail-controls">
+            <div class="trail-user-picker">
+              <label class="label-uppercase">Padeiro:</label>
+              <select id="trail-user-select" onchange="Rastreamento.onUserSelectChange(this.value)">
+                <option value="">Selecione um padeiro...</option>
+                ${padeiros.map(p => `<option value="${p.id}">${p.nome}</option>`).join('')}
+              </select>
+            </div>
             <div class="trail-date-picker">
               <label class="label-uppercase">Data:</label>
-              <input type="date" id="trail-date" value="${new Date().toISOString().split('T')[0]}">
+              <input type="date" id="trail-date" value="${new Date().toISOString().split('T')[0]}" onchange="Rastreamento.onDateChange()">
             </div>
             <div class="flex gap-2">
               <button class="trail-btn" id="btn-load-trail" onclick="Rastreamento.loadTrail()">
@@ -232,25 +252,54 @@ window.Rastreamento = {
     }
   },
 
+  onUserSelectChange(userId) {
+    this.selectedUserId = userId || null;
+    if (userId) {
+      this.loadTrail();
+    } else {
+      this.clearTrail();
+    }
+  },
+
+  onDateChange() {
+    if (this.selectedUserId) {
+      this.loadTrail();
+    }
+  },
+
   selectUserForTrail(userId) {
     this.selectedUserId = userId;
-    const controls = document.getElementById('trail-controls-container');
-    if (controls) controls.style.display = 'block';
     
     // Set default date to today
     const dateInput = document.getElementById('trail-date');
     if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+    
+    // Update the dropdown value to select this user
+    const selectEl = document.getElementById('trail-user-select');
+    if (selectEl) selectEl.value = userId;
     
     this.loadTrail();
     this.map.closePopup();
   },
 
   async loadTrail() {
-    if (!this.selectedUserId) return;
-    const date = document.getElementById('trail-date').value;
-    if (!date) return;
+    // Dynamically grab selected user ID from dropdown if not set or just keep in sync
+    const selectEl = document.getElementById('trail-user-select');
+    if (selectEl && selectEl.value) {
+      this.selectedUserId = selectEl.value;
+    }
 
-    const loader = Components.loading();
+    if (!this.selectedUserId) {
+      Components.toast('Selecione um padeiro para carregar o trajeto', 'info');
+      return;
+    }
+    const dateInput = document.getElementById('trail-date');
+    const date = dateInput ? dateInput.value : '';
+    if (!date) {
+      Components.toast('Selecione uma data para o trajeto', 'info');
+      return;
+    }
+
     const infoEl = document.getElementById('trail-info');
     if (infoEl) infoEl.innerHTML = 'Carregando trajeto...';
 
