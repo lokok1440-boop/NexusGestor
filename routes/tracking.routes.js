@@ -11,6 +11,7 @@ router.use(authMiddleware);
 router.use(adminOnly);
 
 router.get('/trail/:userId', TrackingController.getTrail);
+router.delete('/trail/:userId', TrackingController.resetUserTracking);
 router.delete('/reset/all', authMiddleware, adminOnly, TrackingController.resetAllTracking);
 
 module.exports = router;

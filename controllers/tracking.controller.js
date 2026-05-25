@@ -106,6 +106,54 @@ const TrackingController = {
       console.error('Error resetting tracking:', error);
       res.status(500).json({ error: 'Erro ao resetar histórico de rastreamento' });
     }
+  },
+
+  /**
+   * Reset tracking data for a specific user
+   * DELETE /api/tracking/trail/:userId?date=YYYY-MM-DD
+   */
+  async resetUserTracking(req, res) {
+    try {
+      const { userId } = req.params;
+      const { date } = req.query; // YYYY-MM-DD (optional)
+
+      if (!userId) {
+        return res.status(400).json({ error: 'userId é obrigatório' });
+      }
+
+      if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'Acesso negado. Apenas administradores podem resetar o rastreamento.' });
+      }
+
+      let query = { userId };
+      if (date) {
+        const startOfDay = `${date}T00:00:00.000Z`;
+        const endOfDay = `${date}T23:59:59.999Z`;
+        query.timestamp = { $gte: startOfDay, $lte: endOfDay };
+      }
+
+      const resHistory = await HistoricoLocalizacao.deleteMany(query);
+
+      // If resetting everything or today's date, also delete current last known location
+      const todayStr = new Date().toISOString().split('T')[0];
+      let currentDeleted = 0;
+      if (!date || date === todayStr) {
+        const resCurrent = await Localizacao.deleteMany({ userId });
+        currentDeleted = resCurrent.deletedCount || 0;
+      }
+
+      res.json({
+        success: true,
+        message: `Histórico de rastreamento do padeiro foi resetado com sucesso.`,
+        details: {
+          historicoDeletado: resHistory.deletedCount || 0,
+          localizacaoAtualDeletada: currentDeleted
+        }
+      });
+    } catch (error) {
+      console.error('Error resetting user tracking:', error);
+      res.status(500).json({ error: 'Erro ao resetar histórico de rastreamento do padeiro' });
+    }
   }
 };
 

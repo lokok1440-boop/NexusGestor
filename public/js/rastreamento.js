@@ -131,6 +131,11 @@ window.Rastreamento = {
               <button class="trail-btn secondary" onclick="Rastreamento.clearTrail()">
                 <i data-lucide="x"></i> Limpar
               </button>
+              ${API.getUser().role === 'admin' ? `
+                <button class="trail-btn" style="background: var(--error);" onclick="Rastreamento.resetUserTracking()">
+                  <i data-lucide="trash-2"></i> Resetar Histórico
+                </button>
+              ` : ''}
             </div>
             <div id="trail-info" style="margin-left: auto; font-size: 13px; color: var(--text-secondary);"></div>
           </div>
@@ -430,6 +435,56 @@ window.Rastreamento = {
       Components.toast('Erro ao carregar trajeto', 'error');
       if (infoEl) infoEl.innerHTML = 'Erro ao carregar.';
     }
+  },
+
+  async resetUserTracking() {
+    const selectEl = document.getElementById('trail-user-select');
+    const userId = selectEl ? selectEl.value : null;
+
+    if (!userId) {
+      Components.toast('Selecione um padeiro primeiro', 'info');
+      return;
+    }
+
+    const userName = selectEl.options[selectEl.selectedIndex].text;
+    const dateInput = document.getElementById('trail-date');
+    const date = dateInput ? dateInput.value : '';
+
+    if (!date) {
+      Components.toast('Selecione uma data para o reset', 'info');
+      return;
+    }
+
+    // Exibe modal de confirmação
+    Components.confirm(
+      `Deseja realmente apagar o histórico de localização do padeiro <b>${userName}</b> para o dia <b>${date.split('-').reverse().join('/')}</b>?<br><br>Esta ação excluirá apenas os registros dele deste dia e é irreversível.`,
+      async () => {
+        const loaderDiv = document.createElement('div');
+        loaderDiv.innerHTML = Components.loading();
+        const loaderEl = loaderDiv.firstChild;
+        document.body.appendChild(loaderEl);
+
+        try {
+          const res = await API.delete(`/api/tracking/trail/${userId}?date=${date}`);
+          Components.toast('Histórico do padeiro limpo com sucesso!', 'success');
+          this.clearTrail();
+          
+          // Se hoje, remove o marcador ativo
+          const todayStr = new Date().toISOString().split('T')[0];
+          if (date === todayStr) {
+            if (this.markers[userId]) {
+              this.markers[userId].remove();
+              delete this.markers[userId];
+            }
+          }
+        } catch (error) {
+          console.error('Erro ao resetar histórico do padeiro:', error);
+          Components.toast(error.message || 'Erro ao resetar histórico', 'error');
+        } finally {
+          if (loaderEl) loaderEl.remove();
+        }
+      }
+    );
   },
 
   clearTrail() {

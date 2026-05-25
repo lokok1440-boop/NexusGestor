@@ -53,10 +53,18 @@ const Components = {
 
   // Confirm dialog
   confirm(message, onConfirm) {
+    this._confirmCallback = onConfirm;
     this.showModal('Confirmação', `<p style="margin-bottom:8px">${message}</p>`,
       `<button class="btn btn-secondary" onclick="Components.closeModal()">Cancelar</button>
-       <button class="btn btn-danger" onclick="Components.closeModal();(${onConfirm.toString()})()">Confirmar</button>`
+       <button class="btn btn-danger" onclick="Components.closeModal(); Components._triggerConfirm()">Confirmar</button>`
     );
+  },
+
+  _triggerConfirm() {
+    if (this._confirmCallback) {
+      this._confirmCallback();
+      this._confirmCallback = null;
+    }
   },
 
   // Loading
