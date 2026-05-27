@@ -27,7 +27,7 @@ Object.assign(Cronograma, {
           <select class="input-control" name="clienteId" id="tarefa-cliente" required style="padding-left: 16px;">
             <option value="">Selecione o cliente...</option>
             ${this.clientes.filter(c => c.ativo !== false).map(c =>
-              `<option value="${c.id}" data-nome="${c.nome}">${c.nome}</option>`
+              `<option value="${c.id}" data-nome="${(c.nomeFantasia || c.nome) + (c.bairro ? ' - ' + c.bairro : '')}">${(c.nomeFantasia || c.nome) + (c.bairro ? ' - ' + c.bairro : '')}</option>`
             ).join('')}
           </select>
         </div>
@@ -107,7 +107,7 @@ Object.assign(Cronograma, {
           <select class="input-control" name="clienteId" id="tarefa-cliente" required style="padding-left: 16px;">
             <option value="">Selecione o cliente...</option>
             ${this.clientes.filter(c => c.ativo !== false).map(c => 
-              `<option value="${c.id}" data-nome="${c.nome}" ${t.clienteId === c.id ? 'selected' : ''}>${c.nome}</option>`
+              `<option value="${c.id}" data-nome="${(c.nomeFantasia || c.nome) + (c.bairro ? ' - ' + c.bairro : '')}" ${t.clienteId === c.id ? 'selected' : ''}>${(c.nomeFantasia || c.nome) + (c.bairro ? ' - ' + c.bairro : '')}</option>`
             ).join('')}
           </select>
         </div>

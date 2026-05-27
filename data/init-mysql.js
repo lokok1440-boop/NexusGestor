@@ -53,13 +53,16 @@ const TABLES = [
         name: 'clientes',
         schema: `CREATE TABLE IF NOT EXISTS clientes (
           id VARCHAR(50) PRIMARY KEY,
+          codigo VARCHAR(50),
           numero VARCHAR(50),
           nome VARCHAR(255),
+          nomeFantasia VARCHAR(255),
           ramoAtividade VARCHAR(255),
           cnpj VARCHAR(50),
           inscricaoEstadual VARCHAR(50),
           telefone VARCHAR(50),
           endereco TEXT,
+          bairro VARCHAR(255),
           cidade VARCHAR(255),
           estado VARCHAR(100),
           cep VARCHAR(20),
@@ -231,6 +234,22 @@ const TABLES = [
           criadoEm VARCHAR(100),
           atualizadoEm VARCHAR(100)
         )`
+      },
+      {
+        name: 'timeline_events',
+        schema: `CREATE TABLE IF NOT EXISTS timeline_events (
+          id VARCHAR(50) PRIMARY KEY,
+          padeiroId VARCHAR(50),
+          padeiroNome VARCHAR(255),
+          action VARCHAR(100),
+          lat DOUBLE,
+          lng DOUBLE,
+          accuracy DOUBLE,
+          source VARCHAR(50),
+          timestamp VARCHAR(100),
+          INDEX (padeiroId),
+          INDEX (timestamp)
+        )`
       }
 ];
 
@@ -318,6 +337,29 @@ async function initTables() {
   } catch (e) {
     console.log('   ⚠️ Migração parcial ou tabela inexistente (atividades):', e.message);
   }
+
+  // Migrations for 'clientes' table
+  try {
+    const [cols] = await pool.query("SHOW COLUMNS FROM clientes");
+    const colNames = cols.map(c => c.Field);
+    
+    if (!colNames.includes('codigo')) await pool.execute("ALTER TABLE clientes ADD COLUMN codigo VARCHAR(50)");
+    if (!colNames.includes('nomeFantasia')) await pool.execute("ALTER TABLE clientes ADD COLUMN nomeFantasia VARCHAR(255)");
+    if (!colNames.includes('bairro')) await pool.execute("ALTER TABLE clientes ADD COLUMN bairro VARCHAR(255)");
+  } catch (e) {
+    console.log('   ⚠️ Migração parcial ou tabela inexistente (clientes):', e.message);
+  }
+
+  // Migrations for 'timeline_events' table - add client columns
+  try {
+    const [cols] = await pool.query("SHOW COLUMNS FROM timeline_events");
+    const colNames = cols.map(c => c.Field);
+    if (!colNames.includes('clienteId')) await pool.execute("ALTER TABLE timeline_events ADD COLUMN clienteId VARCHAR(50)");
+    if (!colNames.includes('clienteNome')) await pool.execute("ALTER TABLE timeline_events ADD COLUMN clienteNome VARCHAR(255)");
+  } catch (e) {
+    console.log('   ⚠️ Migração parcial ou tabela inexistente (timeline_events):', e.message);
+  }
+
   console.log('   ✅ Tabelas MySQL verificadas/criadas');
 }
 

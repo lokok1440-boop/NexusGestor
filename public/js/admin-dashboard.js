@@ -39,7 +39,7 @@ const AdminDashboard = {
           ...stats,
           top10Pads: (stats.top10Pads || []).filter(p => p && p.nome && p.nome.toLowerCase().includes(this.searchTerm)),
           top3Pads: (stats.top3Pads || []).filter(p => p && p.nome && p.nome.toLowerCase().includes(this.searchTerm)),
-          rankingClientes: (stats.rankingClientes || []).filter(c => c && c.nome && c.nome.toLowerCase().includes(this.searchTerm)),
+          rankingClientes: (stats.rankingClientes || []).filter(c => c && (c.nomeFantasia || c.nome) && ((c.nomeFantasia || c.nome) + (c.bairro ? ' - ' + c.bairro : '')).toLowerCase().includes(this.searchTerm)),
           pontoCritico: (stats.pontoCritico || []).filter(p => p && p.nome && p.nome.toLowerCase().includes(this.searchTerm))
         };
       }
@@ -321,7 +321,7 @@ const AdminDashboard = {
             <div class="kpi-icon-box"><i data-lucide="building-2"></i></div>
             <div>
               <div class="kpi-value-v2">${stats.totalClientes}</div>
-              <div class="kpi-label-v2">Clientes Atendidos</div>
+              <div class="kpi-label-v2">Clientes Ativos</div>
             </div>
           </div>
           <div class="kpi-card-v2 kpi-orange">
@@ -329,6 +329,19 @@ const AdminDashboard = {
             <div>
               <div class="kpi-value-v2">${stats.mediaAvaliacaoCliente || '—'}</div>
               <div class="kpi-label-v2">Média Avaliações</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLIENTES ATENDIDOS (MENSAL) -->
+        <div class="card-v2" style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; padding: 24px;">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="kpi-icon-box" style="background: rgba(52, 199, 89, 0.12); color: #34C759; width: 56px; height: 56px; border-radius: 16px;">
+              <i data-lucide="store" style="width: 28px; height: 28px;"></i>
+            </div>
+            <div>
+              <div style="font-size: 14px; font-weight: 600; color: #8E8E93; text-transform: uppercase; letter-spacing: 0.5px;">Clientes Atendidos neste Mês</div>
+              <div style="font-size: 32px; font-weight: 800; color: #1C1C1E; line-height: 1.2; letter-spacing: -1px; margin-top: 4px;">${stats.totalClientesAtendidos || 0}</div>
             </div>
           </div>
         </div>
@@ -475,7 +488,7 @@ const AdminDashboard = {
                 <div class="client-item-v2">
                   <div class="client-pos-v2 ${i < 3 ? 'top' : ''}">${i + 1}°</div>
                   <div class="client-info-v2">
-                    <div class="client-name-v2">${c.nome || '—'}</div>
+                    <div class="client-name-v2">${(c.nomeFantasia || c.nome) + (c.bairro ? ' - ' + c.bairro : '') || '—'}</div>
                     <div class="flex items-center gap-2" style="margin-top: 2px; flex-wrap: wrap;">
                       <span class="client-data-v2">${c.totalAtendimentos} visitas</span>
                       <span style="color: #D1D1D6;">•</span>

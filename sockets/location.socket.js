@@ -1,4 +1,4 @@
-const { Localizacao, HistoricoLocalizacao } = require('../data/db-adapter');
+const { Localizacao, HistoricoLocalizacao, TimelineEvent } = require('../data/db-adapter');
 
 let ioInstance = null;
 const activeLocations = new Map();
@@ -68,6 +68,25 @@ async function initLocationSocket(io) {
       }
       
       io.emit('location-broadcast', Array.from(activeLocations.values()));
+    });
+
+    socket.on('timeline-event', async (data) => {
+      try {
+        await TimelineEvent.create({
+          padeiroId: data.userId,
+          padeiroNome: data.userName,
+          action: data.action,
+          lat: data.coords ? data.coords.lat : null,
+          lng: data.coords ? data.coords.lng : null,
+          accuracy: data.coords ? data.coords.accuracy : null,
+          source: data.source,
+          timestamp: data.timestamp,
+          clienteId: data.clienteId || null,
+          clienteNome: data.clienteNome || null
+        });
+      } catch (e) {
+        console.error("Erro ao salvar timeline event:", e);
+      }
     });
 
     socket.on('disconnect', () => {

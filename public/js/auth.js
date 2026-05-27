@@ -127,6 +127,11 @@ const Auth = {
       API.setToken(data.token);
       API.setUser(data.user);
       Components.toast(`Bem-vindo, ${data.user.nome}!`, 'success');
+      
+      if (data.user.role === 'padeiro' && typeof LocationService !== 'undefined') {
+        LocationService.captureAction('Login (App Aberto)');
+      }
+
       const isManagement = ['admin', 'gestor', 'gestor_geral', 'gestor_regional'].includes(data.user.role);
       App.navigate(isManagement ? 'admin-dashboard' : 'padeiro-inicio');
     } catch (err) {
@@ -323,6 +328,11 @@ const Auth = {
       API.setToken(data.token);
       API.setUser(data.user);
       Components.toast(`Bem-vindo, ${data.user.nome}!`, 'success');
+      
+      if (data.user.role === 'padeiro' && typeof LocationService !== 'undefined') {
+        LocationService.captureAction('Login (Google)');
+      }
+
       const isManagement = ['admin', 'gestor', 'gestor_geral', 'gestor_regional'].includes(data.user.role);
       App.navigate(isManagement ? 'admin-dashboard' : 'padeiro-inicio');
     } catch (err) {

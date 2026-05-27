@@ -25,6 +25,8 @@ const PadeiroFlow = {
     container.innerHTML = Components.loading();
     this.currentStep = 0;
     this.activity = prefill;
+    this.activity.timeline = this.activity.timeline || [];
+
     const today = this.getTodayLocal();
 
     if (!prefill.clienteId) {
@@ -87,7 +89,7 @@ const PadeiroFlow = {
 
   async startFresh() {
     this.pendingResume = null;
-    this.activity = {};
+    this.activity = { timeline: [] };
     this.currentStep = 0;
     await this.fetchTodayClient();
     this.renderWizard(document.getElementById('page-container'));
@@ -157,6 +159,41 @@ const PadeiroFlow = {
     Components.renderIcons();
   },
 
+  async captureTimelineEvent(stepName) {
+    if (!this.activity.timeline) this.activity.timeline = [];
+    
+    // Fallback manual local caso LocationService falhe
+    const event = {
+      step: stepName,
+      timestamp: new Date().toISOString(),
+      lat: null,
+      lng: null
+    };
+
+    if (typeof LocationService !== 'undefined') {
+      const locData = await LocationService.captureAction(`Atividade: ${stepName}`, { atividadeId: this.activity.id, clienteId: this.activity.clienteId, clienteNome: this.activity.clienteNome });
+      if (locData && locData.coords) {
+        event.lat = locData.coords.lat;
+        event.lng = locData.coords.lng;
+      }
+    } else {
+      try {
+        const pos = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000, enableHighAccuracy: true });
+        });
+        event.lat = pos.coords.latitude;
+        event.lng = pos.coords.longitude;
+      } catch (e) {
+        console.warn('Não foi possível obter localização para a timeline (fallback):', e);
+      }
+    }
+    
+    this.activity.timeline.push(event);
+    if (typeof this.saveDraftLocally === 'function') {
+      this.saveDraftLocally();
+    }
+  },
+
   // STEP 0: INICIAR
   async stepIniciar(c) {
     const today = this.getTodayLocal();
@@ -219,9 +256,15 @@ const PadeiroFlow = {
     const nome = sel.options[sel.selectedIndex]?.dataset.nome;
     try {
       if (!this.activity.cronogramaId) await this.fetchTodayClient();
-      const body = { clienteId: sel.value, clienteNome: nome, cronogramaId: this.activity.cronogramaId || null, lastStep: 1 };
+      const body = { clienteId: sel.value, clienteNome: nome, cronogramaId: this.activity.cronogramaId || null, lastStep: 1, timeline: [] };
       const a = await API.post('/api/atividades', body);
       this.activity = a;
+      if (!this.activity.timeline) this.activity.timeline = [];
+      
+      // Captura localização e salva
+      await this.captureTimelineEvent('Início do Atendimento');
+      await this.updateActivity();
+
       if (this.activity.cronogramaId) await API.patch(`/api/cronograma/agenda/${this.activity.cronogramaId}/status`, { status: 'em_andamento' });
       this.currentStep = 1;
       this.renderWizard(document.getElementById('page-container'));
@@ -529,6 +572,7 @@ const PadeiroFlow = {
     }
 
     localStorage.removeItem('brago_padeiro_draft');
+    await this.captureTimelineEvent('Fim da Produção');
     await this.updateActivity();
     this.currentStep = 2;
     this.renderWizard(document.getElementById('page-container'));
@@ -587,6 +631,8 @@ const PadeiroFlow = {
     this.activity.notaPadeiroCliente = score;
     this.activity.observacaoCliente  = obsEl ? obsEl.value.trim() : '';
     this.activity.lastStep = 3;
+    
+    await this.captureTimelineEvent('Avaliação do Cliente');
     await this.updateActivity();
 
     this.currentStep = 3;
@@ -690,6 +736,7 @@ const PadeiroFlow = {
     }
 
     this.activity.lastStep = 4;
+    await this.captureTimelineEvent('Assinatura e Avaliação');
     await this.updateActivity();
 
     // BUG FIX: Create a proper Avaliacao record of tipo 'cliente'
@@ -775,6 +822,7 @@ const PadeiroFlow = {
   async finishActivity() {
     this.activity.status = 'finalizada';
     this.activity.fimEm = new Date().toISOString();
+    await this.captureTimelineEvent('Atividade Encerrada');
     await this.updateActivity();
     if (this.activity.cronogramaId) await API.patch(`/api/cronograma/agenda/${this.activity.cronogramaId}/status`, { status: 'concluida' });
     this.renderSuccess();

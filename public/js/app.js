@@ -79,6 +79,23 @@ const App = {
 
     const isManagement = ['admin', 'gestor', 'gestor_geral', 'gestor_regional'].includes(user.role);
 
+    // Enforce role-based routing
+    if (!isManagement) {
+      const allowedPadeiroRoutes = ['padeiro-inicio', 'padeiro-atividade', 'padeiro-agenda'];
+      if (!allowedPadeiroRoutes.includes(route)) {
+        console.warn(`Acesso negado para a rota ${route} (Padeiro). Redirecionando...`);
+        this.navigate('padeiro-inicio');
+        return;
+      }
+    } else {
+      const allowedAdminRoutes = ['admin-dashboard', 'filiais', 'cronograma', 'gestao', 'metas', 'avaliacoes', 'rastreamento', 'timeline', 'relatorios', 'dev'];
+      if (route.startsWith('padeiro-') && !allowedAdminRoutes.includes(route)) {
+        // Just in case an admin clicks a padeiro link or has it in storage
+        this.navigate('admin-dashboard');
+        return;
+      }
+    }
+
     // Build layout
     app.innerHTML = `
     <div class="app-layout">
@@ -93,6 +110,13 @@ const App = {
     document.querySelectorAll('.nav-item').forEach(item => {
       item.classList.toggle('active', item.dataset.route === route);
     });
+
+    // Restore sidebar collapsed state on desktop
+    const isSidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    const sidebarEl = document.getElementById('sidebar');
+    if (sidebarEl && isSidebarCollapsed && window.innerWidth >= 1024) {
+      sidebarEl.classList.add('collapsed');
+    }
 
     // Render page content
     this.renderPage(route);
@@ -129,6 +153,9 @@ const App = {
       <div class="nav-item" data-route="rastreamento" onclick="App.navigate('rastreamento')">
         <span class="nav-icon"><i data-lucide="map"></i></span><span class="nav-text">Rastreamento</span>
       </div>
+      <div class="nav-item" data-route="timeline" onclick="App.navigate('timeline')">
+        <span class="nav-icon"><i data-lucide="clock"></i></span><span class="nav-text">Timeline</span>
+      </div>
       <div class="nav-item" data-route="relatorios" onclick="App.navigate('relatorios')">
         <span class="nav-icon"><i data-lucide="bar-chart-2"></i></span><span class="nav-text">Relatórios</span>
       </div>
@@ -157,6 +184,9 @@ const App = {
     return `
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
+        <button class="sidebar-toggle-btn" onclick="App.toggleSidebar()">
+          <i data-lucide="menu"></i>
+        </button>
         <img src="/assets/logo.svg" alt="BRAGO" class="sidebar-logo-img">
       </div>
       <nav class="sidebar-nav">
@@ -187,6 +217,7 @@ const App = {
     'metas':             { title: 'Metas de Produção',       showSearch: true,  searchPlaceholder: 'Buscar metas...',            showLargeTitle: true },
     'avaliacoes':        { title: 'Avaliações',              showSearch: true,  searchPlaceholder: 'Buscar avaliações...',        showLargeTitle: true },
     'rastreamento':      { title: 'Rastreamento',            showSearch: false, searchPlaceholder: '',                          showLargeTitle: true },
+    'timeline':          { title: 'Timeline do Padeiro',     showSearch: false, searchPlaceholder: '',                          showLargeTitle: false },
     'relatorios':        { title: 'Relatórios',              showSearch: false, searchPlaceholder: '',                          showLargeTitle: true },
     'padeiro-inicio':    { title: 'Meu Painel',              showSearch: false, searchPlaceholder: '',                          showLargeTitle: true },
     'padeiro-atividade': { title: 'Nova Atividade',          showSearch: false, searchPlaceholder: '',                          showLargeTitle: false },
@@ -277,6 +308,7 @@ const App = {
         case 'metas': await Metas.render(); break;
         case 'avaliacoes': await Avaliacoes.render(); break;
         case 'rastreamento': await Rastreamento.render(); break;
+        case 'timeline': await Timeline.render(); break;
         case 'relatorios': await Relatorios.render(); break;
         case 'padeiro-inicio': await PadeiroDashboard.render(); break;
         case 'padeiro-atividade': await PadeiroFlow.render(this.routeData || {}); break;
@@ -325,10 +357,32 @@ const App = {
     }
   },
 
-  // Desktop sidebar toggle (unchanged)
+  // Desktop sidebar toggle with localStorage and Leaflet map support
   toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('sidebar').classList.toggle('mobile-open');
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+    
+    if (window.innerWidth >= 1024) {
+      sidebar.classList.toggle('collapsed');
+      localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+      
+      // Auto-refresh Leaflet map layout on the tracking page during transition
+      if (this.currentRoute === 'rastreamento' && window.Rastreamento && window.Rastreamento.map) {
+        setTimeout(() => {
+          window.Rastreamento.map.invalidateSize();
+        }, 150);
+        setTimeout(() => {
+          window.Rastreamento.map.invalidateSize();
+        }, 300);
+      }
+    } else {
+      // Toggle mobile drawer
+      sidebar.classList.toggle('mobile-open');
+      const overlay = document.getElementById('ios-drawer-overlay');
+      if (overlay) {
+        overlay.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+      }
+    }
   },
 
   // === iOS MOBILE DRAWER ===

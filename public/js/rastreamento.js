@@ -20,147 +20,502 @@ window.Rastreamento = {
       console.error('Erro ao buscar padeiros:', e);
     }
 
+    const todayStr = new Date().toISOString().split('T')[0];
+    const dateFormatter = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const dataFormatada = dateFormatter.format(new Date());
+
     container.innerHTML = `
       <style>
-        @media (max-width: 430px) {
-          #tracking-map { height: 400px !important; }
-          .tracking-header h2 { font-size: 24px; }
-          .tracking-list-card { margin-top: 16px !important; }
-          .trail-controls { flex-direction: column; align-items: stretch !important; gap: 8px; }
+      /* macOS HIG Rastreamento Reset & Variables */
+      .mac-rastreamento-root {
+        --mac-window-bg: #FFFFFF;
+        --mac-sidebar-bg: rgba(246,246,246,0.9);
+        --mac-toolbar-bg: rgba(255,255,255,0.72);
+        --mac-accent: #007AFF;
+        --mac-destructive: #FF3B30;
+        --mac-success: #34C759;
+        --mac-label: #000000;
+        --mac-secondary: #3C3C43;
+        --mac-tertiary: #C7C7CC;
+        --mac-border: rgba(0,0,0,0.08);
+        --mac-input-border: rgba(0,0,0,0.15);
+        --mac-hover: rgba(0,0,0,0.04);
+        --mac-selected-bg: rgba(0,122,255,0.12);
+
+        font-family: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+        flex: 1;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        background: var(--mac-window-bg);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .mac-rastreamento-root {
+          --mac-window-bg: #1E1E1E;
+          --mac-sidebar-bg: rgba(30,30,30,0.9);
+          --mac-toolbar-bg: rgba(40,40,40,0.72);
+          --mac-accent: #0A84FF;
+          --mac-destructive: #FF453A;
+          --mac-success: #32D74B;
+          --mac-label: #FFFFFF;
+          --mac-secondary: rgba(235, 235, 245, 0.6);
+          --mac-tertiary: rgba(235, 235, 245, 0.3);
+          --mac-border: rgba(255,255,255,0.1);
+          --mac-input-border: rgba(255,255,255,0.15);
+          --mac-hover: rgba(255,255,255,0.05);
+          --mac-selected-bg: rgba(10,132,255,0.15);
         }
-        .trail-controls {
-          background: var(--bg-card);
-          padding: 12px 16px;
-          border-radius: var(--radius-md);
+      }
+
+      .mac-layout { display: flex; flex: 1; width: 100%; overflow: hidden; }
+      .mac-mobile-block { display: none !important; }
+
+      /* Reconstrução da Aba Rastreamento para Mobile (Mantendo o Desktop macOS idêntico) */
+      @media (max-width: 1023px) {
+        .mac-layout {
+          flex-direction: column;
+          overflow: visible !important;
+        }
+        .mac-sidebar {
+          order: 3;
+          width: 100% !important;
+          height: auto !important;
+          background: var(--bg-card) !important;
+          border: 1px solid var(--separator) !important;
+          border-radius: var(--radius-md) !important;
+          box-shadow: var(--shadow-md) !important;
+          margin-top: 20px !important;
+          padding: 16px !important;
+        }
+        .mac-sidebar-header {
+          padding: 0 0 12px 0 !important;
+        }
+        .mac-sidebar-title {
+          font-size: 14px !important;
+          color: var(--text-primary) !important;
+          text-transform: none !important;
+          letter-spacing: normal !important;
+        }
+        .mac-sidebar-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .mac-track-item {
+          height: auto !important;
+          padding: 12px !important;
+          margin: 0 !important;
+          border-radius: var(--radius-md) !important;
+          border: 1px solid var(--separator) !important;
+          background: var(--bg-card) !important;
           display: flex;
           align-items: center;
-          gap: 16px;
-          box-shadow: var(--shadow-md);
-          margin-bottom: 20px;
-          border: 1px solid var(--separator);
-          flex-wrap: wrap;
+          justify-content: space-between;
+          color: var(--text-primary) !important;
         }
-        .trail-user-picker, .trail-date-picker, .trail-time-picker {
+        .mac-avatar {
+          width: 36px !important;
+          height: 36px !important;
+          font-size: 14px !important;
+        }
+        .mac-track-name {
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          color: var(--text-primary) !important;
+          white-space: normal !important;
+          overflow: visible !important;
+          text-overflow: clip !important;
+          margin-left: 10px;
+        }
+        .mac-track-status {
+          margin-left: auto;
+          margin-right: 12px;
+        }
+        .mac-main-content {
+          order: 1;
+          flex: none !important;
+          display: flex;
+          flex-direction: column;
+          background: transparent !important;
+          overflow: visible !important;
+        }
+        .mac-page-header {
+          padding: 0 0 16px 0 !important;
+          background: transparent !important;
+        }
+        .mac-page-title {
+          font-size: 28px !important;
+          font-weight: 700 !important;
+          color: var(--text-primary) !important;
+        }
+        .mac-page-subtitle {
+          display: block !important;
+          font-size: 13px !important;
+          color: var(--text-secondary) !important;
+        }
+        .mac-page-header-right {
+          display: none !important;
+        }
+        .mac-toolbar {
+          height: auto !important;
+          background: var(--bg-card) !important;
+          padding: 16px !important;
+          border-radius: var(--radius-md) !important;
+          border: 1px solid var(--separator) !important;
+          box-shadow: var(--shadow-md) !important;
+          margin-bottom: 20px !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: stretch !important;
+          gap: 12px !important;
+          backdrop-filter: none !important;
+          -webkit-backdrop-filter: none !important;
+          overflow-x: visible !important;
+        }
+        .mac-toolbar-group {
           display: flex;
           align-items: center;
+          justify-content: space-between;
           gap: 8px;
-        }
-        .trail-user-picker select, .trail-date-picker input, .trail-time-picker input {
-          border: 1px solid var(--separator);
-          border-radius: var(--radius-sm);
-          padding: 6px 12px;
-          font-family: inherit;
-          font-size: 14px;
-          outline: none;
-          background: var(--bg-card);
-          color: var(--text-main);
-          min-width: 120px;
-        }
-        .trail-user-picker select {
-          min-width: 180px;
-        }
-        .trail-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: var(--primary);
-          color: white;
-          border: none;
-          padding: 8px 16px;
-          border-radius: var(--radius-sm);
-          font-size: 14px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: var(--transition);
-        }
-        .trail-btn:hover { background: var(--primary-dark); }
-        .trail-btn.secondary { background: var(--bg-input); color: var(--text-secondary); }
-        .trail-btn.secondary:hover { background: #e5e7eb; }
-        .trail-btn i { width: 16px; height: 16px; }
-        
-        .map-popup-btn {
-          margin-top: 10px;
           width: 100%;
-          background: var(--primary);
-          color: white;
-          border: none;
-          padding: 6px;
-          border-radius: 6px;
-          font-size: 12px;
-          font-weight: 600;
-          cursor: pointer;
         }
+        .mac-label {
+          font-size: 11px !important;
+          color: var(--text-tertiary) !important;
+          font-weight: 600 !important;
+        }
+        .mac-select, .mac-input {
+          width: 60% !important;
+          height: 36px !important;
+          border: 1px solid var(--separator) !important;
+          border-radius: var(--radius-sm) !important;
+          background: var(--bg-card) !important;
+          color: var(--text-main) !important;
+        }
+        .mac-separator {
+          display: none !important;
+        }
+        .mac-toolbar-actions {
+          margin-left: 0 !important;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          width: 100%;
+        }
+        .mac-btn {
+          flex: 1;
+          min-width: 100px;
+          height: 36px !important;
+          border-radius: var(--radius-sm) !important;
+          font-size: 14px !important;
+          font-weight: 600 !important;
+        }
+        .mac-btn-primary {
+          background: var(--primary) !important;
+          color: white !important;
+        }
+        .mac-btn-borderless {
+          background: var(--bg-input) !important;
+          color: var(--text-secondary) !important;
+        }
+        .mac-btn-destructive {
+          background: var(--danger-light) !important;
+          color: var(--danger) !important;
+        }
+        .mac-map-container {
+          background: var(--bg-card) !important;
+          border-radius: 16px !important;
+          overflow: hidden !important;
+          box-shadow: var(--shadow-lg) !important;
+          height: 450px !important;
+          flex: none !important;
+          display: flex;
+          flex-direction: column;
+        }
+        #tracking-map {
+          height: 100% !important;
+        }
+        .mac-timeline-container {
+          padding: 16px;
+        }
+      }
+
+      /* Sidebar */
+      .mac-sidebar {
+        width: 260px;
+        background: var(--mac-sidebar-bg);
+        border-right: 1px solid var(--mac-border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        z-index: 1010;
+      }
+
+      .mac-sidebar-header { padding: 16px 16px 8px; }
+      .mac-sidebar-title {
+        font-size: 13px; font-weight: 600; text-transform: uppercase;
+        letter-spacing: 0.5px; color: var(--mac-tertiary); margin: 0;
+      }
+
+      .mac-sidebar-list { flex: 1; overflow-y: auto; padding-bottom: 20px; }
+
+      .mac-track-item {
+        height: 52px; padding: 0 12px; margin: 0 8px; border-radius: 6px;
+        display: flex; align-items: center; gap: 10px;
+        cursor: pointer; transition: background-color 120ms ease;
+        color: var(--mac-label);
+      }
+      .mac-track-item:hover { background: var(--mac-hover); }
+      .mac-track-item.selected { background: var(--mac-selected-bg); }
+      .mac-track-item.selected .mac-track-name { font-weight: 600; }
+
+      .mac-avatar {
+        width: 32px; height: 32px; border-radius: 50%; display: flex;
+        align-items: center; justify-content: center;
+        color: #fff; font-size: 13px; font-weight: 500;
+        flex-shrink: 0;
+      }
+
+      .mac-track-name { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
+      .mac-track-status { position: relative; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+      .mac-track-status.active { background: var(--mac-success); animation: pulseMac 2s infinite; }
+      .mac-track-status.inactive { background: var(--mac-tertiary); }
+      .mac-track-icon { color: var(--mac-accent); display: flex; align-items: center; }
+
+      @keyframes pulseMac {
+        0% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.5); }
+        70% { box-shadow: 0 0 0 6px rgba(52, 199, 89, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(52, 199, 89, 0); }
+      }
+
+      /* Main Content */
+      .mac-main-content {
+        flex: 1; position: relative; display: flex; flex-direction: column; background: var(--mac-window-bg); overflow: hidden;
+      }
+
+      /* Page Header */
+      .mac-page-header {
+        display: flex; align-items: flex-start; justify-content: space-between;
+        padding: 20px 24px 16px; background: var(--mac-window-bg); flex-shrink: 0;
+      }
+      .mac-page-title { font-size: 28px; font-weight: 700; color: var(--mac-label); margin: 0; font-family: 'SF Pro Display', sans-serif; letter-spacing: 0.3px; }
+      .mac-page-subtitle { font-size: 13px; color: var(--mac-secondary); margin-top: 4px; }
+      .mac-page-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+      .mac-page-date { font-size: 13px; color: var(--mac-secondary); font-weight: 400; }
+
+      /* Toolbar */
+      .mac-toolbar {
+        height: 52px; background: var(--mac-toolbar-bg); backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--mac-border);
+        display: flex; align-items: center; padding: 0 16px; flex-shrink: 0;
+        z-index: 1000; gap: 4px; overflow-x: auto;
+      }
+
+      .mac-toolbar-group { display: flex; align-items: center; gap: 6px; }
+      .mac-separator { width: 1px; height: 20px; background: var(--mac-border); margin: 0 8px; flex-shrink: 0; }
+      .mac-label { font-size: 11px; color: var(--mac-secondary); text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
+
+      .mac-input, .mac-select {
+        height: 28px; border: 1px solid var(--mac-input-border); border-radius: 6px;
+        background: var(--mac-window-bg); color: var(--mac-label); font-family: inherit; font-size: 13px;
+        padding: 0 6px; outline: none; box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+      }
+      .mac-select { width: 110px; }
+      .mac-input[type="date"] { width: 120px; }
+      .mac-input[type="time"] { width: 68px; }
+      .mac-input:focus, .mac-select:focus { outline: 2px solid var(--mac-accent); outline-offset: -1px; }
+      .mac-select { padding-right: 20px; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg fill="%23999" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); background-repeat: no-repeat; background-position: right center; background-size: 14px; }
+      @media (prefers-color-scheme: dark) { .mac-input, .mac-select { background: rgba(0,0,0,0.2); } }
+
+      .mac-toolbar-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
+      .mac-btn {
+        height: 28px; border-radius: 6px; font-family: inherit; font-size: 12px; font-weight: 500;
+        display: inline-flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer;
+        border: none; outline: none; padding: 0 10px; white-space: nowrap;
+      }
+      .mac-btn:focus-visible { outline: 2px solid var(--mac-accent); }
+      .mac-btn i { width: 13px; height: 13px; }
+      
+      .mac-btn-primary { background: var(--mac-accent); color: #FFF; font-weight: 600; transition: transform 100ms cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+      .mac-btn-primary:active { transform: scale(0.97); }
+      
+      .mac-btn-borderless { background: transparent; color: var(--mac-secondary); padding: 0 6px; }
+      .mac-btn-borderless:hover { background: var(--mac-hover); color: var(--mac-label); }
+      
+      .mac-btn-destructive { background: transparent; color: var(--mac-destructive); padding: 0 6px; }
+      .mac-btn-destructive:hover { background: rgba(255,59,48,0.1); }
+
+      /* Map Container */
+      .mac-map-container { flex: 1; width: 100%; background: #e5e5ea; z-index: 1; }
+      .leaflet-control-zoom { border: 1px solid var(--mac-border) !important; border-radius: 6px !important; box-shadow: 0 1px 4px rgba(0,0,0,0.2) !important; margin-left: 16px !important; margin-bottom: 38px !important; }
+      .leaflet-control-zoom a { width: 28px !important; height: 28px !important; line-height: 28px !important; font-family: inherit !important; font-size: 14px !important; font-weight: 500 !important; color: var(--mac-label) !important; background: var(--mac-window-bg) !important; }
+
+      /* Status Badge */
+      .mac-status-badge {
+        background: var(--mac-window-bg); color: var(--mac-label); font-size: 11px; font-weight: 500;
+        padding: 4px 10px; border-radius: 12px; display: inline-flex; align-items: center; gap: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--mac-border); transition: opacity 0.3s;
+      }
+      .mac-status-badge.connected .mac-status-dot { background: var(--mac-success); width: 6px; height: 6px; border-radius: 50%; display: inline-block; animation: pulseMac 2s infinite; }
+      .mac-status-badge.disconnected .mac-status-dot { background: var(--mac-tertiary); width: 6px; height: 6px; border-radius: 50%; display: inline-block; animation: none; }
+      .mac-status-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+
+      /* Status Bar (Footer) */
+      .mac-map-footer { position: absolute; bottom: 0; left: 0; right: 0; height: 22px; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); z-index: 900; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 11px; color: var(--mac-tertiary); border-top: 1px solid var(--mac-border); }
+      @media (prefers-color-scheme: dark) { .mac-map-footer { background: rgba(30,30,30,0.85); } }
+      .mac-footer-left { color: var(--mac-secondary); }
+
+      /* Sub-Tabs */
+      .mac-view-tabs { display: flex; gap: 8px; align-items: center; }
+      .mac-view-tab { padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; background: transparent; color: var(--mac-secondary); transition: all 0.2s; }
+      .mac-view-tab.active { background: var(--mac-accent); color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+      .mac-view-tab:not(.active):hover { background: var(--mac-hover); color: var(--mac-label); }
+
+      /* Timeline UI Mercado Livre style */
+      .mac-timeline-container { flex: 1; overflow-y: auto; background: var(--mac-window-bg); padding: 24px; display: none; }
+      .mac-timeline-container.active { display: block; }
+
+      .ml-timeline { position: relative; margin-left: 12px; padding-left: 24px; border-left: 2px solid var(--mac-border); }
+      .ml-timeline-item { position: relative; margin-bottom: 24px; }
+      .ml-timeline-dot { position: absolute; left: -31px; top: 0; width: 14px; height: 14px; border-radius: 50%; background: #10b981; border: 3px solid var(--mac-window-bg); box-shadow: 0 0 0 1px var(--mac-border); }
+      .ml-timeline-time { font-size: 11px; color: var(--mac-tertiary); margin-bottom: 4px; font-weight: 500; }
+      .ml-timeline-title { font-size: 14px; font-weight: 600; color: var(--mac-label); }
+      .ml-timeline-map-btn { font-size: 11px; color: var(--mac-accent); cursor: pointer; border: none; background: none; padding: 0; margin-top: 4px; display: inline-flex; align-items: center; gap: 4px; font-weight: 500; }
+      .ml-timeline-map-btn:hover { text-decoration: underline; }
+      .ml-timeline-activity-card { background: var(--mac-window-bg); border: 1px solid var(--mac-border); border-radius: 8px; padding: 16px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+      .ml-timeline-activity-title { font-size: 15px; font-weight: 600; margin-bottom: 20px; color: var(--mac-label); display: flex; align-items: center; gap: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--mac-border); }
       </style>
-      <div class="rastreamento-page fade-in">
-        <div class="tracking-header mb-6">
-          <div class="flex justify-between items-center">
-            <div>
-              <p class="text-secondary desktop-only">Monitore a localização da sua equipe e consulte o histórico de trajetos</p>
+
+      <div class="mac-rastreamento-root fade-in">
+        
+        <!-- Desktop App -->
+        <div class="mac-layout">
+          <!-- Sidebar -->
+          <aside class="mac-sidebar">
+            <header class="mac-sidebar-header">
+              <h2 class="mac-sidebar-title">Padeiros Ativos</h2>
+            </header>
+            <div id="active-track-list" class="mac-sidebar-list">
+              <div style="padding: 12px 20px; font-size: 13px; color: var(--mac-tertiary);">Aguardando sinais...</div>
             </div>
-            <div id="tracking-status" class="status-badge connected">
-              <span class="status-dot"></span> <span>Servidor Conectado</span>
+          </aside>
+          
+          <!-- Main Area -->
+          <main class="mac-main-content">
+            
+            <!-- Page Header -->
+            <div class="mac-page-header">
+               <div class="mac-page-header-left">
+                 <div class="mac-page-subtitle">Monitoramento GPS em tempo real e histórico de trajetos</div>
+               </div>
+               <div class="mac-page-header-right">
+                 <div class="mac-page-date">${dataFormatada}</div>
+                 <div id="tracking-status" class="mac-status-badge connected">
+                   <span class="mac-status-dot"></span> <span>Servidor Conectado</span>
+                 </div>
+               </div>
             </div>
-          </div>
+
+            <!-- Toolbar -->
+            <div class="mac-toolbar">
+               <div class="mac-toolbar-group">
+                  <label for="trail-user-select" class="mac-label">Padeiro:</label>
+                  <select id="trail-user-select" class="mac-select" onchange="Rastreamento.onUserSelectChange(this.value)" tabindex="1">
+                     <option value="">Selecione...</option>
+                     ${padeiros.map(p => `<option value="${p.id}">${p.nome}</option>`).join('')}
+                  </select>
+               </div>
+               
+               <div class="mac-separator"></div>
+               
+               <div class="mac-toolbar-group">
+                  <label for="trail-date" class="mac-label">Data:</label>
+                  <input type="date" id="trail-date" class="mac-input" value="${todayStr}" onchange="Rastreamento.onDateChange()" tabindex="2">
+               </div>
+
+               <div class="mac-separator"></div>
+               
+               <div class="mac-toolbar-group">
+                  <label for="trail-start-time" class="mac-label" title="Início">De:</label>
+                  <input type="time" id="trail-start-time" class="mac-input" value="00:00" onchange="Rastreamento.onTimeChange()" tabindex="3">
+               </div>
+               <div class="mac-toolbar-group" style="margin-right: 0;">
+                  <label for="trail-end-time" class="mac-label" title="Fim">Até:</label>
+                  <input type="time" id="trail-end-time" class="mac-input" value="23:59" onchange="Rastreamento.onTimeChange()" tabindex="4">
+               </div>
+               
+               <div class="mac-toolbar-actions">
+                  <button class="mac-btn mac-btn-primary" id="btn-load-trail" onclick="Rastreamento.loadTrail()" tabindex="5" title="Carregar Trajeto (⌘R)">Carregar</button>
+                  <button class="mac-btn mac-btn-borderless" onclick="Rastreamento.clearTrail()" tabindex="6" title="Limpar Mapa (⌘L)"><i data-lucide="x"></i> Limpar</button>
+                  ${API.getUser().role === 'admin' ? `
+                    <div class="mac-separator" style="margin-left: 2px; margin-right: 2px;"></div>
+                    <button class="mac-btn mac-btn-destructive" onclick="Rastreamento.resetUserTracking()" tabindex="7" title="Resetar Histórico (⌘⌫)"><i data-lucide="trash-2"></i></button>
+                  ` : ''}
+               </div>
+            </div>
+            
+            <!-- Map Area -->
+            <div id="view-mapa" class="mac-map-container" style="display:flex; flex-direction:column;">
+               <div id="tracking-map" style="flex:1;"></div>
+               <div class="mac-map-footer" style="position:relative;">
+                 <div id="trail-info" class="mac-footer-left"></div>
+                 <div class="mac-footer-right">Leaflet | © OpenStreetMap</div>
+               </div>
+            </div>
+            
+          </main>
         </div>
 
-        <div id="trail-controls-container">
-          <div class="trail-controls">
-            <div class="trail-user-picker">
-              <label class="label-uppercase">Padeiro:</label>
-              <select id="trail-user-select" onchange="Rastreamento.onUserSelectChange(this.value)">
-                <option value="">Selecione um padeiro...</option>
-                ${padeiros.map(p => `<option value="${p.id}">${p.nome}</option>`).join('')}
-              </select>
-            </div>
-            <div class="trail-date-picker">
-              <label class="label-uppercase">Data:</label>
-              <input type="date" id="trail-date" value="${new Date().toISOString().split('T')[0]}" onchange="Rastreamento.onDateChange()">
-            </div>
-            <div class="trail-time-picker">
-              <label class="label-uppercase">Início:</label>
-              <input type="time" id="trail-start-time" value="00:00" onchange="Rastreamento.onTimeChange()">
-            </div>
-            <div class="trail-time-picker">
-              <label class="label-uppercase">Fim:</label>
-              <input type="time" id="trail-end-time" value="23:59" onchange="Rastreamento.onTimeChange()">
-            </div>
-            <div class="flex gap-2">
-              <button class="trail-btn" id="btn-load-trail" onclick="Rastreamento.loadTrail()">
-                <i data-lucide="map-pin"></i> Carregar Trajeto
-              </button>
-              <button class="trail-btn secondary" onclick="Rastreamento.clearTrail()">
-                <i data-lucide="x"></i> Limpar
-              </button>
-              ${API.getUser().role === 'admin' ? `
-                <button class="trail-btn" style="background: var(--error);" onclick="Rastreamento.resetUserTracking()">
-                  <i data-lucide="trash-2"></i> Resetar Histórico
-                </button>
-              ` : ''}
-            </div>
-            <div id="trail-info" style="margin-left: auto; font-size: 13px; color: var(--text-secondary);"></div>
-          </div>
+        <!-- Mobile Block (Hidden) -->
+        <div class="mac-mobile-block">
+          <i data-lucide="monitor" style="width: 48px; height: 48px; margin-bottom: 16px;"></i>
+          <h3>Uso Exclusivo Desktop</h3>
+          <p>O painel de rastreamento avançado requer uma resolução mínima de 1280px para visualização correta do mapa e controles.</p>
         </div>
 
-        <div class="map-card">
-          <div id="tracking-map" style="height: 600px; width: 100%; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-lg);"></div>
-        </div>
-
-        <div class="tracking-list-card mt-6">
-          <h3 class="mb-4">Padeiros Ativos</h3>
-          <div id="active-track-list" class="track-list">
-            <p class="text-tertiary">Aguardando sinais de localização...</p>
-          </div>
-        </div>
       </div>
     `;
 
-    this.initMap();
-    this.initSocket();
+    // Wait for DOM
+    setTimeout(() => {
+      const topHeader = document.querySelector('.top-header');
+      const pageContent = document.getElementById('page-container');
+      
+      if (window.innerWidth >= 1024) {
+        if (topHeader) topHeader.style.setProperty('display', 'none', 'important');
+        if (pageContent) {
+          pageContent.style.setProperty('padding', '0', 'important');
+          pageContent.style.setProperty('overflow', 'hidden', 'important');
+          pageContent.style.setProperty('display', 'flex', 'important');
+          pageContent.style.setProperty('flex-direction', 'column', 'important');
+        }
+      } else {
+        if (topHeader) topHeader.style.removeProperty('display');
+        if (pageContent) {
+          pageContent.style.removeProperty('padding');
+          pageContent.style.removeProperty('overflow');
+          pageContent.style.removeProperty('display');
+          pageContent.style.removeProperty('flex-direction');
+        }
+      }
+
+      lucide.createIcons();
+      this.initMap();
+      this.initSocket();
+      
+      // Forçar atualização do tamanho do mapa após transição do flexbox
+      setTimeout(() => {
+        if (this.map) this.map.invalidateSize();
+      }, 150);
+    }, 50);
   },
 
   initMap() {
-    // Default view: Center of Brazil or Filial location
-    this.map = L.map('tracking-map').setView([-23.5505, -46.6333], 13); // Default SP
+    this.map = L.map('tracking-map', { zoomControl: false }).setView([-23.5505, -46.6333], 13);
+    
+    // Add custom zoom control at bottom-left
+    L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
@@ -177,16 +532,16 @@ window.Rastreamento = {
     this.socket.on('connect', () => {
       const statusEl = document.getElementById('tracking-status');
       if (statusEl) {
-        statusEl.className = 'status-badge connected';
-        statusEl.innerHTML = '<span class="status-dot"></span> <span>Servidor Conectado</span>';
+        statusEl.className = 'mac-status-badge connected';
+        statusEl.innerHTML = '<span class="mac-status-dot"></span> <span>Servidor Conectado</span>';
       }
     });
 
     this.socket.on('disconnect', () => {
       const statusEl = document.getElementById('tracking-status');
       if (statusEl) {
-        statusEl.className = 'status-badge disconnected';
-        statusEl.innerHTML = '<span class="status-dot"></span> <span>Desconectado</span>';
+        statusEl.className = 'mac-status-badge disconnected';
+        statusEl.innerHTML = '<span class="mac-status-dot"></span> <span>Desconectado</span>';
       }
     });
 
@@ -233,31 +588,51 @@ window.Rastreamento = {
     }
   },
 
+
+
   updateList(locations) {
     const list = document.getElementById('active-track-list');
     if (!list) return;
 
     if (locations.length === 0) {
-      list.innerHTML = '<p class="text-tertiary">Nenhum padeiro online no momento.</p>';
+      list.innerHTML = '<div style="padding: 12px 20px; font-size: 13px; color: var(--mac-tertiary);">Nenhum padeiro online no momento.</div>';
       return;
     }
 
-    list.innerHTML = locations.map(loc => `
-      <div class="track-item card-click" onclick="Rastreamento.focusPadeiro('${loc.userId}')">
-        <div class="track-info">
-          <div class="avatar">${loc.userName[0].toUpperCase()}</div>
-          <div>
-            <div class="font-bold">${loc.userName}</div>
-            <div class="text-xs text-tertiary">Visto às ${new Date(loc.lastUpdate).toLocaleTimeString()}</div>
+    const colors = ['#007AFF', '#34C759', '#FF9500', '#AF52DE', '#FF2D55'];
+
+    list.innerHTML = locations.map((loc, idx) => {
+      const isSelected = this.selectedUserId === loc.userId;
+      const initial = loc.userName[0].toUpperCase();
+      const color = colors[idx % colors.length];
+      
+      return `
+        <div class="mac-track-item ${isSelected ? 'selected' : ''}" onclick="Rastreamento.selectActiveItem('${loc.userId}')">
+          <div class="mac-avatar" style="background-color: ${color};">${initial}</div>
+          <div class="mac-track-name">${loc.userName}</div>
+          <div class="mac-track-status active"></div>
+          <div class="mac-track-icon">
+             <i data-lucide="crosshair" style="width: 16px; height: 16px;"></i>
           </div>
         </div>
-        <div class="track-action">
-          <i data-lucide="crosshair"></i>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
     
     lucide.createIcons();
+  },
+
+  selectActiveItem(userId) {
+    // Atualiza a seleção visual
+    this.selectedUserId = userId;
+    const selectEl = document.getElementById('trail-user-select');
+    if (selectEl) selectEl.value = userId;
+    
+    this.focusPadeiro(userId);
+    
+    document.querySelectorAll('.mac-track-item').forEach(el => el.classList.remove('selected'));
+    if (window.event && window.event.currentTarget) {
+      window.event.currentTarget.classList.add('selected');
+    }
   },
 
   focusPadeiro(userId) {

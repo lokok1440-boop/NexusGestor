@@ -66,7 +66,7 @@ exports.createAtividade = async (req, res) => {
       'produtoId', 'produtoNome', 'kgTotal', 'lTotal', 'status', 'data', 'hora',
       'inicioEm', 'terminadoEm', 'fimEm', 'tempoMinimoMinutos', 'fotos',
       'assinatura', 'localizacao', 'latitude', 'longitude', 'observacao', 'observacaoCliente',
-      'notaCliente', 'notaPadeiroCliente', 'kgItens', 'atualizadoEm', 'lastStep'
+      'notaCliente', 'notaPadeiroCliente', 'kgItens', 'atualizadoEm', 'lastStep', 'timeline'
     ];
 
     const nova = {
@@ -103,7 +103,7 @@ exports.updateAtividade = async (req, res) => {
       'produtoId', 'produtoNome', 'kgTotal', 'lTotal', 'status', 'data', 'hora',
       'inicioEm', 'terminadoEm', 'fimEm', 'tempoMinimoMinutos', 'fotos',
       'assinatura', 'localizacao', 'latitude', 'longitude', 'observacao', 'observacaoCliente',
-      'notaCliente', 'notaPadeiroCliente', 'atualizadoEm', 'lastStep'
+      'notaCliente', 'notaPadeiroCliente', 'atualizadoEm', 'lastStep', 'timeline'
     ];
 
     const tableColumns = [
@@ -111,7 +111,7 @@ exports.updateAtividade = async (req, res) => {
       'produtoId', 'produtoNome', 'kgTotal', 'lTotal', 'status', 'data', 'hora',
       'inicioEm', 'terminadoEm', 'fimEm', 'tempoMinimoMinutos', 'fotos',
       'assinatura', 'localizacao', 'latitude', 'longitude', 'observacao', 'observacaoCliente',
-      'notaCliente', 'notaPadeiroCliente', 'kgItens', 'atualizadoEm', 'lastStep'
+      'notaCliente', 'notaPadeiroCliente', 'kgItens', 'atualizadoEm', 'lastStep', 'timeline'
     ];
 
     const updateData = {};

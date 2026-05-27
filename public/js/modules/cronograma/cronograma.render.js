@@ -313,7 +313,13 @@ Object.assign(Cronograma, {
           <i data-lucide="trash-2"></i>
         </button>
       </div>
-      <div class="matrix-task-client" title="${t.clienteNome || '—'}">${t.clienteNome || '—'}</div>
+      <div style="font-size: 10px; color: var(--text-tertiary); margin-bottom: 2px; font-weight: 600; text-transform: uppercase;">Cliente</div>
+      <div class="matrix-task-client" title="${t.clienteNome || '—'}" style="display: flex; align-items: flex-start; gap: 4px; min-height: 40px; height: auto;">
+        <i data-lucide="store" size="12" style="margin-top: 2px; color: var(--text-tertiary); flex-shrink: 0;"></i>
+        <div style="flex: 1; min-width: 0; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; white-space: normal; word-break: break-word;">
+          ${t.clienteNome || '—'}
+        </div>
+      </div>
       <div class="matrix-task-meta">
         <span>${t.horario ? `<i data-lucide="clock" size="10"></i> ${t.horario} → ${t.horarioFim || '17:00'}` : ''}</span>
         ${t.observacao && t.observacao.includes('Inteligente') ? `<i data-lucide="sparkles" size="12" style="color: #AF52DE;" title="Escala Inteligente"></i>` : ''}

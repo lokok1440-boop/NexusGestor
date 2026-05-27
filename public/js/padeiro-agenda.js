@@ -444,7 +444,13 @@ const PadeiroAgenda = {
     
     return `
       <div class="matrix-card card-border-${config.color}" onclick="PadeiroAgenda.startActivity('${item.id}', '${item.clienteId}', '${item.clienteNome}')">
-        <div class="matrix-card-title">${item.clienteNome || 'Cliente'}</div>
+        <div style="font-size: 10px; color: var(--text-tertiary); margin-bottom: 4px; font-weight: 600; text-transform: uppercase;">Cliente</div>
+        <div class="matrix-card-title" style="display: flex; align-items: flex-start; gap: 6px; font-weight: 700; font-size: 13px; color: var(--text-primary); line-height: 1.3; margin-bottom: 12px;">
+          <i data-lucide="store" size="14" style="margin-top: 2px; color: var(--text-tertiary); flex-shrink: 0;"></i>
+          <div style="flex: 1; min-width: 0; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; word-break: break-word;">
+            ${item.clienteNome || 'Cliente'}
+          </div>
+        </div>
         <div class="matrix-card-time">
           <i data-lucide="clock"></i>
           <span>${item.horario || '08:00'} → ${item.horarioFim || '17:00'}</span>

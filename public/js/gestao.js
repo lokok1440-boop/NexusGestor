@@ -401,6 +401,15 @@ const Gestao = {
     return clean.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   },
 
+  formatIE(v) {
+    if (!v) return '';
+    let num = String(v).replace(/\D/g, '');
+    if (num.length >= 9) {
+      return num.substring(0, 2) + '.' + num.substring(2, 5) + '.' + num.substring(5, 8) + '-' + num.substring(8);
+    }
+    return v;
+  },
+
   cargoBadge(cargo) {
     if (!cargo) return 'amber';
     const c = cargo.toUpperCase();
@@ -618,25 +627,20 @@ const Gestao = {
         <table>
           <thead style="position: sticky; top: 0; background: var(--system-bg);">
             <tr>
-              <th>#</th>
-              <th>Cliente</th>
-              <th>Avaliação Média</th>
-              <th>Status</th>
+              <th>Código</th>
+              <th>Nome Fantasia</th>
+              <th>Cliente (Razão Social)</th>
+              <th>Bairro</th>
               <th style="text-align: right;">Ações</th>
             </tr>
           </thead>
           <tbody>
             ${data.map(cl => `
               <tr>
-                <td class="text-tertiary" style="font-weight:600;">${cl.numero || '-'}</td>
-                <td style="font-weight:600; color: var(--text-primary);">${cl.nome}</td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-weight: 700; color: #FF9500;">${cl.notaMedia ? cl.notaMedia.toFixed(1) : 'N/A'}</span>
-                    ${cl.notaMedia ? Components.starsDisplay(Math.round(cl.notaMedia)) : ''}
-                  </div>
-                </td>
-                <td>${cl.ativo !== false ? '<span class="badge badge-success">Ativo</span>' : '<span class="badge badge-danger">Inativo</span>'}</td>
+                <td class="text-tertiary" style="font-family:monospace; font-weight:600; color:var(--primary);">${cl.codigo || '-'}</td>
+                <td style="font-weight:600; color: var(--text-primary);">${cl.nomeFantasia || '-'}</td>
+                <td class="text-tertiary" style="font-size: 13px;">${cl.nome}</td>
+                <td>${cl.bairro || '-'}</td>
                 <td style="text-align: right;">
                   <div class="row-actions flex gap-2 justify-end">
                     <button class="btn btn-icon btn-sm" onclick="Gestao.openClienteForm('${cl.id}')"><i data-lucide="pencil" class="text-blue"></i></button>
@@ -653,19 +657,15 @@ const Gestao = {
       <div class="apple-list mobile-only">
         ${data.map(cl => `
           <div class="apple-card" onclick="Gestao.openClienteForm('${cl.id}')">
-            <div class="apple-avatar" style="background-color: rgba(52, 199, 89, 0.1); color: #34C759;">
-              ${cl.numero || 'CL'}
+            <div class="apple-avatar" style="background-color: rgba(52, 199, 89, 0.1); color: #34C759; font-size: 12px;">
+              ${cl.codigo || 'CL'}
             </div>
             <div class="apple-card-info">
               <div class="apple-card-top">
-                <span class="apple-card-name">${cl.nome}</span>
+                <span class="apple-card-name">${(cl.nomeFantasia || cl.nome) + (cl.bairro ? ' - ' + cl.bairro : '')}</span>
               </div>
               <div class="apple-card-mid" style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-                <span class="apple-badge-pill badge-apple-${cl.ativo !== false ? 'green' : 'red'}">${cl.ativo !== false ? 'Ativo' : 'Inativo'}</span>
-                <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: #FF9500;">
-                  <i data-lucide="star" style="width: 14px; height: 14px; fill: #FF9500; color: #FF9500;"></i>
-                  ${cl.notaMedia ? cl.notaMedia.toFixed(1) : 'N/A'}
-                </span>
+                <span class="apple-card-cpf">${cl.bairro || 'Sem bairro'}</span>
               </div>
             </div>
             <i data-lucide="chevron-right" class="apple-chevron" style="width:16px; height:16px;"></i>
@@ -680,19 +680,23 @@ const Gestao = {
     const cl = id ? this.allData.clientes.find(x => x.id === id) : {};
     Components.showModal(id ? 'Editar Cliente' : 'Novo Cliente', `
       <form id="cliente-form">
-        <div class="form-group"><label>Nome do Cliente / Razão Social</label><input class="input-control" name="nome" value="${cl.nome || ''}" required></div>
+        <div class="flex gap-4">
+          <div class="form-group w-full" style="flex: 1;"><label>Código</label><input class="input-control" name="codigo" value="${cl.codigo || ''}"></div>
+          <div class="form-group w-full" style="flex: 3;"><label>Nome do Cliente / Razão Social</label><input class="input-control" name="nome" value="${cl.nome || ''}" required></div>
+        </div>
         
+        <div class="form-group"><label>Nome Fantasia</label><input class="input-control" name="nomeFantasia" value="${cl.nomeFantasia || ''}"></div>
+
         <div class="flex gap-4">
           <div class="form-group w-full"><label>CNPJ</label><input class="input-control" name="cnpj" id="cnpj-input" value="${cl.cnpj || ''}"></div>
-          <div class="form-group w-full"><label>Inscrição Estadual (IE)</label><input class="input-control" name="inscricaoEstadual" value="${cl.inscricaoEstadual || ''}"></div>
+          <div class="form-group w-full"><label>Inscrição Estadual (IE)</label><input class="input-control" name="inscricaoEstadual" value="${this.formatIE(cl.inscricaoEstadual)}" oninput="this.value = Gestao.formatIE(this.value)"></div>
         </div>
 
         <div class="form-group"><label>Endereço Completo</label><input class="input-control" name="endereco" value="${cl.endereco || ''}"></div>
         
         <div class="flex gap-4">
-          <div class="form-group w-full" style="flex: 2;"><label>Cidade</label><input class="input-control" name="cidade" value="${cl.cidade || ''}"></div>
+          <div class="form-group w-full" style="flex: 2;"><label>Bairro</label><input class="input-control" name="bairro" value="${cl.bairro || ''}"></div>
           <div class="form-group w-full" style="flex: 1;"><label>UF</label><input class="input-control" name="estado" maxlength="2" placeholder="Ex: SP" value="${cl.estado || ''}"></div>
-          <div class="form-group w-full" style="flex: 1.5;"><label>Telefone</label><input class="input-control" name="telefone" value="${cl.telefone || ''}"></div>
         </div>
       </form>`,
       `<button class="btn btn-secondary" onclick="Components.closeModal()">Cancelar</button>
@@ -784,10 +788,10 @@ const Gestao = {
             <div class="apple-avatar" style="background-color: rgba(255, 149, 0, 0.1); color: #FF9500;">
               ${initials}
             </div>
-            <div class="apple-card-info">
-              <div class="apple-card-top">
-                <span class="apple-card-name">${a.clienteNome}</span>
-                <span class="apple-card-code" style="color: var(--apple-blue); font-weight: 700;">${a.kgTotal || '0'} kg</span>
+            <div class="apple-card-info" style="min-width: 0; overflow: hidden;">
+              <div class="apple-card-top" style="display: flex; justify-content: space-between; width: 100%; min-width: 0;">
+                <span class="apple-card-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; margin-right: 8px;" title="${a.clienteNome}">${a.clienteNome}</span>
+                <span class="apple-card-code" style="color: var(--apple-blue); font-weight: 700; white-space: nowrap; flex-shrink: 0;">${a.kgTotal || '0'} kg</span>
               </div>
               <div class="apple-card-mid">
                 <span class="apple-card-cpf">${a.padeiroNome}</span>

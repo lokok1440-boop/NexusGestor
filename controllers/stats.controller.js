@@ -136,6 +136,7 @@ exports.getGeneralStats = async (req, res) => {
       totalPadeiros: padeiros.length,
       totalProdutos: produtos.length,
       totalClientes: clientes.length,
+      totalClientesAtendidos: Object.keys(atendimentosPorCliente).length,
       totalColaboradores: colaboradoresLength,
       totalMetas: metas.length,
       totalAtividades: atividades.length,

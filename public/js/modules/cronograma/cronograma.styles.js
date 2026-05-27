@@ -76,7 +76,9 @@ Object.assign(Cronograma, {
         .baker-row-mobile.expanded .days-scroll-mobile { display: flex !important; }
         
         .day-column-mobile {
-          min-width: 160px !important;
+          min-width: 170px !important;
+          width: 170px !important;
+          max-width: 170px !important;
           flex-shrink: 0 !important;
           background: #F8FAFC !important;
           border-radius: 12px !important;

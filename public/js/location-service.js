@@ -7,13 +7,15 @@ const LocationService = {
   socket: null,
   watchId: null,
   ipFallbackInterval: null,
+  wakeLock: null,
   updateInterval: 10000, // 10 seconds
   lastSent: 0,
 
-  init(user) {
+  async init(user) {
     if (!user || user.role !== 'padeiro') return;
 
     console.log('📡 Inicializando rastreamento GPS para:', user.nome);
+    this.requestWakeLock();
 
     // Connect to socket
     this.socket = io({ transports: ['websocket', 'polling'] });
@@ -137,5 +139,74 @@ const LocationService = {
     if (this.watchId) navigator.geolocation.clearWatch(this.watchId);
     if (this.ipFallbackInterval) clearInterval(this.ipFallbackInterval);
     if (this.socket) this.socket.disconnect();
+    this.releaseWakeLock();
+  },
+
+  /** Tenta manter a tela do dispositivo ligada para evitar que o navegador hiberne e mate o GPS em Stand-By */
+  async requestWakeLock() {
+    if ('wakeLock' in navigator) {
+      try {
+        this.wakeLock = await navigator.wakeLock.request('screen');
+        console.log('🔋 Wake Lock ativado (Prevenção de Stand By ligada).');
+        this.wakeLock.addEventListener('release', () => {
+          console.log('🔋 Wake Lock liberado.');
+        });
+      } catch (err) {
+        console.warn('⚠️ Falha ao ativar Wake Lock:', err.name, err.message);
+      }
+    }
+  },
+
+  releaseWakeLock() {
+    if (this.wakeLock !== null) {
+      this.wakeLock.release().then(() => {
+        this.wakeLock = null;
+      });
+    }
+  },
+
+  /** 
+   * Captura uma localização exata no momento de uma ação e envia para a Timeline 
+   * Retorna os dados capturados para uso no componente se necessário.
+   */
+  async captureAction(actionName, extraData = {}) {
+    const user = API.getUser();
+    if (!user) return null;
+
+    const eventData = {
+      userId: user.id,
+      userName: user.nome,
+      action: actionName,
+      timestamp: new Date().toISOString(),
+      source: 'gps',
+      ...extraData,
+      coords: null
+    };
+
+    try {
+      const pos = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, { 
+          timeout: 30000, 
+          enableHighAccuracy: true,
+          maximumAge: 15000 // Usa cache de até 15 segundos para acelerar
+        });
+      });
+      eventData.coords = {
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        accuracy: pos.coords.accuracy
+      };
+      console.log(`📍 Ação Capturada com GPS: ${actionName}`, eventData.coords);
+    } catch (e) {
+      console.warn(`⚠️ Ação '${actionName}' registrada sem GPS nativo. Erro:`, e.message);
+      // Fallback para uma API de IP se precisar ou deixa null
+      eventData.source = 'error_or_fallback';
+    }
+
+    if (this.socket) {
+      this.socket.emit('timeline-event', eventData);
+    }
+    
+    return eventData;
   }
 };
