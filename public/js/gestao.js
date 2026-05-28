@@ -617,9 +617,15 @@ const Gestao = {
         </h3>
       </div>
 
-      <button class="btn btn-primary btn-new-padeiro" onclick="Gestao.openClienteForm()">
-        <i data-lucide="plus"></i> Novo Cliente
-      </button>
+      <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+        <button class="btn btn-primary" onclick="Gestao.openClienteForm()" style="display: inline-flex; align-items: center; gap: 8px;">
+          <i data-lucide="plus"></i> Novo Cliente
+        </button>
+        <button class="btn btn-secondary" onclick="Gestao.triggerSpreadsheetUpload()" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(52, 199, 89, 0.1); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.2);">
+          <i data-lucide="file-spreadsheet" style="width: 16px; height: 16px;"></i> Importar Planilha (.xlsx)
+        </button>
+        <input type="file" id="spreadsheet-file-input" accept=".xlsx" style="display:none;" onchange="Gestao.handleSpreadsheetUpload(event)">
+      </div>
 
       ${data.length === 0 ? '<div class="text-tertiary">Nenhum cliente encontrado.</div>' : `
       <!-- Desktop Table -->
@@ -1046,6 +1052,52 @@ const Gestao = {
           Gestao.loadTab();
         })
         .catch(e => Components.toast(e.message, 'error'));
+    }
+  },
+
+  triggerSpreadsheetUpload() {
+    const input = document.getElementById('spreadsheet-file-input');
+    if (input) input.click();
+  },
+
+  async handleSpreadsheetUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    event.target.value = '';
+
+    Components.showModal('Importando Planilha', `
+      <div style="text-align: center; padding: 20px 0;">
+        ${Components.loading()}
+        <p style="margin-top: 16px; font-weight: 500; color: var(--text-secondary);">Lendo planilha e atualizando o banco de dados...</p>
+      </div>
+    `, '');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const res = await fetch('/api/clientes/import', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${API.token}`
+        },
+        body: formData
+      });
+
+      const result = await res.json();
+      Components.closeModal();
+
+      if (res.ok && result.success) {
+        Components.toast(`✅ Planilha importada com sucesso! ${result.count} clientes atualizados.`, 'success');
+        await this.loadTab();
+      } else {
+        Components.toast(result.error || 'Erro ao importar planilha.', 'error');
+      }
+    } catch (err) {
+      Components.closeModal();
+      console.error(err);
+      Components.toast('Falha na conexão com o servidor.', 'error');
     }
   }
 };
