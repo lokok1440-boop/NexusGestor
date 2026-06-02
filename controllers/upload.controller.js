@@ -1,29 +1,52 @@
 const fs = require('fs');
 const path = require('path');
 const googleDriveService = require('../data/googleDriveService');
+const driveMappings = require('../data/driveMappings');
 
 exports.uploadFiles = async (req, res) => {
-  console.log(`[UPLOAD DEBUG] Upload finalizado. Arquivos: ${req.files ? req.files.length : 0}`);
+  console.log(`[UPLOAD DEBUG] Upload recebido. Arquivos: ${req.files ? req.files.length : 0}`);
   
   if (!req.files || req.files.length === 0) {
     return res.json({ success: true, files: [] });
   }
 
+  const type = req.params.type || 'producao';
+  
   try {
-    const type = req.params.type || 'producao';
-    const uploadPromises = req.files.map(async (f) => {
-      const result = await googleDriveService.uploadLocalFile(f.path, f.filename, f.mimetype, type);
+    // 1. Gera e retorna os caminhos locais instantaneamente
+    const files = req.files.map(f => {
       return {
-        filename: result.filename,
-        path: result.path,
+        filename: f.filename,
+        path: `/uploads/${type}/${f.filename}`,
         size: f.size
       };
     });
 
-    const files = await Promise.all(uploadPromises);
     res.json({ success: true, files });
+    
+    // 2. Dispara o upload para o Google Drive em background com pequeno delay para liberar o client
+    setTimeout(() => {
+      req.files.forEach(async (f) => {
+        try {
+          if (!googleDriveService.isEnabled()) {
+            console.log(`[BG UPLOAD] Google Drive desativado. Mantendo arquivo ${f.filename} localmente.`);
+            return;
+          }
+          
+          console.log(`[BG UPLOAD] Iniciando upload em background de ${f.filename} para o Google Drive...`);
+          const result = await googleDriveService.uploadLocalFile(f.path, f.filename, f.mimetype, type);
+          
+          if (result.isDrive && result.fileId) {
+            driveMappings.saveMapping(f.filename, result.fileId);
+          }
+        } catch (err) {
+          console.error(`❌ [BG UPLOAD] Erro no upload em background de ${f.filename}:`, err.message);
+        }
+      });
+    }, 100);
+
   } catch (error) {
-    console.error('❌ Erro no upload dos arquivos:', error.message);
+    console.error('❌ Erro ao processar upload:', error.message);
     res.status(500).json({ error: 'Erro ao fazer upload dos arquivos' });
   }
 };
@@ -36,11 +59,42 @@ exports.uploadBase64 = async (req, res) => {
   const fname = filename || `${Date.now()}-${Math.random().toString(36).substr(2, 6)}.png`;
 
   try {
-    const result = await googleDriveService.uploadBase64(data, fname, 'image/png', type);
-    res.json({ success: true, path: result.path, filename: result.filename });
+    // 1. Salva localmente primeiro
+    const dir = path.join(__dirname, '..', 'uploads', type);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    
+    const localPath = path.join(dir, fname);
+    const cleanBase64 = data.replace(/^data:image\/\w+;base64,/, '');
+    fs.writeFileSync(localPath, cleanBase64, 'base64');
+
+    // 2. Responde instantaneamente para o frontend
+    res.json({ success: true, path: `/uploads/${type}/${fname}`, filename: fname });
+
+    // 3. Dispara o upload em background com pequeno delay
+    setTimeout(async () => {
+      try {
+        if (!googleDriveService.isEnabled()) {
+          console.log(`[BG UPLOAD] Google Drive desativado. Mantendo assinatura ${fname} localmente.`);
+          return;
+        }
+
+        console.log(`[BG UPLOAD] Iniciando upload em background de ${fname} para o Google Drive...`);
+        // Usamos uploadLocalFile para aproveitar a lógica que faz o upload e exclui o arquivo local depois
+        const result = await googleDriveService.uploadLocalFile(localPath, fname, 'image/png', type);
+        
+        if (result && result.isDrive && result.fileId) {
+          driveMappings.saveMapping(fname, result.fileId);
+        }
+      } catch (err) {
+        console.error(`❌ [BG UPLOAD] Erro no upload em background da assinatura ${fname}:`, err.message);
+      }
+    }, 100);
+
   } catch (error) {
     console.error('❌ Erro no upload base64:', error.message);
-    res.status(500).json({ error: 'Erro ao salvar assinatura' });
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Erro ao salvar assinatura' });
+    }
   }
 };
 

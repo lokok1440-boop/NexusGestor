@@ -25,6 +25,42 @@ app.use(corsMiddleware);
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
+// Middleware de proxy transparente para servir arquivos da pasta local ou do Google Drive
+const fs = require('fs');
+const driveMappings = require('./data/driveMappings');
+const googleDriveService = require('./data/googleDriveService');
+
+app.use('/uploads/:type/:filename', async (req, res, next) => {
+  const { type, filename } = req.params;
+  const localPath = path.join(__dirname, 'uploads', type, filename);
+  
+  // 1. Se o arquivo existe localmente (ainda não subiu pro drive ou drive inativo), serve imediatamente
+  if (fs.existsSync(localPath)) {
+    return res.sendFile(localPath);
+  }
+  
+  // 2. Se não existir localmente, verifica se temos um mapeamento para o Google Drive
+  try {
+    const fileId = driveMappings.getMapping(filename);
+    if (fileId) {
+      console.log(`[STORAGE Proxy] Servindo arquivo ${filename} do Google Drive (ID: ${fileId})`);
+      const { stream, contentType, contentLength } = await googleDriveService.getFileStream(fileId);
+      
+      res.setHeader('Content-Type', contentType);
+      if (contentLength) {
+        res.setHeader('Content-Length', contentLength);
+      }
+      res.setHeader('Cache-Control', 'public, max-age=2592000'); // Cache de 30 dias
+      
+      return stream.pipe(res);
+    }
+  } catch (err) {
+    console.error(`❌ [STORAGE Proxy] Erro ao servir do Google Drive (${filename}):`, err.message);
+  }
+  
+  next();
+});
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 

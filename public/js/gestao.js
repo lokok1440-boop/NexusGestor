@@ -874,7 +874,7 @@ const Gestao = {
         </div>
       ` : ''}
 
-      ${a.assinatura ? `
+      ${a.assinatura && a.assinatura !== 'null' ? `
         <h4 style="margin-bottom:12px; font-size:14px; border-bottom:2px solid var(--primary); display:inline-block; padding-bottom:4px;">Assinatura do Cliente</h4>
         <div style="background:white; border:1px solid var(--separator); border-radius:8px; padding:8px;">
           <img src="${a.assinatura}" style="width:100%; max-height:150px; object-fit:contain;">

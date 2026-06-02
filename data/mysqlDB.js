@@ -144,7 +144,7 @@ class SqlCollection {
 
     const cols = await this.getColumns();
     const keys = Object.keys(newDoc).filter(k => typeof newDoc[k] !== 'function' && (!cols || cols.includes(k)));
-    const values = keys.map(k => typeof newDoc[k] === 'object' ? JSON.stringify(newDoc[k]) : newDoc[k]);
+    const values = keys.map(k => (typeof newDoc[k] === 'object' && newDoc[k] !== null) ? JSON.stringify(newDoc[k]) : newDoc[k]);
     const placeholders = keys.map(() => '?').join(', ');
     
     const sql = `INSERT INTO \`${this.tableName}\` (\`${keys.join('`, `')}\`) VALUES (${placeholders})`;
@@ -166,7 +166,7 @@ class SqlCollection {
   async findByIdAndUpdate(id, update, options = {}) {
     const cols = await this.getColumns();
     const keys = Object.keys(update).filter(k => typeof update[k] !== 'function' && (!cols || cols.includes(k)));
-    const values = keys.map(k => typeof update[k] === 'object' ? JSON.stringify(update[k]) : update[k]);
+    const values = keys.map(k => (typeof update[k] === 'object' && update[k] !== null) ? JSON.stringify(update[k]) : update[k]);
     const setClause = keys.map(k => `\`${k}\` = ?`).join(', ');
     
     if (keys.length === 0) return this.findById(id);

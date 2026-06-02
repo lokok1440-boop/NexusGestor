@@ -354,12 +354,27 @@ const PadeiroFlow = {
 
     const staticInput = document.getElementById('camera-input-static');
     
-    // Normal Flow (no crash)
-    staticInput.onchange = (e) => {
+    // Normal Flow (no crash) - async compression
+    staticInput.onchange = async (e) => {
       const files = Array.from(e.target.files);
       if (files.length === 0) return;
       
-      files.forEach(f => {
+      if (typeof Components !== 'undefined' && Components.toast) {
+        Components.toast('Otimizando fotos...', 'info', 2000);
+      }
+      
+      const compressedFiles = await Promise.all(
+        files.map(async (f) => {
+          try {
+            return await PadeiroFlow.compressImage(f);
+          } catch (err) {
+            console.error('Erro ao comprimir imagem, usando original:', err);
+            return f;
+          }
+        })
+      );
+      
+      compressedFiles.forEach(f => {
         this.selectedFiles.push(f);
         const dataUrl = URL.createObjectURL(f);
         PadeiroFlow.renderPhotoPreviewBase64(dataUrl, f.name);
@@ -373,13 +388,24 @@ const PadeiroFlow = {
     if (staticInput && staticInput.files && staticInput.files.length > 0) {
       console.log('Recuperando fotos pós-crash OOM...');
       const files = Array.from(staticInput.files);
-      files.forEach(f => {
-        this.selectedFiles.push(f);
-        const dataUrl = URL.createObjectURL(f);
-        PadeiroFlow.renderPhotoPreviewBase64(dataUrl, f.name);
-      });
-      staticInput.value = '';
-      this.saveDraftLocally();
+      (async () => {
+        const compressedFiles = await Promise.all(
+          files.map(async (f) => {
+            try {
+              return await PadeiroFlow.compressImage(f);
+            } catch (err) {
+              return f;
+            }
+          })
+        );
+        compressedFiles.forEach(f => {
+          this.selectedFiles.push(f);
+          const dataUrl = URL.createObjectURL(f);
+          PadeiroFlow.renderPhotoPreviewBase64(dataUrl, f.name);
+        });
+        staticInput.value = '';
+        this.saveDraftLocally();
+      })();
     }
 
     // Event delegation for real-time calculation
@@ -526,6 +552,67 @@ const PadeiroFlow = {
     btn.closest('.photo-preview-slot').remove();
   },
 
+  compressImage(file, maxWidth = 1024, maxHeight = 1024, quality = 0.7) {
+    return new Promise((resolve, reject) => {
+      // Se não for imagem, retorna o arquivo original
+      if (!file.type.startsWith('image/')) {
+        return resolve(file);
+      }
+
+      const img = new Image();
+      const objectUrl = URL.createObjectURL(file);
+      
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Calcula novas dimensões mantendo a proporção
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            return reject(new Error('Falha ao gerar blob da imagem comprimida'));
+          }
+          // Garante a extensão .jpg para o arquivo final comprimido
+          const origName = file.name;
+          const dotIdx = origName.lastIndexOf('.');
+          const nameWithoutExt = dotIdx !== -1 ? origName.substring(0, dotIdx) : origName;
+          const compressedFile = new File([blob], `${nameWithoutExt}.jpg`, {
+            type: 'image/jpeg',
+            lastModified: Date.now()
+          });
+          resolve(compressedFile);
+        }, 'image/jpeg', quality);
+      };
+
+      img.onerror = (err) => {
+        URL.revokeObjectURL(objectUrl);
+        reject(err);
+      };
+
+      img.src = objectUrl;
+    });
+  },
+
   async saveProducao() {
     const totalKg = document.getElementById('flow-kg-total').value;
     const totalL  = document.getElementById('flow-l-total').value;
@@ -553,22 +640,22 @@ const PadeiroFlow = {
     this.activity.kgItens  = items;
     this.activity.lastStep = 2;
 
-    // Upload fotos if any
+    // Upload fotos if any (em background)
     if (this.selectedFiles.length > 0) {
-      const btn = document.getElementById('pf-btn-producao');
-      const originalContent = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = `<span class="comodato-spinner" style="margin-right:8px"></span> Enviando Fotos...`;
+      Components.toast('Enviando fotos em segundo plano...', 'info');
       
-      try {
-        const result = await API.uploadFiles(this.selectedFiles, 'producao');
-        this.activity.fotos = result.files || [];
-      } catch(e) { 
-        btn.disabled = false;
-        btn.innerHTML = originalContent;
-        Components.toast('Erro no upload: ' + e.message, 'error'); 
-        return; 
-      }
+      this.backgroundUploadPromise = API.uploadFiles(this.selectedFiles, 'producao')
+        .then(async (result) => {
+          this.activity.fotos = result.files || [];
+          if (this.activity.id || this.activity._id) {
+            await this.updateActivity();
+          }
+          Components.toast('Fotos processadas com sucesso!', 'success');
+        })
+        .catch(e => {
+          console.error('Erro no upload das fotos:', e);
+          Components.toast('Erro no upload das fotos: ' + e.message, 'error');
+        });
     }
 
     localStorage.removeItem('brago_padeiro_draft');
@@ -722,17 +809,23 @@ const PadeiroFlow = {
     this.activity.notaCliente = score;
     this.activity.comentario = document.getElementById('flow-nota-obs').value;
 
-    // Save signature
+    // Save signature (em background)
     const canvas = document.getElementById('signature-canvas');
-    if (canvas) {
-      try {
-        const dataUrl = canvas.toDataURL('image/png');
-        const result = await API.uploadBase64(dataUrl, 'assinaturas');
-        this.activity.assinatura = result.path;
-      } catch(e) {
-        console.error('Erro ao fazer upload da assinatura:', e);
-        Components.toast('Erro ao salvar assinatura, mas a atividade será salva.', 'info');
-      }
+    if (canvas && this.isSignatureDrawn) {
+      const dataUrl = canvas.toDataURL('image/png');
+      Components.toast('Enviando assinatura em segundo plano...', 'info');
+
+      this.backgroundSignaturePromise = API.uploadBase64(dataUrl, 'assinaturas')
+        .then(async (result) => {
+          this.activity.assinatura = result.path;
+          if (this.activity.id || this.activity._id) {
+            await this.updateActivity();
+          }
+        })
+        .catch(e => {
+          console.error('Erro ao fazer upload da assinatura:', e);
+          Components.toast('Erro ao salvar assinatura.', 'error');
+        });
     }
 
     this.activity.lastStep = 4;
@@ -820,6 +913,29 @@ const PadeiroFlow = {
   },
 
   async finishActivity() {
+    const btn = document.getElementById('btn-finalizar');
+    const originalText = btn.innerHTML;
+    
+    // Aguardar uploads em background se existirem
+    if (this.backgroundUploadPromise || this.backgroundSignaturePromise) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="comodato-spinner" style="margin-right:8px"></span> Finalizando envios...`;
+      
+      try {
+        await Promise.all([
+          this.backgroundUploadPromise || Promise.resolve(),
+          this.backgroundSignaturePromise || Promise.resolve()
+        ]);
+      } catch (e) {
+        console.error('Erro ao aguardar uploads pendentes:', e);
+      }
+      
+      // Limpar promessas
+      this.backgroundUploadPromise = null;
+      this.backgroundSignaturePromise = null;
+      btn.innerHTML = originalText;
+    }
+
     this.activity.status = 'finalizada';
     this.activity.fimEm = new Date().toISOString();
     await this.captureTimelineEvent('Atividade Encerrada');

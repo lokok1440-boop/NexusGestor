@@ -1,0 +1,6 @@
+{
+  "Brago Brasília": { "producao": 3000, "atividades": 20 },
+  "Brago Goiania": { "producao": 2500, "atividades": 15 },
+  "Brago Palmas": { "producao": 1500, "atividades": 10 },
+  "Brago Campo Grande": { "producao": 2000, "atividades": 12 }
+}

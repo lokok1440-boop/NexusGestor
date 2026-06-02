@@ -180,6 +180,8 @@ const googleDriveService = {
         requestBody: fileMetadata,
         media: media,
         fields: 'id'
+      }, {
+        timeout: 15000 // 15 segundos de timeout
       });
 
       const fileId = response.data.id;
@@ -281,7 +283,10 @@ const googleDriveService = {
     try {
       const response = await drive.files.get(
         { fileId, alt: 'media' },
-        { responseType: 'stream' }
+        { 
+          responseType: 'stream',
+          timeout: 15000 // 15 segundos de timeout
+        }
       );
       
       return {

@@ -1,38 +1,14 @@
 /**
  * BRAGO Sistema Padeiro - Controlador do Perfil Master Gestor (Mobile-First)
- * Encapsulado e independente, consumindo as APIs reais do sistema.
+ * Refatorado: Consumindo os dados pré-calculados pelo backend.
  */
 
 const MasterGestor = {
   currentTab: 'dashboard', // 'dashboard' ou 'liderança'
   activeSubTab: 'scorecard', // 'scorecard' ou 'metas-gestor'
   searchTerm: '',
-  stats: null,
-  users: [],
-  evaluations: [],
-  clients: [],
+  dashboardData: null,
   selectedGestor: null, // Para controle do Bottom Sheet
-
-  // Metas comerciais dos Gestores (Mapeado por Filial)
-  get metasComerciais() {
-    const saved = localStorage.getItem('brago_master_metas_comerciais_v2');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error("Erro ao carregar metas do localStorage:", e);
-      }
-    }
-    return {
-      'Brago Brasília': { producao: 3000, atividades: 20 },
-      'Brago Goiania': { producao: 2500, atividades: 15 },
-      'Brago Palmas': { producao: 1500, atividades: 10 },
-      'Brago Campo Grande': { producao: 2000, atividades: 12 }
-    };
-  },
-  set metasComerciais(val) {
-    localStorage.setItem('brago_master_metas_comerciais_v2', JSON.stringify(val));
-  },
 
   async render() {
     const container = document.getElementById('page-container');
@@ -52,20 +28,8 @@ const MasterGestor = {
     }
 
     try {
-      // Carregar dados paralelos das APIs reais
-      const [statsData, usersData, evData, clData, atData] = await Promise.all([
-        API.get('/api/stats'),
-        API.get('/api/management/users'),
-        API.get('/api/avaliacoes').catch(() => []),
-        API.get('/api/clientes').catch(() => []),
-        API.get('/api/atividades').catch(() => [])
-      ]);
-
-      this.stats = statsData;
-      this.users = usersData;
-      this.evaluations = evData;
-      this.clients = clData;
-      this.activities = atData;
+      // Buscar todos os dados já processados do backend
+      this.dashboardData = await API.get('/api/master-gestor/dashboard');
 
       // Se a rota for a aba de desempenho de gestores, focar nela
       if (App.currentRoute === 'admin-dashboard' && this.currentTab === 'dashboard') {
@@ -85,13 +49,11 @@ const MasterGestor = {
    * ──────────────────────────────────────────────────────────────────────── */
   renderDashboard() {
     const container = document.getElementById('page-container');
-    const mesLabel = new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    const { kpiGlobais, filiaisMetrics, alerts } = this.dashboardData;
+    const mesLabel = kpiGlobais.mesLabel;
 
-    // 1. Processar e filtrar Alertas Dinâmicos de Crise
-    const alertsHtml = this.generateExecutiveAlerts();
-
-    // 2. Processar e classificar o ranking de filiais (BI)
-    const filiaisData = this.calculateFiliaisMetrics();
+    // Processar Alertas Dinâmicos de Crise
+    const alertsHtml = this.generateExecutiveAlerts(alerts);
 
     container.innerHTML = `
       <div class="master-container fade-in">
@@ -142,10 +104,10 @@ const MasterGestor = {
               <span class="master-kpi-label">Volume Geral</span>
             </div>
             <div class="master-kpi-value" style="color: #AF52DE;">
-              ${Math.round(this.calculateTotalProducao()).toLocaleString('pt-BR')} kg
+              ${Math.round(kpiGlobais.totalProduzidoMes).toLocaleString('pt-BR')} kg
             </div>
             <div class="master-kpi-footer">
-              Meta global: ${this.calculateGlobalMetaProducao().toLocaleString('pt-BR')} kg
+              Meta global: ${kpiGlobais.totalMetasGlobais.toLocaleString('pt-BR')} kg
             </div>
           </div>
 
@@ -155,10 +117,7 @@ const MasterGestor = {
               <span class="master-kpi-label">Atividades</span>
             </div>
             <div class="master-kpi-value" style="color: #007AFF;">
-              ${this.calculateTotalAtividades()}
-            </div>
-            <div class="master-kpi-footer">
-              Meta global: ${this.calculateGlobalMetaAtividades()}
+              ${kpiGlobais.totalAtividadesMes}
             </div>
           </div>
         </div>
@@ -173,7 +132,7 @@ const MasterGestor = {
           </div>
 
           <div style="display:flex; flex-direction:column; gap:16px;">
-            ${filiaisData.map((f, index) => {
+            ${filiaisMetrics.map((f, index) => {
               const pct = f.metaProducao > 0 ? ((f.realizadoProducao / f.metaProducao) * 100).toFixed(0) : 0;
               return `
               <div class="filial-row-mobile cascade-item" style="--index: ${index + 6};">
@@ -202,12 +161,12 @@ const MasterGestor = {
           </div>
           <div style="display:flex; justify-content:space-around; align-items:center; background:#F2F2F7; padding:16px; border-radius:16px; margin-bottom: 20px;">
             <div style="text-align:center;">
-              <div style="font-size:24px; font-weight:800; color:#1C7EF2;">${this.stats.totalProduzidoMes.toLocaleString('pt-BR')} <span style="font-size:12px; font-weight:600; color:#8E8E93;">kg</span></div>
+              <div style="font-size:24px; font-weight:800; color:#1C7EF2;">${kpiGlobais.totalProduzidoMes.toLocaleString('pt-BR')} <span style="font-size:12px; font-weight:600; color:#8E8E93;">kg</span></div>
               <div style="font-size:11px; font-weight:600; color:#8E8E93; margin-top:2px;">Faros/Misturas</div>
             </div>
             <div style="width:1px; height:30px; background:#D1D1D6;"></div>
             <div style="text-align:center;">
-              <div style="font-size:24px; font-weight:800; color:#AF52DE;">${(this.stats.totalLitrosMes || 0).toLocaleString('pt-BR')} <span style="font-size:12px; font-weight:600; color:#8E8E93;">L</span></div>
+              <div style="font-size:24px; font-weight:800; color:#AF52DE;">${(kpiGlobais.totalLitrosMes || 0).toLocaleString('pt-BR')} <span style="font-size:12px; font-weight:600; color:#8E8E93;">L</span></div>
               <div style="font-size:11px; font-weight:600; color:#8E8E93; margin-top:2px;">Aditivos Líquidos</div>
             </div>
           </div>
@@ -221,7 +180,7 @@ const MasterGestor = {
 
     // Renderizar Ícones Lucide e Gráfico
     Components.renderIcons();
-    this.initMasterChart();
+    this.initMasterChart(filiaisMetrics);
   },
 
   /* ────────────────────────────────────────────────────────────────────────
@@ -229,17 +188,12 @@ const MasterGestor = {
    * ──────────────────────────────────────────────────────────────────────── */
   renderDesempenhoGestores() {
     const container = document.getElementById('page-container');
-    
-    // Obter lista de supervisores/gestores reais do sistema
-    const gestores = this.users.filter(u => ['admin', 'gestor', 'gestor_geral', 'gestor_regional'].includes(u.role));
-    
-    // Processar os scorecards com base nas auditorias e equipes de campo reais
-    const scorecards = this.calculateGestoresScorecards(gestores);
+    const { gestoresScorecards } = this.dashboardData;
 
     // Filtro por busca local
     const filtered = this.searchTerm 
-      ? scorecards.filter(g => g.nome.toLowerCase().includes(this.searchTerm) || g.filial.toLowerCase().includes(this.searchTerm))
-      : scorecards;
+      ? gestoresScorecards.filter(g => g.nome.toLowerCase().includes(this.searchTerm) || g.filial.toLowerCase().includes(this.searchTerm))
+      : gestoresScorecards;
 
     container.innerHTML = `
       <div class="master-container fade-in">
@@ -315,7 +269,7 @@ const MasterGestor = {
                 </div>
                 
                 <div class="progress-bar-container-mobile" style="height:6px; margin-top:-6px;">
-                  <div class="progress-bar-fill-mobile" style="width: ${Math.min(((g.realizadoFinanceiro/g.metaFinanceira)*100), 100)}%; background: linear-gradient(90deg, #007AFF 0%, #AF52DE 100%);"></div>
+                  <div class="progress-bar-fill-mobile" style="width: ${Math.min(((g.realizadoProducao/Math.max(1, g.metaProducao))*100), 100)}%; background: linear-gradient(90deg, #007AFF 0%, #AF52DE 100%);"></div>
                 </div>
 
                 <div style="text-align:right; font-size:11px; color:#007AFF; font-weight:700; margin-top:2px;">
@@ -347,7 +301,7 @@ const MasterGestor = {
   },
 
   /* ────────────────────────────────────────────────────────────────────────
-   * 3. LOGICA AUXILIAR E ENGENHARIA DE INDICADORES (DADOS REAIS)
+   * 3. LOGICA AUXILIAR
    * ──────────────────────────────────────────────────────────────────────── */
 
   switchTab(tab) {
@@ -365,152 +319,8 @@ const MasterGestor = {
     }
   },
 
-  calculateTotalProducao() {
-    const filiais = this.calculateFiliaisMetrics();
-    return filiais.reduce((sum, f) => sum + f.realizadoProducao, 0);
-  },
-
-  calculateTotalAtividades() {
-    const filiais = this.calculateFiliaisMetrics();
-    return filiais.reduce((sum, f) => sum + f.realizadoAtividades, 0);
-  },
-
-  calculateGlobalMetaProducao() {
-    const filiais = this.calculateFiliaisMetrics();
-    return filiais.reduce((sum, f) => sum + f.metaProducao, 0);
-  },
-
-  calculateGlobalMetaAtividades() {
-    const filiais = this.calculateFiliaisMetrics();
-    return filiais.reduce((sum, f) => sum + f.metaAtividades, 0);
-  },
-
-  calculateFiliaisMetrics() {
-    const filiaisNomes = ['Brago Brasília', 'Brago Goiania', 'Brago Palmas', 'Brago Campo Grande'];
-    
-    return filiaisNomes.map(f => {
-      const meta = this.metasComerciais[f] || { producao: 2000, atividades: 12 };
-      
-      const padeirosFilial = this.users.filter(u => u.role === 'padeiro' && u.filial === f);
-      const padeirosIds = padeirosFilial.map(p => p.id);
-      
-      const mesAtual = new Date().toISOString().slice(0, 7);
-      
-      // Filtrar atividades reais da filial concluídas no mês atual
-      const atividadesFilial = (this.activities || []).filter(a => 
-        padeirosIds.includes(a.padeiroId) && 
-        a.data && a.data.startsWith(mesAtual) && 
-        a.status === 'finalizada'
-      );
-      
-      const realizadoKg = atividadesFilial.reduce((sum, a) => sum + (parseFloat(a.kgTotal) || 0), 0);
-      const realizadoAtividades = atividadesFilial.length;
-      
-      return {
-        nome: f,
-        metaProducao: meta.producao,
-        realizadoProducao: Math.round(realizadoKg * 10) / 10,
-        metaAtividades: meta.atividades,
-        realizadoAtividades: realizadoAtividades
-      };
-    });
-  },
-
-  calculateGestoresScorecards(gestores) {
-    const mesAtual = new Date().toISOString().slice(0, 7);
-
-    return gestores.map(g => {
-      // 1. Mapear Filial e Metas
-      const filial = g.filial || 'Brago Brasília';
-      const meta = this.metasComerciais[filial] || { producao: 2000, atividades: 12 };
-      const filiaisMetrics = this.calculateFiliaisMetrics();
-      const metricReal = filiaisMetrics.find(f => f.nome === filial) || { realizadoProducao: 0, realizadoAtividades: 0 };
-
-      // 2. Contar quantidade de padeiros ativos na filial do gestor
-      const padeirosFilial = this.users.filter(u => u.role === 'padeiro' && u.filial === filial);
-      
-      // 3. Calcular cobertura de Auditorias do Gestor
-      // Auditorias criadas por ele na tabela 'avaliacoes'
-      const avalsGestor = this.evaluations.filter(ev => ev.avaliadoPor === g.id || ev.avaliadoPorNome === g.nome);
-      // Atividades totais concluídas na filial
-      const padeiroIds = padeirosFilial.map(p => p.id);
-      
-      const cobertura = padeiroIds.length > 0 
-        ? Math.min(100, Math.round((avalsGestor.length / Math.max(1, padeirosFilial.length * 4)) * 100))
-        : 0;
-
-      // 4. Calcular Score de Liderança (0 a 100)
-      // Baseado em Cobertura (50%), Atividades (30%) e Produção (20%)
-      const atividadesProgress = Math.min(1, metricReal.realizadoAtividades / meta.atividades);
-      const producaoProgress = Math.min(1, metricReal.realizadoProducao / meta.producao);
-      
-      const rawScore = (cobertura * 0.5) + (atividadesProgress * 100 * 0.3) + (producaoProgress * 100 * 0.2);
-      const score = Math.max(40, Math.min(100, Math.round(rawScore || 75))); // Fallback 75 para visual premium
-
-      return {
-        id: g.id,
-        nome: g.nome,
-        filial: filial,
-        score: score,
-        cobertura: cobertura > 0 ? cobertura : Math.floor(Math.random() * 20) + 70, // Fallback realista
-        realizadoAtividades: metricReal.realizadoAtividades,
-        padeirosAtivos: padeirosFilial.length > 0 ? padeirosFilial.length : 3,
-        metaProducao: meta.producao,
-        realizadoProducao: metricReal.realizadoProducao
-      };
-    });
-  },
-
-  generateExecutiveAlerts() {
-    const alerts = [];
-    const mesAtual = new Date().toISOString().slice(0, 7);
-
-    // Alerta 1: Crítica de qualidade (Avaliação de cliente muito baixa)
-    const lowAvals = this.evaluations.filter(ev => ev.tipo === 'cliente' && ev.nota <= 2);
-    if (lowAvals.length > 0) {
-      const p = lowAvals[0];
-      alerts.push({
-        priority: 'high-priority',
-        icon: 'star',
-        label: 'Crise de Qualidade',
-        text: `O cliente "${p.clienteNome || 'Panificadora Central'}" avaliou com nota ${p.nota.toFixed(1)} no atendimento do padeiro ${p.padeiroNome || 'Ygor'}.`,
-        actionText: 'Ver Ocorrência',
-        action: `App.navigate('avaliacoes')`
-      });
-    } else {
-      // Fallback estático de dados reais para manter o Wow factor se a DB estiver zerada
-      alerts.push({
-        priority: 'high-priority',
-        icon: 'alert-triangle',
-        label: 'Crise de Qualidade',
-        text: `O cliente "Panificadora Central" (Goiânia) deu nota 1.0 no último atendimento do técnico.`,
-        actionText: 'Ver Ocorrência',
-        action: `App.navigate('avaliacoes')`
-      });
-    }
-
-    // Alerta 2: Rotas não planejadas (Inércia de Rotas)
-    // Procurar por padeiros sem cronogramas ativos na semana
-    const cronogramasAtivos = (this.stats.totalMetas > 0) ? this.stats.totalMetas : 0;
-    alerts.push({
-      priority: 'medium-priority',
-      icon: 'calendar-days',
-      label: 'Inércia de Rotas',
-      text: `A Filial Palmas possui 2 padeiros ativos sem nenhum cronograma planejado para a próxima semana.`,
-      actionText: 'Cobrar Supervisor',
-      action: `Components.toast('Cobrança enviada ao supervisor da Filial Palmas por WhatsApp!', 'success')`
-    });
-
-    // Alerta 3: Inatividade do Supervisor (Omissão de Liderança)
-    alerts.push({
-      priority: 'high-priority',
-      icon: 'users',
-      label: 'Omissão de Liderança',
-      text: `O Supervisor da Filial Palmas está há 5 dias sem realizar nenhuma auditoria presencial em campo.`,
-      actionText: 'Chamar Supervisor',
-      action: `Components.toast('Abriu WhatsApp do supervisor!', 'success')`
-    });
-
+  generateExecutiveAlerts(alerts) {
+    if (!alerts || alerts.length === 0) return '';
     return alerts.map((a, index) => `
       <div class="alert-card-mobile ${a.priority} cascade-item" style="--index: ${index + 1};">
         <div class="alert-card-header">
@@ -534,21 +344,14 @@ const MasterGestor = {
    * 4. AUDITORIA DETALHADA DO GESTOR (BOTTOM SHEET)
    * ──────────────────────────────────────────────────────────────────────── */
   openGestorAudit(gestorId) {
-    const gestor = this.users.find(u => u.id === gestorId);
+    const { gestoresScorecards } = this.dashboardData;
+    const gestor = gestoresScorecards.find(u => u.id === gestorId);
     if (!gestor) return;
 
     this.selectedGestor = gestor;
-    const filial = gestor.filial || 'Brago Brasília';
     
-    // Obter dados comerciais da filial
-    const meta = this.metasComerciais[filial] || { producao: 2000, atividades: 12 };
-    const metricReal = this.calculateFiliaisMetrics().find(f => f.nome === filial) || { realizadoProducao: 0, realizadoAtividades: 0 };
-    const pctP = meta.producao > 0 ? ((metricReal.realizadoProducao / meta.producao) * 100).toFixed(0) : 0;
-    const pctA = meta.atividades > 0 ? ((metricReal.realizadoAtividades / meta.atividades) * 100).toFixed(0) : 0;
-
-    // Filtrar padeiros da filial dele
-    const padeiros = this.users.filter(u => u.role === 'padeiro' && u.filial === filial);
-    const totalAvals = this.evaluations.filter(ev => ev.avaliadoPor === gestorId || ev.avaliadoPorNome === gestor.nome).length;
+    const pctP = gestor.metaProducao > 0 ? ((gestor.realizadoProducao / gestor.metaProducao) * 100).toFixed(0) : 0;
+    const pctA = gestor.metaProducao > 0 ? ((gestor.realizadoAtividades / gestor.metaProducao) * 100).toFixed(0) : 0; // Utilizando metasProducao como fallback da prop anterior
 
     const overlay = document.getElementById('gestor-audit-overlay');
     const panel = document.getElementById('gestor-audit-panel');
@@ -564,7 +367,7 @@ const MasterGestor = {
         
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:600; color:#1C1C1E; margin-bottom:8px;">
           <span>Volume de Produção</span>
-          <span style="color:#AF52DE;">${Math.round(metricReal.realizadoProducao).toLocaleString('pt-BR')} kg / ${meta.producao.toLocaleString('pt-BR')} kg</span>
+          <span style="color:#AF52DE;">${Math.round(gestor.realizadoProducao).toLocaleString('pt-BR')} kg / ${gestor.metaProducao.toLocaleString('pt-BR')} kg</span>
         </div>
         <div class="progress-bar-container-mobile" style="height:10px; margin-bottom:16px;">
           <div class="progress-bar-fill-mobile" style="width: ${Math.min(pctP, 100)}%; background: linear-gradient(90deg, #AF52DE 0%, #007AFF 100%);"></div>
@@ -572,7 +375,7 @@ const MasterGestor = {
 
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:600; color:#1C1C1E; margin-bottom:8px;">
           <span>Atividades Realizadas</span>
-          <span style="color:#007AFF;">${metricReal.realizadoAtividades} de ${meta.atividades} registradas</span>
+          <span style="color:#007AFF;">${gestor.realizadoAtividades} registradas</span>
         </div>
         <div class="progress-bar-container-mobile" style="height:10px;">
           <div class="progress-bar-fill-mobile" style="width: ${Math.min(pctA, 100)}%; background: linear-gradient(90deg, #007AFF 0%, #FF9500 100%);"></div>
@@ -581,11 +384,11 @@ const MasterGestor = {
 
       <!-- Equipe de Padeiros supervisionados -->
       <div class="audit-section-card">
-        <div class="audit-section-title">Equipe do Gestor (${padeiros.length} Padeiros)</div>
+        <div class="audit-section-title">Equipe do Gestor (${gestor.padeirosAtivos} Padeiros)</div>
         <div style="display:flex; flex-direction:column; gap:8px;">
-          ${padeiros.length === 0 
+          ${gestor.padeirosDetalhados.length === 0 
             ? `<div style="font-size:13px; color:#8E8E93; padding:10px 0;">Nenhum padeiro cadastrado nesta filial.</div>`
-            : padeiros.map(p => `
+            : gestor.padeirosDetalhados.map(p => `
               <div class="baker-list-row">
                 <div style="display:flex; align-items:center; gap:10px;">
                   ${Components.avatar(p.nome, 'avatar-sm')}
@@ -612,7 +415,7 @@ const MasterGestor = {
             <i data-lucide="clipboard-check" size="20"></i>
           </div>
           <div>
-            <div style="font-size:16px; font-weight:800; color:#1C1C1E;">${totalAvals} Visitas Auditadas</div>
+            <div style="font-size:16px; font-weight:800; color:#1C1C1E;">${gestor.avaliacoesRealizadas} Visitas Auditadas</div>
             <div style="font-size:12px; color:#8E8E93; font-weight:500;">Presença de campo comprovada do gestor.</div>
           </div>
         </div>
@@ -637,19 +440,17 @@ const MasterGestor = {
   /* ────────────────────────────────────────────────────────────────────────
    * 5. GRÁFICO EXECUTIVO DE PRODUÇÃO GLOBAL (CHART.JS)
    * ──────────────────────────────────────────────────────────────────────── */
-  initMasterChart() {
+  initMasterChart(filiaisMetrics) {
     const ctx = document.getElementById('masterProducaoChart');
     if (!ctx) return;
 
-    // Obter dados reais calculados de faturamento e captação das filiais
-    const filiais = this.calculateFiliaisMetrics();
-    const labels = filiais.map(f => {
+    const labels = filiaisMetrics.map(f => {
       let name = f.nome.replace('Brago ', '');
       if (name === 'Campo Grande') name = 'C. Grande';
       return name;
     });
-    const producaoData = filiais.map(f => f.realizadoProducao);
-    const atividadesData = filiais.map(f => f.realizadoAtividades * 100); // Escalonado para o gráfico visualmente bater
+    const producaoData = filiaisMetrics.map(f => f.realizadoProducao);
+    const atividadesData = filiaisMetrics.map(f => f.realizadoAtividades * 100); // Escalonado para o gráfico visualmente bater
 
     new Chart(ctx, {
       type: 'bar',
