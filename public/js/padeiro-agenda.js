@@ -255,7 +255,7 @@ const PadeiroAgenda = {
         <div class="flex justify-center mb-8">
           <div class="filial-pill">
             <i data-lucide="map-pin"></i>
-            <span>FILIAL: ${this.selectedFilial.toUpperCase()}</span>
+            <span>FILIAL: ${String(this.selectedFilial || '').toUpperCase()}</span>
           </div>
         </div>
 
@@ -336,7 +336,7 @@ const PadeiroAgenda = {
       <div class="agenda-mobile-view fade-in">
         <div class="flex justify-between items-center mb-6">
           <h2 style="font-size: 22px; font-weight: 800; margin: 0;">Minha Agenda</h2>
-          <div class="badge badge-primary">${this.selectedFilial.split(' ')[1]}</div>
+          <div class="badge badge-primary">${String(this.selectedFilial || 'Brago').split(' ')[1] || 'Brago'}</div>
         </div>
 
         <!-- Days Slider -->
