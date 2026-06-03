@@ -338,8 +338,8 @@ const OfflineManager = {
 
     if (pending.length > 0 || uploads.length > 0) {
       Components.toast('Sincronização concluída!', 'success');
-      // Trigger a refresh if needed
-      if (typeof App !== 'undefined' && App.currentRoute) {
+      // Trigger a refresh if needed, but NOT if the user is currently registering an activity
+      if (typeof App !== 'undefined' && App.currentRoute && App.currentRoute !== 'padeiro-atividade') {
         App.renderPage(App.currentRoute);
       }
     }
