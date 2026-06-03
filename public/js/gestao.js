@@ -999,6 +999,7 @@ const Gestao = {
             <option value="padeiro" ${u.role === 'padeiro' ? 'selected' : ''}>Padeiro (Acesso ao App do Padeiro)</option>
             <option value="gestor_regional" ${u.role === 'gestor_regional' || u.role === 'gestor' ? 'selected' : ''}>Gestor Regional (Acesso a uma filial)</option>
             <option value="gestor_geral" ${u.role === 'gestor_geral' ? 'selected' : ''}>Gestor Geral (Acesso total)</option>
+            <option value="master_gestor" ${u.role === 'master_gestor' ? 'selected' : ''}>Master Gestor (Acesso Executivo / Dashboard de Metas)</option>
             <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Administrador (Acesso total + Desenvolvimento)</option>
           </select>
         </div>
