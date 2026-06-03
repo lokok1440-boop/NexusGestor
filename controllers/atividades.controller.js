@@ -1,4 +1,4 @@
-const { Atividade, Padeiro, Cronograma } = require('../data/db-adapter');
+const { Atividade, Padeiro, Cronograma, Avaliacao } = require('../data/db-adapter');
 
 exports.listAtividades = async (req, res) => {
   try {
@@ -18,8 +18,17 @@ exports.listAtividades = async (req, res) => {
       
       const orphanedIds = cronogramaIds.filter(id => !existingIds.has(id));
       if (orphanedIds.length > 0) {
+        const orphanedActivities = activitiesWithCronograma.filter(a => orphanedIds.includes(a.cronogramaId));
+        const orphanedActivityIds = orphanedActivities.map(a => a.id);
+
         // Delete orphaned activities from database to prevent future issues
         await Atividade.deleteMany({ cronogramaId: { $in: orphanedIds } });
+
+        // Also delete associated evaluations
+        if (orphanedActivityIds.length > 0) {
+          await Avaliacao.deleteMany({ atividadeId: { $in: orphanedActivityIds } });
+        }
+
         // Filter them out of the current response list
         atividades = atividades.filter(a => !a.cronogramaId || !orphanedIds.includes(a.cronogramaId));
       }

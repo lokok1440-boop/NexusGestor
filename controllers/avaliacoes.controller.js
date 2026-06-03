@@ -1,4 +1,4 @@
-const { Avaliacao } = require('../data/db-adapter');
+const { Avaliacao, Atividade } = require('../data/db-adapter');
 
 exports.listAvaliacoes = async (req, res) => {
   try {
@@ -18,7 +18,24 @@ exports.listAvaliacoes = async (req, res) => {
         query.padeiroId = { $in: ids };
       }
     }
-    const avaliacoes = await Avaliacao.find(query);
+    let avaliacoes = await Avaliacao.find(query);
+    
+    // Clean up and filter out orphaned evaluations that reference a deleted activity
+    const evaluationsWithActivity = avaliacoes.filter(av => av.atividadeId);
+    if (evaluationsWithActivity.length > 0) {
+      const activityIds = [...new Set(evaluationsWithActivity.map(av => av.atividadeId))];
+      const existingActivities = await Atividade.find({ id: { $in: activityIds } });
+      const existingIds = new Set(existingActivities.map(a => a.id));
+      
+      const orphanedActivityIds = activityIds.filter(id => !existingIds.has(id));
+      if (orphanedActivityIds.length > 0) {
+        // Delete orphaned evaluations from database
+        await Avaliacao.deleteMany({ atividadeId: { $in: orphanedActivityIds } });
+        // Filter them out of the current response list
+        avaliacoes = avaliacoes.filter(av => !av.atividadeId || !orphanedActivityIds.includes(av.atividadeId));
+      }
+    }
+    
     res.json(avaliacoes);
   } catch (error) {
     console.error('Erro ao listar avaliações:', error);
