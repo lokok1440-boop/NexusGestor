@@ -298,6 +298,33 @@ const googleDriveService = {
       console.error(`❌ Erro ao baixar arquivo ${fileId} do Google Drive:`, error.message);
       throw error;
     }
+  },
+
+  /**
+   * Procura um arquivo no Google Drive pelo nome e retorna o ID, caso exista
+   */
+  async findFileByName(filename) {
+    const drive = initDrive();
+    if (!drive) return null;
+
+    try {
+      const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
+      const query = `name='${filename}' and trashed=false${folderId ? ` and '${folderId}' in parents` : ''}`;
+      
+      const response = await drive.files.list({
+        q: query,
+        fields: 'files(id, name)',
+        spaces: 'drive'
+      });
+
+      if (response.data.files && response.data.files.length > 0) {
+        return response.data.files[0].id;
+      }
+      return null;
+    } catch (error) {
+      console.error(`❌ Erro ao procurar arquivo ${filename} no Google Drive:`, error.message);
+      return null;
+    }
   }
 };
 

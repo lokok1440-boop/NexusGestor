@@ -41,7 +41,17 @@ app.use('/uploads/:type/:filename', async (req, res, next) => {
   
   // 2. Se não existir localmente, verifica se temos um mapeamento para o Google Drive
   try {
-    const fileId = driveMappings.getMapping(filename);
+    let fileId = driveMappings.getMapping(filename);
+    
+    // Fallback: Se não tem mapeamento no cache, busca no Drive pelo nome (recuperação de cache perdido)
+    if (!fileId && googleDriveService.isEnabled()) {
+      fileId = await googleDriveService.findFileByName(filename);
+      if (fileId) {
+        console.log(`[STORAGE Proxy] Arquivo recuperado no Drive! ID: ${fileId}. Salvando cache...`);
+        driveMappings.saveMapping(filename, fileId);
+      }
+    }
+
     if (fileId) {
       console.log(`[STORAGE Proxy] Servindo arquivo ${filename} do Google Drive (ID: ${fileId})`);
       const { stream, contentType, contentLength } = await googleDriveService.getFileStream(fileId);
