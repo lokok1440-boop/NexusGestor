@@ -147,6 +147,8 @@ const TABLES = [
           notaCliente INT,
           notaPadeiroCliente INT,
           kgItens TEXT,
+          lastStep INT DEFAULT 0,
+          timeline TEXT,
           atualizadoEm VARCHAR(100)
         )`
       },
@@ -325,7 +327,9 @@ async function initTables() {
       { name: 'notaPadeiroCliente', type: 'INT' },
       { name: 'terminadoEm', type: 'VARCHAR(100)' },
       { name: 'lTotal', type: 'DOUBLE' },
-      { name: 'observacaoCliente', type: 'TEXT' }
+      { name: 'observacaoCliente', type: 'TEXT' },
+      { name: 'lastStep', type: 'INT DEFAULT 0' },
+      { name: 'timeline', type: 'TEXT' }
     ];
 
     for (const f of fields) {
