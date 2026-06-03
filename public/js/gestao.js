@@ -314,7 +314,7 @@ const Gestao = {
                 <td><span class="badge badge-${this.cargoBadge(p.cargo)}">${p.cargo || '-'}</span></td>
                 <td style="font-family:monospace;color:var(--primary); font-weight:600;">${p.codTec || '-'}</td>
                 <td class="text-secondary" style="font-size:13px">${this.formatCPF(p.cpf)}</td>
-                <td class="text-secondary" style="font-size:13px">${(p.filial || '').replace('Brago ', '')}</td>
+                <td class="text-secondary" style="font-size:13px">${(Array.isArray(p.filial) ? p.filial.join(', ') : (p.filial || '')).replace(/Brago /g, '')}</td>
                 <td class="text-secondary" style="font-size:13px">${p.email || '-'}</td>
                 <td>${p.ativo ? '<span class="badge badge-success">Ativo</span>' : '<span class="badge badge-danger">Inativo</span>'}</td>
                 <td style="text-align: right;">
@@ -446,7 +446,7 @@ const Gestao = {
           <div class="form-group w-full"><label>Filial</label>
             <select class="input-control" name="filial">
               ${['Brago Brasília', 'Brago Goiania', 'Brago Palmas', 'Brago Campo Grande'].map(f =>
-        `<option ${p.filial === f ? 'selected' : ''}>${f}</option>`).join('')}
+        `<option ${(Array.isArray(p.filial) ? p.filial.includes(f) : p.filial === f) ? 'selected' : ''}>${f}</option>`).join('')}
             </select>
           </div>
         </div>
