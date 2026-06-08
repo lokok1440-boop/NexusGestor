@@ -2313,13 +2313,75 @@
     color: #0f172a;
   }
 
-  /* Card F: Time Tracker widget (Premium Dark Wave) */
-  .card-tracker {
-    background: #090d16; /* deep premium dark */
+  /* Card F: Temporizador de Forno (Baking/Oven Timer) */
+  .card-tracker.fornada-tracker {
+    background: #090d16;
     color: #ffffff;
     border: none;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    height: 180px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .db-fornada-presets {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+    z-index: 2;
+  }
+
+  .db-preset-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    flex: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .db-preset-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+  }
+
+  .db-preset-btn.active {
+    background: #5e52ff;
+    color: #ffffff;
+    border-color: #5e52ff;
+    box-shadow: 0 2px 8px rgba(94, 82, 255, 0.4);
+  }
+
+  .db-tracker-time-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 8px 0 4px 0;
+    z-index: 2;
+  }
+
+  .db-tracker-time {
+    font-size: 34px;
+    font-weight: 700;
+    font-family: monospace;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .db-fornada-status {
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 500;
+    margin-top: 4px;
   }
 
   .db-tracker-bg-glow {
@@ -2328,27 +2390,37 @@
     right: -50%;
     width: 180px;
     height: 180px;
-    background: radial-gradient(circle, rgba(94, 82, 255, 0.4) 0%, rgba(94, 82, 255, 0) 70%);
+    background: radial-gradient(circle, rgba(94, 82, 255, 0.3) 0%, rgba(94, 82, 255, 0) 70%);
     pointer-events: none;
     z-index: 1;
+    transition: all 0.5s ease;
+  }
+
+  .fornada-tracker.baking .db-tracker-bg-glow {
+    background: radial-gradient(circle, rgba(255, 149, 0, 0.4) 0%, rgba(255, 149, 0, 0) 70%);
+  }
+
+  .fornada-tracker.ready .db-tracker-bg-glow {
+    background: radial-gradient(circle, rgba(255, 214, 10, 0.6) 0%, rgba(255, 214, 10, 0) 70%);
+    animation: readyGlowPulse 1.5s infinite alternate;
+  }
+
+  .fornada-tracker.ready {
+    border: 1px solid rgba(255, 214, 10, 0.3);
+    box-shadow: 0 10px 30px rgba(255, 214, 10, 0.15);
+  }
+
+  @keyframes readyGlowPulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(1.3); opacity: 1; }
   }
 
   .db-tracker-title {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: #94a3b8;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    z-index: 2;
-  }
-
-  .db-tracker-time {
-    font-size: 36px;
-    font-weight: 700;
-    font-family: monospace;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    margin: 12px 0;
     z-index: 2;
   }
 
@@ -2371,8 +2443,8 @@
   }
 
   .db-tracker-btn.play {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     background: #ffffff;
     color: #090d16;
   }
@@ -2388,8 +2460,8 @@
   }
 
   .db-tracker-btn.stop {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
   }
@@ -2400,8 +2472,8 @@
   }
 
   .db-tracker-btn i {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 
   .db-empty {

@@ -441,14 +441,25 @@ const AdminDashboard = {
                 </div>
               </div>
 
-              <!-- Card: Time Tracker (stopwatch in mockup) -->
-              <div class="db-card card-tracker">
+              <!-- Card: Temporizador de Fornada -->
+              <div class="db-card card-tracker fornada-tracker" id="desktop-fornada-card">
                 <div class="db-tracker-bg-glow"></div>
-                <span class="db-tracker-title">Painel Brago</span>
-                <span class="db-tracker-time" id="desktop-tracker-clock">00:00:00</span>
+                <span class="db-tracker-title"><i data-lucide="flame" style="width: 13px; height: 13px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i> Fornadas</span>
+                
+                <div class="db-fornada-presets">
+                  <button class="db-preset-btn active" onclick="AdminDashboard.setFornadaPreset('pao-francais', 900)">Pão Francês (15m)</button>
+                  <button class="db-preset-btn" onclick="AdminDashboard.setFornadaPreset('pao-queijo', 1200)">Pão de Queijo (20m)</button>
+                  <button class="db-preset-btn" onclick="AdminDashboard.setFornadaPreset('bolo', 2100)">Bolo (35m)</button>
+                </div>
+
+                <div class="db-tracker-time-wrap">
+                  <span class="db-tracker-time" id="desktop-tracker-clock">15:00</span>
+                  <span class="db-fornada-status" id="desktop-fornada-status">Forno pronto para aquecer 🥖</span>
+                </div>
+
                 <div class="db-tracker-controls">
                   <button class="db-tracker-btn play" id="desktop-tracker-play-btn" onclick="AdminDashboard.toggleTracker()"><i data-lucide="play" id="desktop-tracker-play-icon"></i></button>
-                  <button class="db-tracker-btn stop" onclick="AdminDashboard.resetTracker()"><i data-lucide="square"></i></button>
+                  <button class="db-tracker-btn stop" onclick="AdminDashboard.resetTracker()"><i data-lucide="rotate-ccw"></i></button>
                 </div>
               </div>
 
@@ -909,41 +920,65 @@ const AdminDashboard = {
   },
 
   trackerInterval: null,
-  trackerSeconds: 0,
+  trackerSeconds: 900,
+  trackerInitialSeconds: 900,
   trackerRunning: false,
+  currentPreset: 'pao-francais',
 
   initTracker() {
-    const clock = document.getElementById('desktop-tracker-clock');
-    if (!clock) return;
+    this.trackerSeconds = 900;
+    this.trackerInitialSeconds = 900;
+    this.trackerRunning = false;
+    this.currentPreset = 'pao-francais';
     
-    // Start session timer automatically on desktop
-    if (!this.trackerRunning) {
-      this.trackerRunning = true;
-      const playIcon = document.getElementById('desktop-tracker-play-icon');
-      const playBtn = document.getElementById('desktop-tracker-play-btn');
-      if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
-      if (playBtn) playBtn.classList.add('paused');
-      
-      this.trackerInterval = setInterval(() => {
-        const clockEl = document.getElementById('desktop-tracker-clock');
-        if (!clockEl) {
-          clearInterval(this.trackerInterval);
-          this.trackerRunning = false;
-          return;
-        }
-        this.trackerSeconds++;
-        const h = String(Math.floor(this.trackerSeconds / 3600)).padStart(2, '0');
-        const m = String(Math.floor((this.trackerSeconds % 3600) / 60)).padStart(2, '0');
-        const s = String(this.trackerSeconds % 60).padStart(2, '0');
-        clockEl.textContent = `${h}:${m}:${s}`;
-      }, 1000);
+    const clock = document.getElementById('desktop-tracker-clock');
+    if (clock) clock.textContent = '15:00';
+    const status = document.getElementById('desktop-fornada-status');
+    if (status) status.textContent = 'Forno pronto para aquecer 🥖';
+  },
+
+  setFornadaPreset(presetName, seconds) {
+    if (this.trackerInterval) {
+      clearInterval(this.trackerInterval);
     }
+    this.trackerRunning = false;
+    this.trackerSeconds = seconds;
+    this.trackerInitialSeconds = seconds;
+    this.currentPreset = presetName;
+
+    const buttons = document.querySelectorAll('.db-preset-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    
+    const activeBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(presetName));
+    if (activeBtn) activeBtn.classList.add('active');
+
+    const clock = document.getElementById('desktop-tracker-clock');
+    if (clock) {
+      const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      clock.textContent = `${m}:${s}`;
+    }
+
+    const card = document.getElementById('desktop-fornada-card');
+    if (card) card.classList.remove('ready', 'baking');
+
+    const status = document.getElementById('desktop-fornada-status');
+    if (status) status.textContent = 'Forno pronto para aquecer 🥖';
+
+    const playIcon = document.getElementById('desktop-tracker-play-icon');
+    const playBtn = document.getElementById('desktop-tracker-play-btn');
+    if (playIcon) playIcon.setAttribute('data-lucide', 'play');
+    if (playBtn) playBtn.classList.remove('paused');
+    
+    Components.renderIcons();
   },
 
   toggleTracker() {
     const playIcon = document.getElementById('desktop-tracker-play-icon');
     const playBtn = document.getElementById('desktop-tracker-play-btn');
     const clock = document.getElementById('desktop-tracker-clock');
+    const card = document.getElementById('desktop-fornada-card');
+    const status = document.getElementById('desktop-fornada-status');
     if (!clock) return;
 
     if (this.trackerRunning) {
@@ -951,22 +986,62 @@ const AdminDashboard = {
       this.trackerRunning = false;
       if (playIcon) playIcon.setAttribute('data-lucide', 'play');
       if (playBtn) playBtn.classList.remove('paused');
+      if (status) status.textContent = 'Fornada pausada ⏸️';
+      if (card) card.classList.remove('baking');
     } else {
+      if (this.trackerSeconds <= 0) {
+        this.trackerSeconds = this.trackerInitialSeconds;
+      }
+
       this.trackerRunning = true;
       if (playIcon) playIcon.setAttribute('data-lucide', 'pause');
       if (playBtn) playBtn.classList.add('paused');
+      if (status) status.textContent = 'Assando no forno... 🔥';
+      if (card) {
+        card.classList.add('baking');
+        card.classList.remove('ready');
+      }
+
       this.trackerInterval = setInterval(() => {
         const clockEl = document.getElementById('desktop-tracker-clock');
+        const statusEl = document.getElementById('desktop-fornada-status');
+        const cardEl = document.getElementById('desktop-fornada-card');
+        
         if (!clockEl) {
           clearInterval(this.trackerInterval);
           this.trackerRunning = false;
           return;
         }
-        this.trackerSeconds++;
-        const h = String(Math.floor(this.trackerSeconds / 3600)).padStart(2, '0');
-        const m = String(Math.floor((this.trackerSeconds % 3600) / 60)).padStart(2, '0');
-        const s = String(this.trackerSeconds % 60).padStart(2, '0');
-        clockEl.textContent = `${h}:${m}:${s}`;
+
+        if (this.trackerSeconds > 0) {
+          this.trackerSeconds--;
+          const m = String(Math.floor(this.trackerSeconds / 60)).padStart(2, '0');
+          const s = String(this.trackerSeconds % 60).padStart(2, '0');
+          clockEl.textContent = `${m}:${s}`;
+        }
+
+        if (this.trackerSeconds <= 0) {
+          clearInterval(this.trackerInterval);
+          this.trackerRunning = false;
+          
+          if (statusEl) statusEl.textContent = 'Fornada pronta! 🥖🔥';
+          if (cardEl) {
+            cardEl.classList.remove('baking');
+            cardEl.classList.add('ready');
+          }
+          
+          const pIcon = document.getElementById('desktop-tracker-play-icon');
+          const pBtn = document.getElementById('desktop-tracker-play-btn');
+          if (pIcon) pIcon.setAttribute('data-lucide', 'play');
+          if (pBtn) pBtn.classList.remove('paused');
+          
+          if ('speechSynthesis' in window) {
+            const speech = new SpeechSynthesisUtterance('A fornada está pronta! Retire do forno.');
+            speech.lang = 'pt-BR';
+            window.speechSynthesis.speak(speech);
+          }
+          Components.renderIcons();
+        }
       }, 1000);
     }
     Components.renderIcons();
@@ -975,9 +1050,21 @@ const AdminDashboard = {
   resetTracker() {
     clearInterval(this.trackerInterval);
     this.trackerRunning = false;
-    this.trackerSeconds = 0;
+    this.trackerSeconds = this.trackerInitialSeconds;
+
     const clock = document.getElementById('desktop-tracker-clock');
-    if (clock) clock.textContent = '00:00:00';
+    if (clock) {
+      const m = String(Math.floor(this.trackerSeconds / 60)).padStart(2, '0');
+      const s = String(this.trackerSeconds % 60).padStart(2, '0');
+      clock.textContent = `${m}:${s}`;
+    }
+
+    const card = document.getElementById('desktop-fornada-card');
+    if (card) card.classList.remove('ready', 'baking');
+
+    const status = document.getElementById('desktop-fornada-status');
+    if (status) status.textContent = 'Tempo reiniciado 🥖';
+
     const playIcon = document.getElementById('desktop-tracker-play-icon');
     const playBtn = document.getElementById('desktop-tracker-play-btn');
     if (playIcon) playIcon.setAttribute('data-lucide', 'play');
