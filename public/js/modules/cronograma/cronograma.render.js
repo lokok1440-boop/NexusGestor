@@ -101,8 +101,23 @@ Object.assign(Cronograma, {
       </div>
       <div id="cronograma-content"></div>
     </div>`;
-    if (this.currentView === 'semanal') this.renderSemanal();
-    else this.renderMensal();
+    const actions = c.querySelector('.cronograma-actions');
+    if (actions) {
+      if (this.currentView === 'mensal') {
+        actions.style.setProperty('display', 'none', 'important');
+      } else {
+        actions.style.removeProperty('display');
+      }
+    }
+    if (this.currentView === 'semanal') {
+      c.classList.remove('tf-page-active');
+      document.body.classList.remove('tf-page-active');
+      this.renderSemanal();
+    } else {
+      c.classList.add('tf-page-active');
+      document.body.classList.add('tf-page-active');
+      this.renderMensal();
+    }
     Components.renderIcons();
   },
 
@@ -116,6 +131,26 @@ Object.assign(Cronograma, {
     if (slider) {
       slider.style.width = '50%';
       slider.style.transform = `translateX(${view === 'mensal' ? '100%' : '0'})`;
+    }
+    
+    const pageContainer = document.getElementById('page-container');
+    if (pageContainer) {
+      if (view === 'mensal') {
+        pageContainer.classList.add('tf-page-active');
+        document.body.classList.add('tf-page-active');
+      } else {
+        pageContainer.classList.remove('tf-page-active');
+        document.body.classList.remove('tf-page-active');
+      }
+    }
+
+    const actions = document.querySelector('.cronograma-actions');
+    if (actions) {
+      if (view === 'mensal') {
+        actions.style.setProperty('display', 'none', 'important');
+      } else {
+        actions.style.removeProperty('display');
+      }
     }
     
     const cc = document.getElementById('cronograma-content');

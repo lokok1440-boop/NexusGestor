@@ -220,58 +220,142 @@ Object.assign(Cronograma, {
     const isEdit = !!id;
     const defaultDate = preDate || t.data || new Date().toISOString().split('T')[0];
 
-    Components.showModal(isEdit ? 'Editar Tarefa' : 'Nova Tarefa', `
-      <form id="tarefa-form">
-        <div class="form-group">
-          <label>Padeiro</label>
-          <select class="input-control" name="padeiroId" id="tarefa-padeiro" required style="padding-left: 16px;">
-            <option value="">Selecione o padeiro...</option>
-            ${this.padeiros.filter(p => p.ativo).map(p =>
-              `<option value="${p.id}" data-nome="${p.nome}" data-cod="${p.codTec}" ${t.padeiroId === p.id ? 'selected' : ''}>${p.nome} — COD ${p.codTec}</option>`
-            ).join('')}
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Cliente</label>
-          ${this._clienteSearchHTML(t.clienteId || '', t.clienteNome || '')}
-        </div>
-        <div class="flex gap-4">
-          <div class="form-group w-full">
-            <label>Data</label>
-            <input class="input-control" type="date" name="data" value="${defaultDate}" required style="padding-left: 16px;">
+    const isDesktop = window.innerWidth >= 768;
+    let contentHtml, footerHtml;
+
+    if (isDesktop) {
+      contentHtml = `
+        <form id="tarefa-form" class="premium-desktop-form">
+          <div class="p-bento-container">
+            <div class="p-bento-col">
+              <div class="p-bento-card">
+                <h4 class="p-bento-title"><i data-lucide="user"></i> Responsáveis</h4>
+                <div class="p-form-group">
+                  <label>Padeiro</label>
+                  <select class="p-input" name="padeiroId" id="tarefa-padeiro" required>
+                    <option value="">Selecione o padeiro...</option>
+                    ${this.padeiros.filter(p => p.ativo).map(p =>
+                      `<option value="${p.id}" data-nome="${p.nome}" data-cod="${p.codTec}" ${t.padeiroId === p.id ? 'selected' : ''}>${p.nome} — COD ${p.codTec}</option>`
+                    ).join('')}
+                  </select>
+                </div>
+                <div class="p-form-group">
+                  <label>Cliente</label>
+                  ${this._clienteSearchHTML(t.clienteId || '', t.clienteNome || '')}
+                </div>
+                <div class="p-form-group" style="margin-top: 4px;">
+                  <label>Status</label>
+                  <select class="p-input" name="status">
+                    <option value="pendente" ${(!t.status || t.status === 'pendente') ? 'selected' : ''}>Pendente</option>
+                    <option value="em_andamento" ${t.status === 'em_andamento' ? 'selected' : ''}>Em Andamento</option>
+                    <option value="concluida" ${t.status === 'concluida' ? 'selected' : ''}>Concluída</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-bento-col">
+              <div class="p-bento-card">
+                <h4 class="p-bento-title"><i data-lucide="calendar-clock"></i> Agendamento</h4>
+                <div class="p-form-row">
+                  <div class="p-form-group">
+                    <label>Data</label>
+                    <input class="p-input" type="date" name="data" value="${defaultDate}" required>
+                  </div>
+                  <div class="p-form-group">
+                    <label>T. Mínimo (min)</label>
+                    <input class="p-input" type="number" name="tempoMinimoMinutos" value="${t.tempoMinimoMinutos || 0}" min="0">
+                  </div>
+                </div>
+                <div class="p-form-row">
+                  <div class="p-form-group">
+                    <label>Início</label>
+                    <input class="p-input" type="time" name="horario" value="${t.horario || ''}">
+                  </div>
+                  <div class="p-form-group">
+                    <label>Término</label>
+                    <input class="p-input" type="time" name="horarioFim" value="${t.horarioFim || ''}">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="p-bento-card">
+                <h4 class="p-bento-title"><i data-lucide="align-left"></i> Observação</h4>
+                <div class="p-form-group" style="margin-bottom:0;">
+                  <textarea class="p-input" name="observacao" rows="2" placeholder="Notas sobre a tarefa...">${t.observacao || ''}</textarea>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-group w-full">
-            <label>Início</label>
-            <input class="input-control" type="time" name="horario" value="${t.horario || ''}" style="padding-left: 16px;">
+        </form>
+      `;
+      footerHtml = `
+        ${isEdit ? `<button type="button" class="btn-premium-danger" onclick="Cronograma.deleteTask('${id}')">Excluir</button>` : ''}
+        <button type="button" class="btn-premium-secondary" onclick="Components.closeModal()">Cancelar</button>
+        <button type="button" class="btn-premium-primary" onclick="Cronograma.saveTask('${id || ''}')">Salvar Tarefa</button>
+      `;
+    } else {
+      contentHtml = `
+        <form id="tarefa-form">
+          <div class="form-group">
+            <label>Padeiro</label>
+            <select class="input-control" name="padeiroId" id="tarefa-padeiro" required style="padding-left: 16px;">
+              <option value="">Selecione o padeiro...</option>
+              ${this.padeiros.filter(p => p.ativo).map(p =>
+                `<option value="${p.id}" data-nome="${p.nome}" data-cod="${p.codTec}" ${t.padeiroId === p.id ? 'selected' : ''}>${p.nome} — COD ${p.codTec}</option>`
+              ).join('')}
+            </select>
           </div>
-          <div class="form-group w-full">
-            <label>Término</label>
-            <input class="input-control" type="time" name="horarioFim" value="${t.horarioFim || ''}" style="padding-left: 16px;">
+          <div class="form-group">
+            <label>Cliente</label>
+            ${this._clienteSearchHTML(t.clienteId || '', t.clienteNome || '')}
           </div>
-          <div class="form-group w-full">
-            <label>Tempo Mínimo (min)</label>
-            <input class="input-control" type="number" name="tempoMinimoMinutos" value="${t.tempoMinimoMinutos || 0}" min="0" style="padding-left: 16px;">
+          <div class="flex gap-4">
+            <div class="form-group w-full">
+              <label>Data</label>
+              <input class="input-control" type="date" name="data" value="${defaultDate}" required style="padding-left: 16px;">
+            </div>
+            <div class="form-group w-full">
+              <label>Início</label>
+              <input class="input-control" type="time" name="horario" value="${t.horario || ''}" style="padding-left: 16px;">
+            </div>
+            <div class="form-group w-full">
+              <label>Término</label>
+              <input class="input-control" type="time" name="horarioFim" value="${t.horarioFim || ''}" style="padding-left: 16px;">
+            </div>
+            <div class="form-group w-full">
+              <label>Tempo Mínimo (min)</label>
+              <input class="input-control" type="number" name="tempoMinimoMinutos" value="${t.tempoMinimoMinutos || 0}" min="0" style="padding-left: 16px;">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select class="input-control" name="status" style="padding-left: 16px;">
-            <option value="pendente" ${(!t.status || t.status === 'pendente') ? 'selected' : ''}>Pendente</option>
-            <option value="em_andamento" ${t.status === 'em_andamento' ? 'selected' : ''}>Em Andamento</option>
-            <option value="concluida" ${t.status === 'concluida' ? 'selected' : ''}>Concluída</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Observação</label>
-          <textarea class="input-control" name="observacao" rows="3" placeholder="Observações..." style="padding-left: 16px;">${t.observacao || ''}</textarea>
-        </div>
-      </form>`,
-      `${isEdit ? `<button class="btn btn-outline" style="color:var(--danger);border-color:var(--danger);" onclick="Cronograma.deleteTask('${id}')" style="margin-right:auto">Excluir</button>` : ''}
-       <button class="btn btn-secondary" onclick="Components.closeModal()">Cancelar</button>
-       <button class="btn btn-primary" onclick="Cronograma.saveTask('${id || ''}')">Salvar</button>`
-    );
+          <div class="form-group">
+            <label>Status</label>
+            <select class="input-control" name="status" style="padding-left: 16px;">
+              <option value="pendente" ${(!t.status || t.status === 'pendente') ? 'selected' : ''}>Pendente</option>
+              <option value="em_andamento" ${t.status === 'em_andamento' ? 'selected' : ''}>Em Andamento</option>
+              <option value="concluida" ${t.status === 'concluida' ? 'selected' : ''}>Concluída</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Observação</label>
+            <textarea class="input-control" name="observacao" rows="3" placeholder="Observações..." style="padding-left: 16px;">${t.observacao || ''}</textarea>
+          </div>
+        </form>
+      `;
+      footerHtml = `
+        ${isEdit ? `<button type="button" class="btn btn-outline" style="color:var(--danger);border-color:var(--danger);" onclick="Cronograma.deleteTask('${id}')" style="margin-right:auto">Excluir</button>` : ''}
+        <button type="button" class="btn btn-secondary" onclick="Components.closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="Cronograma.saveTask('${id || ''}')">Salvar</button>
+      `;
+    }
+
+    Components.showModal(isEdit ? 'Editar Tarefa' : 'Nova Tarefa', contentHtml, footerHtml, isDesktop ? 'premium-task-modal' : 'cronograma-task-modal');
     Components.renderIcons();
     this._initClienteSearch();
+    
+    if (window.HigPopovers) {
+      setTimeout(() => HigPopovers.init(), 50);
+    }
   },
 
   async saveTask(id) {

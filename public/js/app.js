@@ -437,6 +437,11 @@ const App = {
   },
 
   async renderPage(route) {
+    const pageContainer = document.getElementById('page-container');
+    if (pageContainer) {
+      pageContainer.classList.remove('tf-page-active');
+    }
+    document.body.classList.remove('tf-page-active');
     const user = API.getUser();
     try {
       switch (route) {

@@ -218,7 +218,7 @@ const Gestao = {
       <div class="flex justify-between items-center mb-6 gestao-header-main">
         <h1 class="page-title" style="margin-bottom:0; font-size: 24px; font-weight: 700;">Gestão</h1>
         <div class="segmented-control" style="margin-bottom:0;" onclick="Components.createRipple(event, this)">
-          <div class="segmented-slider" style="width: ${API.getUser().role === 'admin' ? '20%' : '25%'}; transform: translateX(${this.currentTab === 'produtos' ? '100%' : this.currentTab === 'clientes' ? '200%' : this.currentTab === 'atividades' ? '300%' : this.currentTab === 'usuarios' ? '400%' : '0'})"></div>
+          <div class="segmented-slider" style="width: ${['admin', 'gestor_geral'].includes(API.getUser().role) ? '20%' : '25%'}; transform: translateX(${this.currentTab === 'produtos' ? '100%' : this.currentTab === 'clientes' ? '200%' : this.currentTab === 'atividades' ? '300%' : this.currentTab === 'usuarios' ? '400%' : '0'})"></div>
           <div class="segmented-item ${this.currentTab === 'padeiros' ? 'active' : ''}" onclick="Gestao.switchTab('padeiros')">Padeiros</div>
           <div class="segmented-item ${this.currentTab === 'produtos' ? 'active' : ''}" onclick="Gestao.switchTab('produtos')">Produtos</div>
           <div class="segmented-item ${this.currentTab === 'clientes' ? 'active' : ''}" onclick="Gestao.switchTab('clientes')">Clientes</div>
@@ -302,20 +302,29 @@ const Gestao = {
 
       ${data.length === 0 ? '<div class="text-tertiary">Nenhum padeiro encontrado.</div>' : `
       <!-- Desktop Table -->
-      <div class="table-responsive desktop-only" style="max-height:500px;">
+      <div class="table-responsive desktop-only">
         <table>
           <thead style="position: sticky; top: 0; background: var(--system-bg);">
-            <tr><th>Nome</th><th>Cargo</th><th>COD TEC</th><th>CPF</th><th>Filial</th><th>Email</th><th>Status</th><th style="text-align: right;">Ações</th></tr>
+            <tr><th>Padeiro</th><th>Cargo</th><th>COD TEC</th><th>CPF</th><th>Filial</th><th>Status</th><th style="text-align: right;">Ações</th></tr>
           </thead>
           <tbody>
             ${data.map(p => `
               <tr>
-                <td style="font-weight:600; color: var(--text-primary);">${p.nome}</td>
+                <td>
+                  <div class="row-user-info" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: ${this.getRoleColor(p.cargo)}; color: ${this.getDarkColor(this.cargoBadge(p.cargo))}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
+                      ${this.getInitials(p.nome)}
+                    </div>
+                    <div>
+                      <div style="font-weight: 600; color: var(--hig-label-primary); font-size: 14px;">${p.nome}</div>
+                      <div style="font-size: 12px; color: var(--hig-label-secondary);">${p.email || '-'}</div>
+                    </div>
+                  </div>
+                </td>
                 <td><span class="badge badge-${this.cargoBadge(p.cargo)}">${p.cargo || '-'}</span></td>
                 <td style="font-family:monospace;color:var(--primary); font-weight:600;">${p.codTec || '-'}</td>
                 <td class="text-secondary" style="font-size:13px">${this.formatCPF(p.cpf)}</td>
                 <td class="text-secondary" style="font-size:13px">${(Array.isArray(p.filial) ? p.filial.join(', ') : (p.filial || '')).replace(/Brago /g, '')}</td>
-                <td class="text-secondary" style="font-size:13px">${p.email || '-'}</td>
                 <td>${p.ativo ? '<span class="badge badge-success">Ativo</span>' : '<span class="badge badge-danger">Inativo</span>'}</td>
                 <td style="text-align: right;">
                   <div class="row-actions flex gap-2 justify-end">
@@ -522,16 +531,25 @@ const Gestao = {
 
       ${data.length === 0 ? '<div class="text-tertiary">Nenhum produto encontrado.</div>' : `
       <!-- Desktop Table -->
-      <div class="table-responsive desktop-only" style="max-height:500px;">
+      <div class="table-responsive desktop-only">
         <table>
           <thead style="position: sticky; top: 0; background: var(--system-bg);">
-            <tr><th>Código</th><th>Descrição</th><th>Fornecedor</th><th style="text-align: right;">Ações</th></tr>
+            <tr><th>Produto</th><th>Fornecedor</th><th style="text-align: right;">Ações</th></tr>
           </thead>
           <tbody>
             ${data.map(p => `
               <tr>
-                <td style="font-family:monospace;color:var(--primary); font-weight:600;">${p.codigo}</td>
-                <td style="font-weight: 500; color: var(--text-primary);">${p.descricao}</td>
+                <td>
+                  <div class="row-user-info" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: rgba(30, 75, 255, 0.1); color: var(--hig-system-blue); display: flex; align-items: center; justify-content: center;">
+                      <i data-lucide="package" style="width: 18px; height: 18px;"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 600; color: var(--hig-label-primary); font-size: 14px;">${p.descricao}</div>
+                      <div style="font-size: 12px; color: var(--hig-label-secondary); font-family: monospace;">${p.codigo}</div>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-secondary" style="font-size:13px">${p.fornecedor || '-'}</td>
                 <td style="text-align: right;">
                   <div class="row-actions flex gap-2 justify-end">
@@ -627,24 +645,32 @@ const Gestao = {
 
       ${data.length === 0 ? '<div class="text-tertiary">Nenhum cliente encontrado.</div>' : `
       <!-- Desktop Table -->
-      <div class="table-responsive desktop-only" style="max-height:500px;">
+      <div class="table-responsive desktop-only">
         <table>
           <thead style="position: sticky; top: 0; background: var(--system-bg);">
             <tr>
-              <th>Código</th>
-              <th>Nome Fantasia</th>
-              <th>Cliente (Razão Social)</th>
-              <th>Bairro</th>
+              <th>Cliente</th>
+              <th>Razão Social</th>
+              <th>Bairro / UF</th>
               <th style="text-align: right;">Ações</th>
             </tr>
           </thead>
           <tbody>
             ${data.map(cl => `
               <tr>
-                <td class="text-tertiary" style="font-family:monospace; font-weight:600; color:var(--primary);">${cl.codigo || '-'}</td>
-                <td style="font-weight:600; color: var(--text-primary);">${cl.nomeFantasia || '-'}</td>
-                <td class="text-tertiary" style="font-size: 13px;">${cl.nome}</td>
-                <td>${cl.bairro || '-'}</td>
+                <td>
+                  <div class="row-user-info" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: rgba(52, 199, 89, 0.1); color: var(--hig-system-green); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px;">
+                      ${cl.codigo || 'CL'}
+                    </div>
+                    <div>
+                      <div style="font-weight: 600; color: var(--hig-label-primary); font-size: 14px;">${cl.nomeFantasia || '-'}</div>
+                      <div style="font-size: 12px; color: var(--hig-label-secondary);">${cl.cnpj ? 'CNPJ: ' + cl.cnpj : '-'}</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="font-size: 13px; color: var(--hig-label-secondary);">${cl.nome}</td>
+                <td class="text-secondary" style="font-size:13px">${cl.bairro || '-'} ${cl.estado ? ' - ' + cl.estado : ''}</td>
                 <td style="text-align: right;">
                   <div class="row-actions flex gap-2 justify-end">
                     <button class="btn btn-icon btn-sm" onclick="Gestao.openClienteForm('${cl.id}')"><i data-lucide="pencil" class="text-blue"></i></button>
@@ -783,21 +809,32 @@ const Gestao = {
 
       ${sorted.length === 0 ? '<div class="text-tertiary">Nenhum registro de atividade encontrado.</div>' : `
       <!-- Desktop Table -->
-      <div class="table-responsive desktop-only" style="max-height:600px;">
+      <div class="table-responsive desktop-only">
         <table>
           <thead style="position: sticky; top: 0; background: var(--system-bg);">
-            <tr><th>Data/Hora</th><th>Padeiro</th><th>Cliente</th><th>KG Total</th><th>Status</th><th style="text-align: right;">Ver</th></tr>
+            <tr><th>Registro (Padeiro / Cliente)</th><th>Data/Hora</th><th>KG Total</th><th>Status</th><th style="text-align: right;">Ver</th></tr>
           </thead>
           <tbody>
             ${sorted.map(a => `
               <tr>
+                <td>
+                  <div class="row-user-info" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255, 149, 0, 0.1); color: var(--hig-system-orange); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
+                      ${this.getInitials(a.padeiroNome)}
+                    </div>
+                    <div>
+                      <div style="font-weight: 600; color: var(--hig-label-primary); font-size: 14px;">${a.padeiroNome}</div>
+                      <div style="font-size: 12px; color: var(--hig-label-secondary);">${a.clienteNome}</div>
+                    </div>
+                  </div>
+                </td>
                 <td class="text-secondary" style="font-size:13px">${new Date(a.inicioEm || a.data).toLocaleString('pt-BR')}</td>
-                <td style="font-weight:600; color: var(--text-primary);">${a.padeiroNome}</td>
-                <td>${a.clienteNome}</td>
                 <td style="font-weight:700; color: var(--primary);">${a.kgTotal || '0'} kg</td>
                 <td><span class="badge badge-${a.status === 'finalizado' ? 'success' : 'amber'}">${a.status}</span></td>
                 <td style="text-align: right;">
-                  <button class="btn btn-icon btn-sm" onclick="Gestao.viewAtividade('${a.id}')"><i data-lucide="eye"></i></button>
+                  <div class="row-actions flex gap-2 justify-end">
+                    <button class="btn btn-icon btn-sm" onclick="Gestao.viewAtividade('${a.id}')"><i data-lucide="eye" class="text-blue"></i></button>
+                  </div>
                 </td>
               </tr>
             `).join('')}
@@ -911,19 +948,27 @@ const Gestao = {
         <table>
           <thead>
             <tr>
-              <th>Nome</th>
-              <th>Email</th>
+              <th>Usuário</th>
               <th>Papel</th>
               <th>Filial</th>
               <th>Status</th>
-              <th class="text-right">Ações</th>
+              <th class="text-right" style="text-align: right;">Ações</th>
             </tr>
           </thead>
           <tbody>
             ${data.sort((a,b) => a.nome.localeCompare(b.nome)).map(u => `
               <tr style="${!u.ativo ? 'opacity: 0.6;' : ''}">
-                <td><strong>${u.nome}</strong></td>
-                <td>${u.email}</td>
+                <td>
+                  <div class="row-user-info" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: rgba(175, 82, 222, 0.1); color: var(--hig-system-purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
+                      ${this.getInitials(u.nome)}
+                    </div>
+                    <div>
+                      <div style="font-weight: 600; color: var(--hig-label-primary); font-size: 14px;">${u.nome}</div>
+                      <div style="font-size: 12px; color: var(--hig-label-secondary);">${u.email}</div>
+                    </div>
+                  </div>
+                </td>
                 <td>${Components.badge(
                   u.role === 'admin' ? 'Administrador' : 
                   u.role === 'gestor_geral' ? 'Gestor Geral' : 
@@ -933,13 +978,13 @@ const Gestao = {
                 )}</td>
                 <td>${(u.filial && u.filial !== 'null') ? (Array.isArray(u.filial) ? u.filial.join(', ') : u.filial) : 'Todas'}</td>
                 <td>${u.ativo ? '<span class="text-green font-bold">Ativo</span>' : '<span class="text-danger font-bold">Inativo</span>'}</td>
-                <td class="text-right">
+                <td class="text-right" style="text-align: right;">
                   <div class="row-actions flex gap-2 justify-end">
-                    <button class="btn-icon text-blue" onclick="Gestao.openUsuarioForm('${u.id}')" title="Editar">
-                      <i data-lucide="pencil"></i>
+                    <button class="btn btn-icon btn-sm" onclick="Gestao.openUsuarioForm('${u.id}')" title="Editar">
+                      <i data-lucide="pencil" class="text-blue"></i>
                     </button>
-                    <button class="btn-icon text-danger" onclick="Gestao.deleteUsuario('${u.id}', '${u.nome}')" title="Excluir">
-                      <i data-lucide="trash-2"></i>
+                    <button class="btn btn-icon btn-sm" onclick="Gestao.deleteUsuario('${u.id}', '${u.nome}')" title="Excluir">
+                      <i data-lucide="trash-2" class="text-danger"></i>
                     </button>
                   </div>
                 </td>

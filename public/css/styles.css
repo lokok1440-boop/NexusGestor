@@ -5582,3 +5582,262 @@ tr:hover .row-actions {
   margin: 0 auto 8px;
   opacity: 0.4;
 }
+
+/* =========================================================
+   MOBILE BOTTOM SHEET FOR NOVA TAREFA
+   ========================================================= */
+@media (max-width: 767px) {
+  .modal-content.cronograma-task-modal {
+    position: absolute !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 24px 24px 0 0 !important;
+    margin: 0 !important;
+    transform: translateY(100%) scale(1) !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    padding-bottom: max(20px, env(safe-area-inset-bottom)) !important;
+  }
+  
+  .modal-overlay.active .modal-content.cronograma-task-modal {
+    transform: translateY(0) scale(1) !important;
+  }
+
+  /* Make sure the form contents look good inside the sheet */
+  .cronograma-task-modal .modal-body {
+    padding: 20px 24px !important;
+  }
+  
+  /* Fix custom select popover in mobile so it doesn't get cut off by bottom edge */
+  .hig-select-menu {
+    max-height: 200px !important;
+  }
+}
+
+/* =========================================================
+   GLOBAL HIG POPOVERS (all screen sizes)
+   ========================================================= */
+
+/* Custom Select Popover */
+.hig-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.hig-select-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hig-select-trigger:active,
+.hig-select-trigger.active {
+  transform: scale(0.98);
+  border-color: var(--primary, #007AFF);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.hig-select-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-tertiary, #999);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.hig-select-trigger.active .hig-select-icon {
+  transform: rotate(180deg);
+}
+
+.hig-select-menu {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  border: 0.5px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 6px;
+  z-index: 999999;
+  opacity: 0;
+  transform: scale(0.95) translateY(-5px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.hig-select-menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.hig-select-menu::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.hig-select-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a1a);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s;
+  min-height: 44px; /* Touch target */
+}
+
+.hig-select-item:active {
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--primary, #007AFF);
+}
+
+.hig-select-item.selected {
+  background: rgba(0, 122, 255, 0.08);
+  color: var(--primary, #007AFF);
+  font-weight: 600;
+}
+
+.hig-select-item .hig-check {
+  width: 16px;
+  height: 16px;
+  color: var(--primary, #007AFF);
+}
+
+/* Search input inside select popover */
+.hig-select-search-wrap {
+  padding: 6px 6px 4px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.hig-select-search {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.03);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a1a);
+  outline: none;
+  transition: all 0.2s;
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.hig-select-search:focus {
+  border-color: var(--primary, #007AFF);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.hig-select-search::placeholder {
+  color: var(--text-tertiary, #999);
+  font-weight: 400;
+}
+
+/* Scrollable items container */
+.hig-select-items {
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+.hig-select-items::-webkit-scrollbar {
+  width: 4px;
+}
+
+.hig-select-items::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+/* Flatpickr Global Overrides */
+.flatpickr-calendar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(25px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
+  border: 0.5px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  padding: 8px !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  margin-top: 4px !important;
+  z-index: 999999 !important;
+}
+
+.flatpickr-calendar::before,
+.flatpickr-calendar::after {
+  display: none !important;
+}
+
+.flatpickr-months .flatpickr-month {
+  background: transparent !important;
+  height: 40px !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  border-radius: 6px !important;
+}
+
+span.flatpickr-weekday {
+  color: var(--text-secondary, #64748B) !important;
+  font-weight: 600 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.flatpickr-day {
+  font-weight: 500 !important;
+  border-radius: 50% !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 2px 0 !important;
+}
+
+.flatpickr-day.selected {
+  background: var(--primary, #007AFF) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3) !important;
+}
+
+.flatpickr-day.today {
+  border: 1px solid rgba(0, 122, 255, 0.3) !important;
+  background: rgba(0, 122, 255, 0.05) !important;
+}
+
+.flatpickr-time {
+  border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+  margin-top: 4px !important;
+  padding-top: 4px !important;
+}
+
+.flatpickr-time input {
+  font-weight: 600 !important;
+  font-size: 18px !important;
+}
+
+/* Mobile-specific adjustments for popovers */
+@media (max-width: 767px) {
+  .hig-select-menu {
+    max-height: 200px !important;
+    border-radius: 12px !important;
+  }
+
+  .hig-select-item {
+    min-height: 48px; /* Larger touch target on mobile */
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+}

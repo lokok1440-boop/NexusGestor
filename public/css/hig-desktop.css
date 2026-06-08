@@ -2,32 +2,36 @@
 /* This file only applies to desktop screens to avoid breaking mobile */
 
 @media (max-width: 767px) {
-  .hig-desktop-only { display: none !important; }
+  .hig-desktop-only {
+    display: none !important;
+  }
 }
 
 @media (min-width: 768px) {
-  .hig-mobile-only { display: none !important; }
+  .hig-mobile-only {
+    display: none !important;
+  }
 
   :root {
     /* Tipografia */
     --hig-font: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-    
+
     /* Paleta de Cores */
     --hig-bg-primary: #FFFFFF;
     --hig-bg-secondary: rgba(246, 246, 246, 0.92);
     --hig-bg-tertiary: #F5F5F7;
     --hig-bg-card: #FFFFFF;
-    
+
     /* Labels */
     --hig-label-primary: #1C1C1E;
     --hig-label-secondary: #6C6C70;
     --hig-label-tertiary: #AEAEB2;
     --hig-label-quaternary: #C7C7CC;
-    
+
     /* Separadores */
     --hig-separator: rgba(0, 0, 0, 0.08);
     --hig-separator-light: rgba(0, 0, 0, 0.05);
-    
+
     /* System Colors */
     --hig-system-blue: #007AFF;
     --hig-system-green: #34C759;
@@ -36,23 +40,23 @@
     --hig-system-purple: #AF52DE;
     --hig-system-teal: #30B0C7;
     --hig-system-yellow: #FFCC00;
-    
+
     /* Tonal */
     --hig-fill-blue: rgba(0, 122, 255, 0.10);
     --hig-fill-green: rgba(52, 199, 89, 0.10);
     --hig-fill-orange: rgba(255, 149, 0, 0.10);
     --hig-fill-purple: rgba(175, 82, 222, 0.10);
-    
+
     /* Bordas e Raios */
     --hig-radius-sm: 6px;
     --hig-radius-md: 10px;
     --hig-radius-lg: 14px;
     --hig-radius-xl: 18px;
     --hig-radius-2xl: 22px;
-    
+
     /* Sombras e Transições */
-    --hig-shadow-card: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
-    --hig-shadow-elevated: 0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+    --hig-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --hig-shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.05);
     --hig-transition-fast: all 120ms ease;
     --hig-transition-base: all 180ms ease;
   }
@@ -65,11 +69,11 @@
   /* -------------------------------------
    * REDESIGN DA SIDEBAR
    * ------------------------------------- */
-  
+
   .hig-sidebar {
     width: 240px !important;
     min-height: 100vh;
-    background: #0A2540 !important; /* Azul marinho */
+    background: linear-gradient(135deg, #1E4BFF 0%, #5E82FF 100%) !important;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-right: none !important;
@@ -113,7 +117,10 @@
     padding: 8px 10px !important;
     scrollbar-width: none;
   }
-  .hig-sidebar-nav::-webkit-scrollbar { display: none; }
+
+  .hig-sidebar-nav::-webkit-scrollbar {
+    display: none;
+  }
 
   /* Labels de Seção */
   .hig-sidebar-section-label {
@@ -150,7 +157,7 @@
     margin-bottom: 1px !important;
     border: none !important;
   }
-  
+
   .hig-sidebar-nav-item .nav-text {
     font-weight: inherit !important;
   }
@@ -176,7 +183,7 @@
     color: inherit !important;
     margin-right: 0 !important;
   }
-  
+
   .hig-sidebar-nav-item .nav-icon i {
     width: 22px;
     height: 22px;
@@ -249,7 +256,7 @@
     color: var(--hig-system-red);
     background: rgba(255, 59, 48, 0.15);
   }
-  
+
   .main-content {
     background: var(--hig-bg-tertiary) !important;
   }
@@ -257,7 +264,7 @@
   /* -------------------------------------
    * REDESIGN DO DASHBOARD (Aba Início)
    * ------------------------------------- */
-  
+
   .hig-dashboard-content {
     padding: 32px 36px !important;
     max-width: 1200px !important;
@@ -384,10 +391,25 @@
   }
 
   /* Variantes de cor dos ícones */
-  .hig-metric-icon-wrap.blue   { background: var(--hig-fill-blue); color: var(--hig-system-blue); }
-  .hig-metric-icon-wrap.purple { background: var(--hig-fill-purple); color: var(--hig-system-purple); }
-  .hig-metric-icon-wrap.green  { background: var(--hig-fill-green); color: var(--hig-system-green); }
-  .hig-metric-icon-wrap.orange { background: var(--hig-fill-orange); color: var(--hig-system-orange); }
+  .hig-metric-icon-wrap.blue {
+    background: var(--hig-fill-blue);
+    color: var(--hig-system-blue);
+  }
+
+  .hig-metric-icon-wrap.purple {
+    background: var(--hig-fill-purple);
+    color: var(--hig-system-purple);
+  }
+
+  .hig-metric-icon-wrap.green {
+    background: var(--hig-fill-green);
+    color: var(--hig-system-green);
+  }
+
+  .hig-metric-icon-wrap.orange {
+    background: var(--hig-fill-orange);
+    color: var(--hig-system-orange);
+  }
 
   /* Número */
   .hig-metric-value {
@@ -564,8 +586,13 @@
     flex-shrink: 0;
   }
 
-  .hig-legend-dot.kg { background: var(--hig-system-blue); }
-  .hig-legend-dot.litros { background: var(--hig-system-purple); }
+  .hig-legend-dot.kg {
+    background: var(--hig-system-blue);
+  }
+
+  .hig-legend-dot.litros {
+    background: var(--hig-system-purple);
+  }
 
   /* Área do gráfico */
   .hig-chart-container {
@@ -577,47 +604,47 @@
   .hig-sidebar {
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
-  
+
   .hig-sidebar.collapsed {
     width: 72px !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-logo-img,
   .hig-sidebar.collapsed .hig-logo-text-group {
     display: none !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-sidebar-logo {
     justify-content: center !important;
     padding: 20px 0 !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-desktop-toggle-btn {
     margin-left: 0 !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-sidebar-section-label {
     display: none !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-sidebar-nav-item {
     justify-content: center !important;
     padding: 0 !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-sidebar-nav-item .nav-text {
     display: none !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-sidebar-footer {
     justify-content: center !important;
     padding: 12px 0 !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-sidebar-avatar {
     margin: 0 !important;
   }
-  
+
   .hig-sidebar.collapsed .hig-sidebar-user-info,
   .hig-sidebar.collapsed .hig-sidebar-logout-btn {
     display: none !important;
@@ -626,5 +653,1034 @@
   .hig-desktop-toggle-btn:hover {
     background-color: rgba(255, 255, 255, 0.1) !important;
     color: #FFFFFF !important;
+  }
+
+  /* -------------------------------------
+   * REDESIGN DA ABA GESTÃO (DESKTOP ONLY)
+   * ------------------------------------- */
+
+  /* Container Geral de Gestão */
+  .gestao-view {
+    padding: 32px 36px !important;
+    max-width: 100% !important;
+    background: var(--hig-bg-tertiary) !important;
+    min-height: 100vh !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+  }
+
+  /* Título da Página */
+  .gestao-view .page-title {
+    display: none !important;
+  }
+
+  .gestao-view .gestao-header-main {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  /* Segmented Control (Abas) */
+  .gestao-view .segmented-control {
+    background: rgba(120, 120, 128, 0.08) !important;
+    border-radius: 10px !important;
+    padding: 2px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    border: 1px solid rgba(0, 0, 0, 0.02) !important;
+    position: relative !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    gap: 0 !important;
+  }
+
+  .gestao-view .segmented-slider {
+    background-color: #FFFFFF !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    height: calc(100% - 4px) !important;
+    top: 2px !important;
+  }
+
+  .gestao-view .segmented-item {
+    font-family: var(--hig-font) !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--hig-label-secondary) !important;
+    border-radius: 8px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 20px !important;
+    cursor: pointer !important;
+    transition: color 0.15s ease !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    opacity: 1 !important;
+    z-index: 2 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    flex: 1 !important;
+    min-width: 110px !important;
+  }
+
+  .gestao-view .segmented-item.active {
+    color: var(--hig-label-primary) !important;
+    font-weight: 600 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Cartão das Abas de Gestão */
+  .gestao-view .card {
+    background: var(--hig-bg-card) !important;
+    border: 0.5px solid rgba(0, 0, 0, 0.07) !important;
+    border-radius: var(--hig-radius-xl) !important;
+    box-shadow: var(--hig-shadow-card) !important;
+    padding: 24px 28px !important;
+    margin-top: 24px !important;
+    margin-bottom: 24px !important;
+    transition: var(--hig-transition-base) !important;
+  }
+
+  .gestao-view .card:hover {
+    box-shadow: var(--hig-shadow-elevated) !important;
+  }
+
+  /* Cabeçalho da Lista dentro do Cartão */
+  .gestao-view .gestao-list-header {
+    margin-bottom: 20px !important;
+    border-bottom: 1px solid var(--hig-separator) !important;
+    padding-bottom: 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .gestao-view .gestao-list-header h3 {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: var(--hig-label-primary) !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-family: var(--hig-font) !important;
+  }
+
+  .gestao-view .gestao-list-header h3 i {
+    color: var(--hig-system-blue) !important;
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .gestao-view .gestao-list-header h3 .badge {
+    background: var(--hig-fill-blue) !important;
+    color: var(--hig-system-blue) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    padding: 2px 8px !important;
+    border-radius: 10px !important;
+    border: none !important;
+    margin-left: 8px !important;
+  }
+
+  /* Botão Novo Padeiro / Ação Principal */
+  .gestao-view .btn-new-padeiro {
+    border-radius: var(--hig-radius-md) !important;
+    padding: 8px 18px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    cursor: pointer !important;
+    transition: var(--hig-transition-fast) !important;
+    margin-bottom: 20px !important;
+    font-family: var(--hig-font) !important;
+  }
+
+  .gestao-view .btn-primary.btn-new-padeiro {
+    background: var(--hig-system-blue) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: 0 2px 6px rgba(0, 122, 255, 0.15) !important;
+  }
+
+  .gestao-view .btn-primary.btn-new-padeiro:hover {
+    background: #0066D6 !important;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25) !important;
+    transform: translateY(-0.5px) !important;
+  }
+
+  .gestao-view .btn-primary.btn-new-padeiro:active {
+    transform: translateY(0.5px) !important;
+  }
+
+  .gestao-view .btn-secondary.btn-new-padeiro {
+    background: var(--hig-bg-tertiary) !important;
+    color: var(--hig-label-primary) !important;
+    border: 1px solid var(--hig-separator) !important;
+    box-shadow: none !important;
+  }
+
+  .gestao-view .btn-secondary.btn-new-padeiro:hover {
+    background: var(--hig-bg-secondary) !important;
+    transform: translateY(-0.5px) !important;
+  }
+
+  .gestao-view .btn-secondary.btn-new-padeiro:active {
+    transform: translateY(0.5px) !important;
+  }
+
+  /* Tabela de Gestão */
+  .gestao-view .table-responsive {
+    border: 1px solid var(--hig-separator) !important;
+    border-radius: var(--hig-radius-md) !important;
+    box-shadow: var(--hig-shadow-card) !important;
+    overflow: hidden !important;
+    background: var(--hig-bg-card) !important;
+    width: 100% !important;
+    max-width: none !important;
+    display: block !important;
+  }
+
+  .gestao-view table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    table-layout: auto !important;
+  }
+
+  .gestao-view th {
+    background: var(--hig-bg-tertiary) !important;
+    color: var(--hig-label-secondary) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid var(--hig-separator) !important;
+    font-family: var(--hig-font) !important;
+  }
+
+  .gestao-view td {
+    padding: 14px 16px !important;
+    font-size: 13px !important;
+    color: var(--hig-label-primary) !important;
+    border-bottom: 0.5px solid var(--hig-separator-light) !important;
+    background: #FFFFFF !important;
+    vertical-align: middle !important;
+    font-family: var(--hig-font) !important;
+  }
+
+  .gestao-view tr:hover td {
+    background: var(--hig-bg-secondary) !important;
+  }
+
+  .gestao-view tr:last-child td {
+    border-bottom: none !important;
+  }
+
+  /* Badges de Cargo e Status na Tabela */
+  .gestao-view td .badge {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    display: inline-block !important;
+    font-family: var(--hig-font) !important;
+    border: none !important;
+  }
+
+  .gestao-view td .badge-success {
+    background: var(--hig-fill-green) !important;
+    color: var(--hig-system-green) !important;
+  }
+
+  .gestao-view td .badge-danger {
+    background: rgba(255, 59, 48, 0.1) !important;
+    color: var(--hig-system-red) !important;
+  }
+
+  .gestao-view td .badge-apple-blue,
+  .gestao-view td .badge-blue {
+    background: var(--hig-fill-blue) !important;
+    color: var(--hig-system-blue) !important;
+  }
+
+  .gestao-view td .badge-apple-orange,
+  .gestao-view td .badge-amber {
+    background: var(--hig-fill-orange) !important;
+    color: var(--hig-system-orange) !important;
+  }
+
+  .gestao-view td .badge-apple-green,
+  .gestao-view td .badge-green {
+    background: var(--hig-fill-green) !important;
+    color: var(--hig-system-green) !important;
+  }
+
+  .gestao-view td .badge-apple-purple,
+  .gestao-view td .badge-purple {
+    background: var(--hig-fill-purple) !important;
+    color: var(--hig-system-purple) !important;
+  }
+
+  .gestao-view td .badge-apple-red,
+  .gestao-view td .badge-red {
+    background: rgba(255, 59, 48, 0.1) !important;
+    color: var(--hig-system-red) !important;
+  }
+
+  /* Ações da Tabela */
+  .gestao-view td .row-actions {
+    display: inline-flex !important;
+    gap: 6px !important;
+    justify-content: flex-end !important;
+  }
+
+  .gestao-view td .row-actions .btn-icon {
+    background: transparent !important;
+    border: none !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: var(--hig-transition-fast) !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+  }
+
+  .gestao-view td .row-actions .btn-icon i {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .gestao-view td .row-actions .btn-icon:hover {
+    background: var(--hig-bg-tertiary) !important;
+  }
+
+  .gestao-view td .row-actions .btn-icon .text-blue {
+    color: var(--hig-system-blue) !important;
+  }
+
+  .gestao-view td .row-actions .btn-icon:hover .text-blue {
+    background: var(--hig-fill-blue) !important;
+  }
+
+  .gestao-view td .row-actions .btn-icon .text-danger {
+    color: var(--hig-system-red) !important;
+  }
+
+  .gestao-view td .row-actions .btn-icon:hover .text-danger {
+    background: rgba(255, 59, 48, 0.1) !important;
+  }
+
+  /* Customização de Inputs de Busca e Modais no Contexto de Gestão */
+  #global-search-container .input-icon-wrapper {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  #global-search-container .input-icon-wrapper i {
+    position: absolute !important;
+    left: 12px !important;
+    color: var(--hig-label-secondary) !important;
+    width: 16px !important;
+    height: 16px !important;
+    pointer-events: none !important;
+  }
+
+  #global-search-container .input-control {
+    font-family: var(--hig-font) !important;
+    background: rgba(120, 120, 128, 0.08) !important;
+    border: 1px solid transparent !important;
+    border-radius: var(--hig-radius-md) !important;
+    padding: 8px 12px 8px 36px !important;
+    font-size: 13px !important;
+    color: var(--hig-label-primary) !important;
+    outline: none !important;
+    transition: var(--hig-transition-fast) !important;
+    width: 100% !important;
+    height: 36px !important;
+  }
+
+  #global-search-container .input-control:focus {
+    background: #FFFFFF !important;
+    border-color: var(--hig-system-blue) !important;
+    box-shadow: 0 0 0 3px var(--hig-fill-blue) !important;
+  }
+
+  #padeiro-form .input-control,
+  #produto-form .input-control,
+  #cliente-form .input-control,
+  #form-usuario .input-control {
+    font-family: var(--hig-font) !important;
+    background: var(--hig-bg-tertiary) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: var(--hig-radius-sm) !important;
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+    color: var(--hig-label-primary) !important;
+    outline: none !important;
+    transition: var(--hig-transition-fast) !important;
+  }
+
+  #padeiro-form .input-control:focus,
+  #produto-form .input-control:focus,
+  #cliente-form .input-control:focus,
+  #form-usuario .input-control:focus {
+    border-color: var(--hig-system-blue) !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 0 0 3px var(--hig-fill-blue) !important;
+  }
+
+  #padeiro-form label,
+  #produto-form label,
+  #cliente-form label,
+  #form-usuario label {
+    font-family: var(--hig-font) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: var(--hig-label-secondary) !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* Redesign do Modal de Nova Tarefa (Desktop) */
+  .modal-overlay.active .modal-content.cronograma-task-modal {
+    max-width: 600px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.16) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    background: #FFFFFF !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+    font-family: var(--hig-font), 'Outfit', sans-serif !important;
+  }
+
+  .cronograma-task-modal .modal-header {
+    padding: 24px 32px 16px 32px !important;
+    border-bottom: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .cronograma-task-modal .modal-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    letter-spacing: -0.3px !important;
+  }
+
+  .cronograma-task-modal .modal-close {
+    background: rgba(0, 0, 0, 0.04) !important;
+    border: none !important;
+    font-size: 20px !important;
+    color: #64748B !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    line-height: 1 !important;
+  }
+
+  .cronograma-task-modal .modal-close:hover {
+    background: rgba(0, 0, 0, 0.08) !important;
+    color: #0F172A !important;
+    transform: scale(1.05) !important;
+  }
+
+  .cronograma-task-modal .modal-body {
+    padding: 8px 32px 24px 32px !important;
+    overflow-y: visible !important;
+  }
+
+  .cronograma-task-modal #tarefa-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .cronograma-task-modal .form-group {
+    margin-bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .cronograma-task-modal label {
+    font-family: var(--hig-font), 'Outfit', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #64748B !important;
+    margin-bottom: 8px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .cronograma-task-modal .input-control,
+  .cronograma-task-modal .cliente-search-field {
+    font-family: var(--hig-font), 'Outfit', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #0F172A !important;
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    padding: 10px 16px !important;
+    height: 42px !important;
+    outline: none !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    width: 100% !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  }
+
+  .cronograma-task-modal select.input-control {
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2364748B' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
+    background-position: right 14px center !important;
+    background-repeat: no-repeat !important;
+    background-size: 20px !important;
+    padding-right: 40px !important;
+  }
+
+  .cronograma-task-modal .input-control:hover,
+  .cronograma-task-modal .cliente-search-field:hover {
+    border-color: #CBD5E1 !important;
+    background: #F1F5F9 !important;
+  }
+
+  .cronograma-task-modal .input-control:focus,
+  .cronograma-task-modal .cliente-search-field:focus {
+    background: #FFFFFF !important;
+    border-color: #1E4BFF !important;
+    box-shadow: 0 0 0 4px rgba(30, 75, 255, 0.12) !important;
+  }
+
+  .cronograma-task-modal textarea.input-control {
+    height: auto !important;
+    min-height: 80px !important;
+    resize: vertical !important;
+    padding: 12px 16px !important;
+    line-height: 1.5 !important;
+  }
+
+  .cronograma-task-modal .cliente-search-wrapper {
+    position: relative !important;
+  }
+
+  .cronograma-task-modal .cliente-search-input-wrap svg.search-icon {
+    left: 14px !important;
+    color: #64748B !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .cronograma-task-modal .cliente-search-field {
+    padding-left: 40px !important;
+  }
+
+  .cronograma-task-modal .cliente-dropdown {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+    margin-top: 6px !important;
+    z-index: 10000 !important;
+  }
+
+  .cronograma-task-modal .cliente-dropdown-item {
+    font-family: var(--hig-font), 'Outfit', sans-serif !important;
+    padding: 12px 16px !important;
+    color: #1E293B !important;
+    font-weight: 500 !important;
+    border-bottom: 1px solid #F1F5F9 !important;
+    transition: all 0.15s ease !important;
+  }
+
+  .cronograma-task-modal .cliente-dropdown-item:hover {
+    background: #F1F5F9 !important;
+    color: #1E4BFF !important;
+  }
+
+  .cronograma-task-modal .flex.gap-4 {
+    display: grid !important;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  .cronograma-task-modal .modal-footer {
+    padding: 16px 32px 28px 32px !important;
+    border-top: none !important;
+    display: flex !important;
+    gap: 12px !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn {
+    font-family: var(--hig-font), 'Outfit', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    padding: 0 20px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-primary {
+    background: #1E4BFF !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(30, 75, 255, 0.2) !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-primary:hover {
+    background: #0036E6 !important;
+    box-shadow: 0 6px 20px rgba(30, 75, 255, 0.3) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-primary:active {
+    transform: translateY(1px) !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-secondary {
+    background: #F1F5F9 !important;
+    color: #475569 !important;
+    border: 1px solid #E2E8F0 !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-secondary:hover {
+    background: #E2E8F0 !important;
+    color: #0F172A !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-outline {
+    border: 1px solid rgba(239, 68, 68, 0.2) !important;
+    color: #EF4444 !important;
+    background: transparent !important;
+    margin-right: auto !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-outline:hover {
+    background: rgba(239, 68, 68, 0.05) !important;
+    border-color: #EF4444 !important;
+  }
+
+  .cronograma-task-modal .modal-footer .btn-outline:active {
+    transform: translateY(1px) !important;
+  }
+
+  /* PREMIUM DESKTOP TASK MODAL (Bento UI) */
+  .premium-task-modal {
+    max-width: 860px !important;
+    width: 100%;
+    background: var(--hig-bg-tertiary) !important;
+    border-radius: 24px !important;
+    overflow: hidden;
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    padding: 0 !important;
+  }
+
+  .premium-task-modal .modal-header {
+    padding: 24px 32px 20px !important;
+    border-bottom: none !important;
+    background: var(--hig-bg-tertiary);
+  }
+
+  .premium-task-modal .modal-title {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px !important;
+    color: var(--hig-label-primary) !important;
+  }
+
+  .premium-task-modal .modal-body {
+    padding: 0 32px 8px !important;
+    background: var(--hig-bg-tertiary);
+  }
+
+  .premium-desktop-form .p-bento-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .premium-desktop-form .p-bento-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .premium-desktop-form .p-bento-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .premium-desktop-form .p-bento-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.08);
+  }
+
+  .premium-desktop-form .p-bento-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--hig-label-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .premium-desktop-form .p-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .premium-desktop-form .p-form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .premium-desktop-form .p-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .premium-desktop-form .p-form-row .p-form-group {
+    margin-bottom: 0;
+  }
+
+  .premium-desktop-form label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--hig-label-secondary);
+  }
+
+  .premium-desktop-form .p-input {
+    background: var(--hig-bg-tertiary);
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--hig-label-primary);
+    transition: all 0.2s ease;
+    outline: none;
+    font-family: inherit;
+    width: 100%;
+  }
+
+  .premium-desktop-form .p-input:focus {
+    background: #ffffff;
+    border-color: var(--hig-system-blue);
+    box-shadow: 0 0 0 4px var(--hig-fill-blue);
+  }
+
+  .premium-desktop-form textarea.p-input {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .premium-task-modal .modal-footer {
+    background: var(--hig-bg-tertiary) !important;
+    border-top: none !important;
+    padding: 16px 32px 32px !important;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .premium-task-modal .btn-premium-primary {
+    background: var(--hig-system-blue);
+    color: #fff;
+    border-radius: 14px;
+    padding: 12px 28px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 16px -4px var(--hig-fill-blue);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .premium-task-modal .btn-premium-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -4px rgba(0, 122, 255, 0.3);
+  }
+
+  .premium-task-modal .btn-premium-primary:active {
+    transform: translateY(1px) scale(0.97);
+  }
+
+  .premium-task-modal .btn-premium-secondary {
+    background: #ffffff;
+    color: var(--hig-label-primary);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.03);
+  }
+
+  .premium-task-modal .btn-premium-secondary:hover {
+    background: var(--hig-bg-secondary);
+  }
+
+  .premium-task-modal .btn-premium-danger {
+    background: transparent;
+    color: var(--hig-system-red);
+    border: 1px solid rgba(255, 59, 48, 0.2);
+    border-radius: 14px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-right: auto;
+  }
+
+  .premium-task-modal .btn-premium-danger:hover {
+    background: rgba(255, 59, 48, 0.08);
+    border-color: rgba(255, 59, 48, 0.3);
+  }
+
+  /* =========================================================
+     HIG POPOVERS & FLATPICKR OVERRIDES
+     ========================================================= */
+
+  /* Custom Select Popover */
+  .hig-select-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .hig-select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hig-select-trigger:active,
+  .hig-select-trigger.active {
+    transform: scale(0.98);
+    border-color: var(--hig-fill-blue);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+  }
+
+  .hig-select-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--hig-label-tertiary);
+    transition: transform 0.2s;
+  }
+
+  .hig-select-trigger.active .hig-select-icon {
+    transform: rotate(180deg);
+  }
+
+  .hig-select-menu {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 6px;
+    z-index: 9999;
+    opacity: 0;
+    transform: scale(0.95) translateY(-5px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 250px;
+    overflow-y: auto;
+    /* Custom Scrollbar for HIG Menu */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
+
+  .hig-select-menu::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .hig-select-menu::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+
+  .hig-select-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--hig-label-primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s;
+  }
+
+  .hig-select-item:hover {
+    background: rgba(76, 0, 255, 0.1);
+    color: var(--hig-fill-blue);
+  }
+
+  .hig-select-item.selected {
+    background: rgba(255, 145, 0, 0.1);
+    color: var(--hig-fill-blue);
+    font-weight: 600;
+  }
+
+  .hig-select-item .hig-check {
+    width: 16px;
+    height: 16px;
+    color: var(--hig-fill-blue);
+  }
+
+  /* Flatpickr Premium HIG Overrides */
+  .flatpickr-calendar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(25px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
+    border: 0.5px solid rgba(0, 0, 0, 0.1) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    padding: 8px !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    margin-top: 4px !important;
+    transform: scale(0.95) translateY(-5px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    opacity: 0;
+  }
+
+  .flatpickr-calendar.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  .flatpickr-calendar::before,
+  .flatpickr-calendar::after {
+    display: none !important;
+    /* Hide ugly native arrows */
+  }
+
+  .flatpickr-months .flatpickr-month {
+    background: transparent !important;
+    color: var(--hig-label-primary) !important;
+    height: 40px !important;
+  }
+
+  .flatpickr-current-month .flatpickr-monthDropdown-months {
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    border-radius: 6px !important;
+  }
+
+  .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .flatpickr-current-month .numInputWrapper {
+    border-radius: 6px !important;
+  }
+
+  .flatpickr-current-month .numInputWrapper:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  span.flatpickr-weekday {
+    color: var(--hig-label-secondary) !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .flatpickr-day {
+    color: var(--hig-label-primary) !important;
+    font-weight: 500 !important;
+    border-radius: 50% !important;
+    transition: all 0.2s !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 2px 0 !important;
+  }
+
+  .flatpickr-day:hover {
+    background: rgba(0, 122, 255, 0.1) !important;
+    color: var(--hig-fill-blue) !important;
+  }
+
+  .flatpickr-day.selected {
+    background: var(--hig-fill-blue) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3) !important;
+    transform: scale(1.05) !important;
+  }
+
+  .flatpickr-day.today {
+    border: 1px solid rgba(0, 122, 255, 0.3) !important;
+    background: rgba(0, 122, 255, 0.05) !important;
+  }
+
+  /* Time Picker styling */
+  .flatpickr-time {
+    border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+    margin-top: 4px !important;
+    padding-top: 4px !important;
+  }
+
+  .flatpickr-time input {
+    color: var(--hig-label-primary) !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+  }
+
+  .flatpickr-time input:hover,
+  .flatpickr-time input:focus {
+    background: rgba(0, 0, 0, 0.04) !important;
   }
 }

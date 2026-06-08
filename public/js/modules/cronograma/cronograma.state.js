@@ -8,6 +8,7 @@
 
 const Cronograma = {
   currentView: 'semanal',
+  currentMonthlySubView: 'monthly',
   weekOffset: 0,
   tarefas: [],
   padeiros: [],
