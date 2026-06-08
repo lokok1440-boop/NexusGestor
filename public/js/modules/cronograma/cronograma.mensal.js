@@ -324,15 +324,15 @@ Object.assign(Cronograma, {
         <div class="tf-controls">
           <!-- Segmented View control -->
           <div class="tf-top-segmented">
-            <button class="tf-top-seg-btn ${activeSubView === 'daily' ? 'active' : ''}" onclick="Cronograma.setMonthlySubView('daily')">Daily</button>
-            <button class="tf-top-seg-btn ${activeSubView === 'weekly' ? 'active' : ''}" onclick="Cronograma.setMonthlySubView('weekly')">Weekly</button>
-            <button class="tf-top-seg-btn ${activeSubView === 'monthly' ? 'active' : ''}" onclick="Cronograma.setMonthlySubView('monthly')">Monthly</button>
+            <button class="tf-top-seg-btn ${activeSubView === 'daily' ? 'active' : ''}" onclick="Cronograma.setMonthlySubView('daily')">Diário</button>
+            <button class="tf-top-seg-btn ${activeSubView === 'weekly' ? 'active' : ''}" onclick="Cronograma.setMonthlySubView('weekly')">Semanal</button>
+            <button class="tf-top-seg-btn ${activeSubView === 'monthly' ? 'active' : ''}" onclick="Cronograma.setMonthlySubView('monthly')">Mensal</button>
           </div>
           
           <!-- Theme selector styled like ref -->
           <div class="tf-theme-pill">
             <i data-lucide="sun" style="width: 14px; height: 14px;"></i>
-            <span>Light</span>
+            <span>Claro</span>
           </div>
 
           <!-- Statistics -->
@@ -349,7 +349,7 @@ Object.assign(Cronograma, {
           
           <!-- Add Button capsule -->
           <button class="tf-btn-add" onclick="Cronograma.openTaskForm()">
-            <i data-lucide="plus" style="width: 16px; height: 16px;"></i> Add Task
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i> Nova Tarefa
           </button>
         </div>
       </div>
