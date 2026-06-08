@@ -99,7 +99,7 @@ Object.assign(Cronograma, {
         const totalClientes = this.tarefas.filter(t => t.data && t.data.startsWith(`${year}-${String(index+1).padStart(2,'0')}`)).length;
         const progresso = Math.min(100, Math.round((stats.totalKg / META_FIXA) * 100));
         return `
-        <div class="month-card" onclick="Cronograma.openMonthDetails(${year}, ${index})">
+        <div class="month-card cascade-item" style="--index: ${index};" onclick="Cronograma.openMonthDetails(${year}, ${index})">
           <div style="position: relative; z-index: 2;">
             <div class="month-abbr">${abrevs[index]}</div>
             <div class="month-subtitle">${totalClientes} cliente${totalClientes !== 1 ? 's' : ''} agendado${totalClientes !== 1 ? 's' : ''}</div>

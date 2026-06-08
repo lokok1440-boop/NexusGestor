@@ -201,7 +201,7 @@ Object.assign(Cronograma, {
 
             return Object.keys(grouped).sort().map(filial => {
               const branchHeader = `
-                <tr class="branch-pill-row">
+                <tr class="branch-pill-row cascade-item" style="--index: 0;">
                   <td colspan="${dates.length + 1}" style="background: transparent !important; border: none !important; padding: 20px 0 0 0 !important;">
                     <div style="display: flex; justify-content: center; width: 100%; position: relative; z-index: 30; margin-bottom: -1px;">
                       <div class="branch-pill">
@@ -211,7 +211,7 @@ Object.assign(Cronograma, {
                     </div>
                   </td>
                 </tr>
-                <tr class="baker-pill-row">
+                <tr class="baker-pill-row cascade-item" style="--index: 1;">
                   <td class="matrix-sticky-col" style="background: transparent !important; border: none !important; padding: 0 !important;">
                     <div class="baker-pill-container">
                       <div class="baker-pill">
@@ -236,12 +236,12 @@ Object.assign(Cronograma, {
                   </td>
                 </tr>`;
 
-              const bakerRows = grouped[filial].map(p => {
+              const bakerRows = grouped[filial].map((p, i) => {
                 const isExpanded = this.expandedBakers.has(p.id);
                 const bakerInitial = p.nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
                 
                 return `
-                <tr class="baker-row-mobile ${isExpanded ? 'expanded' : ''}" data-baker-id="${p.id}">
+                <tr class="baker-row-mobile ${isExpanded ? 'expanded' : ''} cascade-item" style="--index: ${i + 2};" data-baker-id="${p.id}">
                   <!-- Mobile View Container -->
                   <td colspan="7" class="mobile-only" style="padding:0 !important; border:none !important;">
                     <div class="baker-header-mobile" onclick="Cronograma.toggleBaker('${p.id}')">

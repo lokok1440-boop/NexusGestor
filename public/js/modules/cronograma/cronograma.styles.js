@@ -537,6 +537,10 @@ Object.assign(Cronograma, {
         }
       }
       @media (max-width: 430px) {
+        .cascade-item {
+          opacity: 1 !important;
+          animation: none !important;
+        }
         .cronograma-header { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
         
         .segmented-control {
