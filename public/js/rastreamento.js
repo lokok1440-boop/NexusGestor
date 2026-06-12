@@ -76,9 +76,16 @@ window.Rastreamento = {
 
       /* Reconstrução da Aba Rastreamento para Mobile (Mantendo o Desktop macOS idêntico) */
       @media (max-width: 1023px) {
+        .mac-rastreamento-root {
+          width: 100% !important;
+          box-sizing: border-box !important;
+          overflow-x: hidden !important;
+        }
         .mac-layout {
           flex-direction: column;
           overflow: visible !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
         }
         .mac-sidebar {
           order: 3;
@@ -91,6 +98,10 @@ window.Rastreamento = {
           box-shadow: var(--shadow-md) !important;
           margin-top: 20px !important;
           padding: 16px !important;
+          box-sizing: border-box !important;
+          left: 0 !important;
+          top: 0 !important;
+          bottom: auto !important;
         }
         .mac-sidebar-header {
           padding: 0 0 12px 0 !important;
@@ -117,6 +128,7 @@ window.Rastreamento = {
           align-items: center;
           justify-content: space-between;
           color: var(--text-primary) !important;
+          box-sizing: border-box !important;
         }
         .mac-avatar {
           width: 36px !important;
@@ -139,10 +151,12 @@ window.Rastreamento = {
         .mac-main-content {
           order: 1;
           flex: none !important;
+          width: 100% !important;
           display: flex;
           flex-direction: column;
           background: transparent !important;
           overflow: visible !important;
+          box-sizing: border-box !important;
         }
         .mac-page-header {
           padding: 0 0 16px 0 !important;
@@ -163,6 +177,7 @@ window.Rastreamento = {
         }
         .mac-toolbar {
           height: auto !important;
+          width: 100% !important;
           background: var(--bg-card) !important;
           padding: 16px !important;
           border-radius: var(--radius-md) !important;
@@ -176,6 +191,7 @@ window.Rastreamento = {
           backdrop-filter: none !important;
           -webkit-backdrop-filter: none !important;
           overflow-x: visible !important;
+          box-sizing: border-box !important;
         }
         .mac-toolbar-group {
           display: flex;
@@ -183,6 +199,7 @@ window.Rastreamento = {
           justify-content: space-between;
           gap: 8px;
           width: 100%;
+          box-sizing: border-box;
         }
         .mac-label {
           font-size: 11px !important;
@@ -196,6 +213,7 @@ window.Rastreamento = {
           border-radius: var(--radius-sm) !important;
           background: var(--bg-card) !important;
           color: var(--text-main) !important;
+          box-sizing: border-box !important;
         }
         .mac-separator {
           display: none !important;
@@ -206,6 +224,7 @@ window.Rastreamento = {
           flex-wrap: wrap;
           gap: 8px;
           width: 100%;
+          box-sizing: border-box;
         }
         .mac-btn {
           flex: 1;
@@ -228,6 +247,7 @@ window.Rastreamento = {
           color: var(--danger) !important;
         }
         .mac-map-container {
+          width: 100% !important;
           background: var(--bg-card) !important;
           border-radius: 16px !important;
           overflow: hidden !important;
@@ -236,6 +256,7 @@ window.Rastreamento = {
           flex: none !important;
           display: flex;
           flex-direction: column;
+          box-sizing: border-box !important;
         }
         #tracking-map {
           height: 100% !important;
@@ -243,6 +264,16 @@ window.Rastreamento = {
         .mac-timeline-container {
           padding: 16px;
         }
+        .sidebar-filial-header {
+          margin: 16px 0 8px !important;
+        }
+      }
+
+      .sidebar-filial-header {
+        margin: 16px 16px 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
 
       /* Sidebar */
@@ -878,7 +909,7 @@ window.Rastreamento = {
     Object.keys(grouped).sort().forEach(filial => {
       // Add filial header separator
       html += `
-        <div class="sidebar-filial-header" style="margin: 16px 16px 8px; display: flex; align-items: center; gap: 8px;">
+        <div class="sidebar-filial-header">
           <span class="filial-tag" style="background: rgba(0, 122, 255, 0.1); color: var(--mac-accent); font-size: 10px; font-weight: 750; padding: 4px 10px; border-radius: 8px; text-transform: uppercase; border: 1px solid rgba(0, 122, 255, 0.2);">
             ${filial}
           </span>
@@ -897,7 +928,7 @@ window.Rastreamento = {
         
         if (isMobile) {
           html += `
-            <div class="mac-track-item ${isSelected ? 'selected' : ''}" onclick="Rastreamento.selectActiveItem('${padeiro.id}')">
+            <div class="mac-track-item ${isSelected ? 'selected' : ''}" id="track-item-${padeiro.id}" onclick="Rastreamento.selectActiveItem('${padeiro.id}')">
               ${(padeiro.foto || padeiro.fotoPath || padeiro.avatar || padeiro.imagem) ? `
                 <img src="${padeiro.foto || padeiro.fotoPath || padeiro.avatar || padeiro.imagem}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0;" />
               ` : `
@@ -1030,10 +1061,16 @@ window.Rastreamento = {
       el.classList.remove('expanded');
     });
     
-    if (window.event && window.event.currentTarget) {
-      const target = window.event.currentTarget;
+    const target = document.getElementById('track-item-' + userId);
+    if (target) {
       if (isMobile) {
         target.classList.add('selected');
+        
+        // Rola a tela suavemente para cima, centralizando o mapa
+        const mapContainer = document.getElementById('view-mapa');
+        if (mapContainer) {
+          mapContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       } else {
         target.classList.add('expanded');
         const bottomPanel = document.getElementById('bottom-client-panel');
@@ -1043,11 +1080,16 @@ window.Rastreamento = {
           document.getElementById('bcp-cliente').innerText = 'Carregando...';
           document.getElementById('bcp-etapa').innerText = '--';
         }
-        
-        const dateInput = document.getElementById('trail-date');
-        const date = dateInput ? dateInput.value : new Date().toISOString().split('T')[0];
-        this.fetchClientInfo(userId, date);
       }
+    }
+    
+    const dateInput = document.getElementById('trail-date');
+    const date = dateInput ? dateInput.value : new Date().toISOString().split('T')[0];
+    this.fetchClientInfo(userId, date);
+    
+    // Se for mobile, carrega o trajeto automaticamente
+    if (isMobile) {
+      this.loadTrail();
     }
   },
 
