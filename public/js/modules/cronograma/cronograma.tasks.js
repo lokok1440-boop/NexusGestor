@@ -439,9 +439,9 @@ Object.assign(Cronograma, {
     Components.toast('Preparando documento para impressão...', 'info');
     
     // Pegar as datas da semana atual
-    const weekDates = this.getWeekDates();
-    const startDate = new Date(weekDates[0] + 'T12:00:00');
-    const endDate = new Date(weekDates[5] + 'T12:00:00');
+    const weekDates = this.getWeekDates(); // Return an array of Date objects
+    const startDate = weekDates[0];
+    const endDate = weekDates[5];
     
     const formatDate = (date) => date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace(' de ', ' de ').replace('.', '');
     const dataRangeStr = `${formatDate(startDate)} — ${formatDate(endDate)}`;
@@ -449,7 +449,10 @@ Object.assign(Cronograma, {
     const today = new Date();
     const todayStr = today.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     const generatedAt = `${today.toLocaleDateString('pt-BR')} ${today.toLocaleTimeString('pt-BR')}`;
-    const filenameTitle = `Cronograma_Fornada_${weekDates[0]}_a_${weekDates[5]}`;
+    
+    const startStr = startDate.toISOString().split('T')[0];
+    const endStr = endDate.toISOString().split('T')[0];
+    const filenameTitle = `Cronograma_Fornada_${startStr}_a_${endStr}`;
     
     // Iniciar HTML
     let html = `
@@ -536,9 +539,9 @@ Object.assign(Cronograma, {
     const dayNames = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
     const todayISO = new Date().toISOString().split('T')[0];
     
-    weekDates.forEach((dateStr, i) => {
-      const d = new Date(dateStr + 'T12:00:00');
-      const isToday = dateStr === todayISO;
+    weekDates.forEach((d, i) => {
+      const dStr = d.toISOString().split('T')[0];
+      const isToday = dStr === todayISO;
       html += `
         <th class="th-day ${isToday ? 'day-today' : ''}">
           <div class="day-name">${dayNames[i]}</div>
@@ -570,7 +573,8 @@ Object.assign(Cronograma, {
           </td>
       `;
       
-      weekDates.forEach(dateStr => {
+      weekDates.forEach(d => {
+        const dateStr = d.toISOString().split('T')[0];
         const tasks = this.tarefas
           .filter(t => t.padeiroId === padeiro.id && t.data === dateStr)
           .sort((a, b) => (a.posicao || 0) - (b.posicao || 0));
