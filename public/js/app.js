@@ -326,6 +326,10 @@ const App = {
       <nav class="sidebar-nav hig-sidebar-nav">
         ${isManagement ? adminNav : padeiroNav}
       </nav>
+      <!-- Créditos -->
+      <div class="sidebar-credits">
+        Designed & Developed by Abdias Alves
+      </div>
       <!-- Mobile Footer -->
       <div class="sidebar-footer hig-mobile-only">
         <div class="sidebar-user">

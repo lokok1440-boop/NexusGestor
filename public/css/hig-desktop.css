@@ -2543,4 +2543,13 @@
     font-size: 12px;
     padding: 16px 0;
   }
+
+  /* Sidebar Credits (Desktop override) */
+  .sidebar-credits {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  
+  .hig-sidebar.collapsed .sidebar-credits {
+    display: none !important;
+  }
 }
