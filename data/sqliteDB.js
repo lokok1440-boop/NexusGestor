@@ -1,5 +1,5 @@
 /**
- * SQLite Database Wrapper - BRAGO Sistema Padeiro
+ * SQLite Database Wrapper - NexusGestor Sistema Padeiro
  * Professional SQL implementation that doesn't require a server
  */
 const sqlite3 = require('sqlite3').verbose();

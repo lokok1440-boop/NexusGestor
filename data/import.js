@@ -1,6 +1,6 @@
 /**
  * Importador de Dados - Excel → JSON
- * Brago Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  * 
  * Importa dados de Padeiros.xls, PAN.xlsx, clientes.xlsx
  * e EMAIL E TELEFONE DOS COLABORADORES..xlsx
@@ -213,7 +213,7 @@ async function createAdminUser() {
   return {
     id: 'admin-001',
     nome: 'Administrador',
-    email: 'admin@brago.com',
+    email: 'admin@NexusGestor.com',
     passwordHash: hash,
     role: 'admin',
     ativo: true,
@@ -223,18 +223,18 @@ async function createAdminUser() {
 
 /**
  * Cria usuário genérico de padeiro para testes
- * Email: padeirobrago@gmail.com / Senha: pad123
+ * Email: padeiroNexusGestor@gmail.com / Senha: pad123
  */
 async function createPadeiroUser() {
   const hash = await bcrypt.hash('pad123', 10);
   let codTec = generateCodTec();
   return {
     id: 'padeiro-teste-001',
-    nome: 'Padeiro Brago (Teste)',
+    nome: 'Padeiro NexusGestor (Teste)',
     cargo: 'PADEIRO PLENO',
-    filial: 'Brago Goiania',
-    email: 'padeirobrago@gmail.com',
-    emailPessoal: 'padeirobrago@gmail.com',
+    filial: 'NexusGestor Goiania',
+    email: 'padeiroNexusGestor@gmail.com',
+    emailPessoal: 'padeiroNexusGestor@gmail.com',
     emailCorporativo: '',
     telefone: '',
     cpf: '',
@@ -251,7 +251,7 @@ async function createPadeiroUser() {
 
 async function runImport() {
   console.log('🍞 ══════════════════════════════════════════');
-  console.log('   IMPORTAÇÃO DE DADOS - BRAGO SISTEMA PADEIRO');
+  console.log('   IMPORTAÇÃO DE DADOS - NexusGestor SISTEMA PADEIRO');
   console.log('   ══════════════════════════════════════════\n');
 
   // Import Padeiros
@@ -282,13 +282,13 @@ async function runImport() {
   // Create Admin
   console.log('🔐 Criando usuário admin...');
   const admin = await createAdminUser();
-  console.log(`   ✅ Admin criado (email: admin@brago.com, senha: Admin123)`);
+  console.log(`   ✅ Admin criado (email: admin@NexusGestor.com, senha: Admin123)`);
 
   // Create Padeiro test user
   console.log('👨‍🍳 Criando usuário padeiro genérico...');
   const padeiroTeste = await createPadeiroUser();
   padeiros.push(padeiroTeste);
-  console.log(`   ✅ Padeiro criado (email: padeirobrago@gmail.com, senha: pad123)`);
+  console.log(`   ✅ Padeiro criado (email: padeiroNexusGestor@gmail.com, senha: pad123)`);
 
   // Save JSON files
   const saveJSON = (filename, data) => {
@@ -323,8 +323,8 @@ async function runImport() {
   console.log(`   Colaboradores: ${colaboradores.length}`);
   console.log(`   Produtos: ${produtos.length}`);
   console.log(`   Clientes: ${clientes.length}`);
-  console.log(`\n   Login Padeiro: padeirobrago@gmail.com / pad123`);
-  console.log(`   Login Admin:   admin@brago.com / Admin123\n`);
+  console.log(`\n   Login Padeiro: padeiroNexusGestor@gmail.com / pad123`);
+  console.log(`   Login Admin:   admin@NexusGestor.com / Admin123\n`);
 }
 
 // Run if called directly

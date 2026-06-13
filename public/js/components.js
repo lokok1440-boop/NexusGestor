@@ -1,6 +1,6 @@
 /**
  * Components - Reusable UI Components
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 
 const Components = {
@@ -237,7 +237,7 @@ const Components = {
 
 // --- Offline & Sync Manager (IndexedDB) ---
 const OfflineManager = {
-  dbName: 'BragoPadeiroDB',
+  dbName: 'NexusGestorPadeiroDB',
   dbVersion: 2, // Incremented version for new stores
   db: null,
 
@@ -466,22 +466,22 @@ const OfflineManager = {
 
 // API Helper
 const API = {
-  token: localStorage.getItem('brago_token'),
+  token: localStorage.getItem('NexusGestor_token'),
 
   setToken(token) {
     this.token = token;
-    if (token) localStorage.setItem('brago_token', token);
-    else localStorage.removeItem('brago_token');
+    if (token) localStorage.setItem('NexusGestor_token', token);
+    else localStorage.removeItem('NexusGestor_token');
   },
 
   getUser() {
-    const data = localStorage.getItem('brago_user');
+    const data = localStorage.getItem('NexusGestor_user');
     return data ? JSON.parse(data) : null;
   },
 
   setUser(user) {
-    if (user) localStorage.setItem('brago_user', JSON.stringify(user));
-    else localStorage.removeItem('brago_user');
+    if (user) localStorage.setItem('NexusGestor_user', JSON.stringify(user));
+    else localStorage.removeItem('NexusGestor_user');
   },
 
   async request(url, options = {}) {

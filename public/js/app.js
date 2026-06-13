@@ -1,6 +1,6 @@
 /**
  * App Router - Main SPA Controller
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 const App = {
   currentRoute: 'login',
@@ -311,10 +311,10 @@ const App = {
         <button class="sidebar-toggle-btn" onclick="App.toggleSidebar()">
           <i data-lucide="menu"></i>
         </button>
-        <img src="/assets/logo.svg" alt="BRAGO" class="sidebar-logo-img">
+        <img src="/assets/logo.svg" alt="NexusGestor" class="sidebar-logo-img">
       </div>
       <div class="hig-sidebar-logo hig-desktop-only" style="align-items: center; gap: 10px;">
-        <img src="/assets/logo.svg" alt="BRAGO" style="height: 32px; filter: brightness(0) invert(1);" class="hig-logo-img">
+        <img src="/assets/logo.svg" alt="NexusGestor" style="height: 32px; filter: brightness(0) invert(1);" class="hig-logo-img">
         <div class="hig-logo-text-group">
           <span class="hig-sidebar-logo-name">Smart</span>
           <span class="hig-sidebar-logo-subtitle">Gestor</span>

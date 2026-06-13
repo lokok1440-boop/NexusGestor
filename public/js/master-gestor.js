@@ -1,5 +1,5 @@
 /**
- * BRAGO Sistema Padeiro - Controlador do Perfil Master Gestor (Mobile-First)
+ * NexusGestor Sistema Padeiro - Controlador do Perfil Master Gestor (Mobile-First)
  * Refatorado: Consumindo os dados pré-calculados pelo backend.
  */
 
@@ -74,7 +74,7 @@ const MasterGestor = {
             <h2 style="font-size: 20px; font-weight: 700; margin: 0; color: #FFFFFF; display: flex; align-items: center; gap: 8px;">
               Painel de Controle Executivo <span style="font-size: 18px;">👑</span>
             </h2>
-            <p style="font-size: 13px; color: #AEAEB2; margin: 0; margin-top: 4px; font-weight: 500;">Olá, ${API.getUser().nome.split(' ')[0]}. Veja a integridade das filiais da Brago hoje.</p>
+            <p style="font-size: 13px; color: #AEAEB2; margin: 0; margin-top: 4px; font-weight: 500;">Olá, ${API.getUser().nome.split(' ')[0]}. Veja a integridade das filiais da NexusGestor hoje.</p>
           </div>
         </div>
 
@@ -137,7 +137,7 @@ const MasterGestor = {
               return `
               <div class="filial-row-mobile cascade-item" style="--index: ${index + 6};">
                 <div class="filial-info-mobile">
-                  <span class="filial-name-mobile">${f.nome.replace('Brago ', '')}</span>
+                  <span class="filial-name-mobile">${f.nome.replace('NexusGestor ', '')}</span>
                   <span class="filial-meta-mobile">
                     <span class="filial-value-mobile">${Math.round(f.realizadoProducao).toLocaleString('pt-BR')} kg</span> / ${f.metaProducao.toLocaleString('pt-BR')} kg
                     <span style="color:#AF52DE; font-weight:700; margin-left:6px;">(${pct}%)</span>
@@ -445,7 +445,7 @@ const MasterGestor = {
     if (!ctx) return;
 
     const labels = filiaisMetrics.map(f => {
-      let name = f.nome.replace('Brago ', '');
+      let name = f.nome.replace('NexusGestor ', '');
       if (name === 'Campo Grande') name = 'C. Grande';
       return name;
     });

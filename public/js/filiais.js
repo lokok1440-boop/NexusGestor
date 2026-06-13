@@ -1,6 +1,6 @@
 /**
  * Filiais Module - Branch Health Metrics
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 
 console.log('✅ Filiais script loading...');

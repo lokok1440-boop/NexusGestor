@@ -463,7 +463,7 @@ Object.assign(Cronograma, {
     
     const startStr = getLocalISO(startDate);
     const endStr = getLocalISO(endDate);
-    const filenameTitle = `Cronograma_Brago_${startStr}_a_${endStr}`;
+    const filenameTitle = `Cronograma_NexusGestor_${startStr}_a_${endStr}`;
     
     // Iniciar HTML
     let html = `
@@ -530,7 +530,7 @@ Object.assign(Cronograma, {
         
         <div class="header-main">
           <div class="brand">
-            <img src="/assets/logo.svg" alt="BRAGO" style="height: 36px; margin-bottom: 4px;">
+            <img src="/assets/logo.svg" alt="NexusGestor" style="height: 36px; margin-bottom: 4px;">
             <p>SISTEMA DE GESTÃO DE PANIFICAÇÃO</p>
           </div>
           <div class="title-area">

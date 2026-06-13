@@ -1,6 +1,6 @@
 /**
  * Metas Module - Production Goals Management
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 const Metas = {
   activeSubTab: 'padeiros',

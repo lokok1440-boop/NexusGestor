@@ -1,6 +1,6 @@
 /**
  * Padeiro Agenda - Weekly Grid Matrix Layout
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 const PadeiroAgenda = {
   currentDate: new Date(),
@@ -145,7 +145,7 @@ const PadeiroAgenda = {
           width: 56px;
           height: 56px;
           border-radius: 28px;
-          background: var(--brago-orange, #E8450A);
+          background: var(--NexusGestor-orange, #E8450A);
           color: white;
           display: flex;
           align-items: center;
@@ -174,7 +174,7 @@ const PadeiroAgenda = {
     // For padeiros, we must use THEIR filial. 
     // If not in localStorage (old session), we'll try to get it from the first baker found or default to Brasília
     if (!this.selectedFilial) {
-      this.selectedFilial = user.filial || 'Brago Brasília';
+      this.selectedFilial = user.filial || 'NexusGestor Brasília';
     }
 
     try {
@@ -341,7 +341,7 @@ const PadeiroAgenda = {
       <div class="agenda-mobile-view fade-in">
         <div class="flex justify-between items-center mb-6" style="animation: pfCascadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 0s;">
           <h2 style="font-size: 22px; font-weight: 800; margin: 0;">Minha Agenda</h2>
-          <div class="badge badge-primary">${String(this.selectedFilial || 'Brago').split(' ')[1] || 'Brago'}</div>
+          <div class="badge badge-primary">${String(this.selectedFilial || 'NexusGestor').split(' ')[1] || 'NexusGestor'}</div>
         </div>
 
         <!-- Days Slider -->

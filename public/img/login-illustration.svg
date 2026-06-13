@@ -1,0 +1,56 @@
+<svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Window/Background subtle shapes -->
+  <path d="M50 250 C50 150, 400 150, 400 250 Z" fill="#2563EB" opacity="0.3"/>
+  <rect x="80" y="160" width="300" height="150" rx="20" fill="#2563EB" opacity="0.2"/>
+  <rect x="120" y="180" width="50" height="70" fill="#1D4ED8" opacity="0.3"/>
+  <rect x="190" y="200" width="40" height="50" fill="#1D4ED8" opacity="0.3"/>
+  
+  <!-- Mailbox -->
+  <rect x="100" y="230" width="6" height="80" fill="#1E3A8A"/>
+  <path d="M70 190 H130 V230 H70 Z" fill="#1E40AF"/>
+  <path d="M70 190 C70 170, 130 170, 130 190 Z" fill="#1E3A8A"/>
+  <rect x="130" y="195" width="25" height="15" fill="#3B82F6"/>
+  <!-- Envelope -->
+  <rect x="135" y="200" width="20" height="12" fill="white"/>
+  <path d="M135 200 L145 206 L155 200" stroke="#9CA3AF" stroke-width="1"/>
+
+  <!-- Magic glowing dots near mailbox -->
+  <circle cx="150" cy="180" r="3" fill="#FCD34D"/>
+  <circle cx="165" cy="200" r="2" fill="#FCD34D"/>
+  <circle cx="160" cy="170" r="1.5" fill="#FCD34D"/>
+
+  <!-- Desk -->
+  <rect x="190" y="210" width="180" height="15" fill="#1E3A8A"/> <!-- Desktop -->
+  <rect x="200" y="225" width="70" height="80" fill="#1E40AF"/> <!-- Drawers box -->
+  <!-- Drawer 1 -->
+  <rect x="205" y="235" width="60" height="25" fill="#1E3A8A"/>
+  <rect x="220" y="245" width="30" height="5" fill="#1D4ED8"/>
+  <!-- Drawer 2 -->
+  <rect x="205" y="270" width="60" height="25" fill="#1E3A8A"/>
+  <rect x="220" y="280" width="30" height="5" fill="#1D4ED8"/>
+  <!-- Right Leg -->
+  <rect x="350" y="225" width="10" height="80" fill="#1E40AF"/>
+
+  <!-- Girl Sitting -->
+  <!-- Legs -->
+  <path d="M280 200 L310 260 L320 260 L330 270" fill="none" stroke="#3B82F6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Body/Yellow Shirt -->
+  <path d="M260 160 C280 160, 295 180, 295 200 H260 Z" fill="#FBBF24"/>
+  <path d="M285 170 C305 190, 325 200, 325 200" stroke="#FBBF24" stroke-width="12" stroke-linecap="round"/>
+  <!-- Face & Hair -->
+  <circle cx="275" cy="145" r="16" fill="#FCD34D"/>
+  <path d="M255 160 C240 120, 295 120, 295 145 C295 170, 255 200, 255 210 C240 180, 240 170, 255 160 Z" fill="#111827"/>
+  
+  <!-- Laptop -->
+  <path d="M315 205 L340 180 H355 L330 205 Z" fill="white"/> <!-- Screen -->
+  <path d="M310 210 H360 L350 205 H315 Z" fill="#E5E7EB"/> <!-- Base -->
+
+  <!-- Magic glowing dots near laptop -->
+  <circle cx="300" cy="180" r="3" fill="#FCD34D"/>
+  <circle cx="310" cy="160" r="2" fill="#FCD34D"/>
+  <circle cx="330" cy="170" r="2.5" fill="#FCD34D"/>
+  <circle cx="350" cy="155" r="1.5" fill="#FCD34D"/>
+
+  <!-- Floor shadow -->
+  <ellipse cx="270" cy="320" rx="150" ry="10" fill="#1D4ED8" opacity="0.4"/>
+</svg>

@@ -1,5 +1,5 @@
 /**
- * Location Service - BRAGO Sistema Padeiro
+ * Location Service - NexusGestor Sistema Padeiro
  * Captures GPS and sends to server via Socket.io
  * Includes IP-based fallback for non-secure contexts (HTTP on LAN)
  */

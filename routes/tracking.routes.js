@@ -1,5 +1,5 @@
 /**
- * Tracking Routes - BRAGO Sistema Padeiro
+ * Tracking Routes - NexusGestor Sistema Padeiro
  */
 const express = require('express');
 const router = express.Router();

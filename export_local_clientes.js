@@ -1,5 +1,5 @@
 /**
- * Script de Exportação de Clientes Local - BRAGO
+ * Script de Exportação de Clientes Local - NexusGestor
  * 
  * Este utilitário exporta a tabela 'clientes' do seu banco de dados MySQL local
  * diretamente para o arquivo 'data/clientes.json'.

@@ -195,7 +195,7 @@ const PadeiroFlow = {
 
     container.innerHTML = `
       <div class="pf-container fade-in">
-        <!-- Header Top Block (Brago Blue) -->
+        <!-- Header Top Block (NexusGestor Blue) -->
         <div class="pf-pizza-header-block">
           <div class="pf-pizza-header-top">
             <div style="display:flex; align-items:center; gap:16px;">
@@ -1400,16 +1400,16 @@ const PadeiroFlow = {
     }));
     const draft = { totalKg, totalL, items, fotosBase64: this.selectedFotosBase64 || [] };
     try {
-      localStorage.setItem('brago_padeiro_draft', JSON.stringify(draft));
+      localStorage.setItem('NexusGestor_padeiro_draft', JSON.stringify(draft));
     } catch(e) {
       console.warn("localStorage quota excedida, salvando sem fotos", e);
       const draftNoFotos = { totalKg, totalL, items, fotosBase64: [] };
-      localStorage.setItem('brago_padeiro_draft', JSON.stringify(draftNoFotos));
+      localStorage.setItem('NexusGestor_padeiro_draft', JSON.stringify(draftNoFotos));
     }
   },
 
   restoreDraftLocally() {
-    const draftStr = localStorage.getItem('brago_padeiro_draft');
+    const draftStr = localStorage.getItem('NexusGestor_padeiro_draft');
     if (!draftStr) return;
     try {
       const draft = JSON.parse(draftStr);
@@ -1574,7 +1574,7 @@ const PadeiroFlow = {
         Components.toast('Fotos enviadas com sucesso!', 'success');
       }
 
-      localStorage.removeItem('brago_padeiro_draft');
+      localStorage.removeItem('NexusGestor_padeiro_draft');
       await this.captureTimelineEvent('Fim da Produção');
       await this.updateActivity();
       
@@ -1879,7 +1879,7 @@ const PadeiroFlow = {
     }
     
     // Limpar o rascunho para não carregar de volta no próximo atendimento
-    localStorage.removeItem('brago_padeiro_draft');
+    localStorage.removeItem('NexusGestor_padeiro_draft');
     
     this.renderSuccess();
   },
@@ -1962,7 +1962,7 @@ const PadeiroFlow = {
 
   startTutorial() {
     // Only show once (v10 key because of step 2 quickAddToCart modal bypass)
-    const key = 'brago_tutorial_producao_v10';
+    const key = 'NexusGestor_tutorial_producao_v10';
     if (localStorage.getItem(key) === '1') return;
 
     document.body.classList.add('pf-tutorial-active');
@@ -2151,7 +2151,7 @@ const PadeiroFlow = {
   },
 
   _endTutorial() {
-    localStorage.setItem('brago_tutorial_producao_v10', '1');
+    localStorage.setItem('NexusGestor_tutorial_producao_v10', '1');
     document.body.classList.remove('pf-tutorial-active');
     
     // Close the cart modal

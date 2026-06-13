@@ -4,7 +4,7 @@ const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
 const emailService = require('./data/emailService');
-const { initTables } = require('./data/init-mysql');
+// Removida inicialização do MySQL/SQLite
 const { PORT, JWT_SECRET, BASE_URL } = require('./config');
 const upload = require('./config/multer');
 const corsMiddleware = require('./config/cors');
@@ -103,8 +103,8 @@ async function loadFtpCatalog() {
       await client.access({
         host: 'cloud-6010.reposit.com.br',
         port: 30037,
-        user: 'brago',
-        password: 'brago@cloud',
+        user: 'NexusGestor',
+        password: 'NexusGestor@cloud',
         secure: false
       });
       const files = await client.list();
@@ -156,8 +156,8 @@ function enqueueDownload(remoteFile, destPath) {
       await client.access({
         host: 'cloud-6010.reposit.com.br',
         port: 30037,
-        user: 'brago',
-        password: 'brago@cloud',
+        user: 'NexusGestor',
+        password: 'NexusGestor@cloud',
         secure: false
       });
       await client.downloadTo(destPath, remoteFile);
@@ -256,7 +256,7 @@ app.use('/api', require('./routes'));
 // ============================================================
 if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
   webpush.setVapidDetails(
-    process.env.VAPID_SUBJECT || 'mailto:admin@brago.com.br',
+    process.env.VAPID_SUBJECT || 'mailto:admin@NexusGestor.com.br',
     process.env.VAPID_PUBLIC_KEY,
     process.env.VAPID_PRIVATE_KEY
   );
@@ -321,7 +321,7 @@ app.post('/api/push/notify', authMiddleware, adminOnly, async (req, res) => {
     const subsInativos = allSubs.filter(s => inativosIds.includes(s.padeiroId));
     
     const payload = JSON.stringify({
-      title: '🍞 Brago - Lembrete de Produção',
+      title: '🍞 NexusGestor - Lembrete de Produção',
       body: 'Você ainda não registrou suas produções de hoje. Acesse o sistema agora!',
       icon: '/img/icon-192.png',
       badge: '/img/icon-192.png',
@@ -390,7 +390,7 @@ async function checkAndAlertInactiveBakers() {
     if (subsInativos.length === 0) return;
 
     const payload = JSON.stringify({
-      title: '🍞 Lembrete Brago',
+      title: '🍞 Lembrete NexusGestor',
       body: 'Você tem produções agendadas para hoje. Acesse o sistema agora para dar andamento!',
       icon: '/img/icon-192.png',
       badge: '/img/icon-192.png',
@@ -434,12 +434,11 @@ app.get('*', (req, res) => {
 // START
 // ============================================================
 async function start() {
-  // Init MySQL tables
+  // Database check
   try {
-    await initTables();
+    console.log('Using Prisma + Supabase');
   } catch (err) {
-    console.error('   ❌ MySQL falhou:', err.message);
-    console.error('   Verifique MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE');
+    console.error('   ❌ Database initialization failed:', err.message);
     process.exit(1);
   }
 
@@ -470,7 +469,7 @@ async function start() {
     }
 
     console.log('🍞 ══════════════════════════════════════════');
-    console.log('   BRAGO SISTEMA PADEIRO (PUBLIC IP ENABLED)');
+    console.log('   NexusGestor SISTEMA PADEIRO (PUBLIC IP ENABLED)');
     console.log('   ══════════════════════════════════════════');
     console.log(`   🏠 Local: http://localhost:${PORT}`);
     console.log(`   🌐 Rede:  http://${localIp}:${PORT}`);

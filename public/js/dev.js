@@ -1,6 +1,6 @@
 /**
  * Dev Module - System Testing Tools
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 const Dev = {
   async render() {

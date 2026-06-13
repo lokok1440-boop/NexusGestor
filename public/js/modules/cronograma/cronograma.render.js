@@ -201,7 +201,7 @@ Object.assign(Cronograma, {
     const startStr = dates[0].toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
     const endStr = dates[5].toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
     const today = new Date().toISOString().split('T')[0];
-    const currentFilial = this.padeiros.find(p => p.ativo)?.filial || 'Brago Distribuidora';
+    const currentFilial = this.padeiros.find(p => p.ativo)?.filial || 'NexusGestor Distribuidora';
 
     const cc = document.getElementById('cronograma-content');
     cc.innerHTML = `

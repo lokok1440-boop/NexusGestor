@@ -42,8 +42,8 @@ async function run() {
     await client.access({
       host: 'cloud-6010.reposit.com.br',
       port: 30037,
-      user: 'brago',
-      password: 'brago@cloud',
+      user: 'NexusGestor',
+      password: 'NexusGestor@cloud',
       secure: false
     });
     ftpFiles = await client.list();

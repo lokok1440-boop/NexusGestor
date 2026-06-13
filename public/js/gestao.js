@@ -1,6 +1,6 @@
 /**
  * Gestão Module - CRUD Padeiros, Produtos, Clientes
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 const Gestao = {
   currentTab: 'padeiros',
@@ -414,7 +414,7 @@ const Gestao = {
                 <td><span class="badge badge-${this.cargoBadge(p.cargo)}">${p.cargo || '-'}</span></td>
                 <td style="font-family:monospace;color:var(--primary); font-weight:600;">${p.codTec || '-'}</td>
                 <td class="text-secondary" style="font-size:13px">${this.formatCPF(p.cpf)}</td>
-                <td class="text-secondary" style="font-size:13px">${(Array.isArray(p.filial) ? p.filial.join(', ') : (p.filial || '')).replace(/Brago /g, '')}</td>
+                <td class="text-secondary" style="font-size:13px">${(Array.isArray(p.filial) ? p.filial.join(', ') : (p.filial || '')).replace(/NexusGestor /g, '')}</td>
                 <td>${p.ativo ? '<span class="badge badge-success">Ativo</span>' : '<span class="badge badge-danger">Inativo</span>'}</td>
                 <td style="text-align: right;">
                   <div class="row-actions flex gap-2 justify-end">
@@ -544,7 +544,7 @@ const Gestao = {
           <div class="form-group w-full"><label>COD TEC</label><input class="input-control" name="codTec" value="${p.codTec || ''}" ${isEdit ? '' : 'placeholder="Gerado automaticamente"'}></div>
           <div class="form-group w-full"><label>Filial</label>
             <select class="input-control" name="filial">
-              ${['Brago Brasília', 'Brago Goiania', 'Brago Palmas', 'Brago Campo Grande'].map(f =>
+              ${['NexusGestor Brasília', 'NexusGestor Goiania', 'NexusGestor Palmas', 'NexusGestor Campo Grande'].map(f =>
         `<option ${(Array.isArray(p.filial) ? p.filial.includes(f) : p.filial === f) ? 'selected' : ''}>${f}</option>`).join('')}
             </select>
           </div>
@@ -1125,7 +1125,7 @@ const Gestao = {
         </div>
         <div class="input-group">
           <label class="label">E-mail (Login)</label>
-          <input type="email" name="email" class="input-control" required placeholder="joao@brago.com" value="${u.email || ''}">
+          <input type="email" name="email" class="input-control" required placeholder="joao@NexusGestor.com" value="${u.email || ''}">
         </div>
         <div class="input-group">
           <label class="label">${id ? 'Nova Senha (deixe em branco para manter)' : 'Senha Inicial'}</label>
@@ -1148,7 +1148,7 @@ const Gestao = {
           <label class="label">Filiais Atribuídas</label>
           <p style="font-size: 12px; color: var(--text-secondary); margin: 0 0 8px 0;">Selecione uma ou mais filiais. Se nenhuma for marcada, terá acesso a todas.</p>
           <div class="checkbox-group" style="display: flex; gap: 10px; flex-wrap: wrap;">
-            ${['Brago Brasília', 'Brago Goiania', 'Brago Palmas', 'Brago Campo Grande'].map(f => {
+            ${['NexusGestor Brasília', 'NexusGestor Goiania', 'NexusGestor Palmas', 'NexusGestor Campo Grande'].map(f => {
               const uFiliais = Array.isArray(u.filial) ? u.filial : (u.filial && u.filial !== 'null' ? [u.filial] : []);
               const checked = uFiliais.includes(f) ? 'checked' : '';
               return `<label style="display: flex; align-items: center; gap: 5px; cursor: pointer; background: var(--system-bg); padding: 5px 10px; border-radius: 6px;"><input type="checkbox" name="filial" value="${f}" ${checked}> ${f}</label>`;

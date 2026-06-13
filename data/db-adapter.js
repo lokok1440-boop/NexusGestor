@@ -1,5 +1,5 @@
 /**
- * DB Adapter - BRAGO Sistema Padeiro
- * Uses MySQL exclusively
+ * DB Adapter - NexusGestor Sistema Padeiro
+ * Uses JSON for local zero-config database
  */
-module.exports = require('./mysqlDB');
+module.exports = require('./prismaDB');

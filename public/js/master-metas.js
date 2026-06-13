@@ -1,5 +1,5 @@
 /**
- * BRAGO Sistema Padeiro - Módulo de Metas do Master Gestor (Mobile-First)
+ * NexusGestor Sistema Padeiro - Módulo de Metas do Master Gestor (Mobile-First)
  * Métricas: Volume de Produção (Kg), Atividades Concluídas, Clientes Captados
  */
 
@@ -12,7 +12,7 @@ const MasterMetas = {
 
   // Metas comerciais dos Gestores (Mapeado por Filial)
   get metasComerciais() {
-    const saved = localStorage.getItem('brago_master_metas_comerciais_v3');
+    const saved = localStorage.getItem('NexusGestor_master_metas_comerciais_v3');
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -21,15 +21,15 @@ const MasterMetas = {
       }
     }
     return {
-      'Brago Brasília': { producao: 3000, atividades: 20, captacao: 8 },
-      'Brago Goiania': { producao: 2500, atividades: 15, captacao: 6 },
-      'Brago Palmas': { producao: 1500, atividades: 10, captacao: 4 },
-      'Brago Campo Grande': { producao: 2000, atividades: 12, captacao: 5 }
+      'NexusGestor Brasília': { producao: 3000, atividades: 20, captacao: 8 },
+      'NexusGestor Goiania': { producao: 2500, atividades: 15, captacao: 6 },
+      'NexusGestor Palmas': { producao: 1500, atividades: 10, captacao: 4 },
+      'NexusGestor Campo Grande': { producao: 2000, atividades: 12, captacao: 5 }
     };
   },
 
   set metasComerciais(val) {
-    localStorage.setItem('brago_master_metas_comerciais_v3', JSON.stringify(val));
+    localStorage.setItem('NexusGestor_master_metas_comerciais_v3', JSON.stringify(val));
   },
 
   async render() {
@@ -184,7 +184,7 @@ const MasterMetas = {
                   <div class="gestor-profile">
                     <div class="gestor-avatar">${initials}</div>
                     <div class="gestor-meta-details">
-                      <span class="filial-name-tag">${f.nome.replace('Brago ', '')}</span>
+                      <span class="filial-name-tag">${f.nome.replace('NexusGestor ', '')}</span>
                       <span class="gestor-name-sub">${gestorNome}</span>
                     </div>
                   </div>
@@ -272,7 +272,7 @@ const MasterMetas = {
   },
 
   calculateFiliaisMetrics() {
-    const filiaisNomes = ['Brago Brasília', 'Brago Goiania', 'Brago Palmas', 'Brago Campo Grande'];
+    const filiaisNomes = ['NexusGestor Brasília', 'NexusGestor Goiania', 'NexusGestor Palmas', 'NexusGestor Campo Grande'];
     const mesAtual = new Date().toISOString().slice(0, 7);
     
     return filiaisNomes.map(f => {
@@ -326,7 +326,7 @@ const MasterMetas = {
     const title = document.getElementById('adjustment-sheet-title');
     const body = document.getElementById('adjustment-sheet-body');
 
-    title.innerText = `Metas: ${filialNome.replace('Brago ', '')}`;
+    title.innerText = `Metas: ${filialNome.replace('NexusGestor ', '')}`;
 
     body.innerHTML = `
       <form id="master-metas-adjustment-form" onsubmit="event.preventDefault(); MasterMetas.saveAdjustment();" style="display:flex; flex-direction:column; gap:16px;">
@@ -405,7 +405,7 @@ const MasterMetas = {
     this.metasComerciais = currentMetas;
 
     this.closeMetaAdjustment();
-    Components.toast(`Metas da filial ${filial.replace('Brago ', '')} atualizadas com sucesso!`, 'success');
+    Components.toast(`Metas da filial ${filial.replace('NexusGestor ', '')} atualizadas com sucesso!`, 'success');
     
     this.render();
   },

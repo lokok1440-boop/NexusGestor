@@ -23,11 +23,11 @@
   --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-float: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  /* Brago Brand Variables (Blob Specification) */
-  --brago-blue: #1E4BFF;
-  --brago-orange: #E8450A;
-  --brago-bg-light: #F7F8FA;
-  --brago-blob-bg: #E1E7FF;
+  /* NexusGestor Brand Variables (Blob Specification) */
+  --NexusGestor-blue: #1E4BFF;
+  --NexusGestor-orange: #E8450A;
+  --NexusGestor-bg-light: #F7F8FA;
+  --NexusGestor-blob-bg: #E1E7FF;
 }
 
 html, body {
@@ -35,428 +35,317 @@ html, body {
   max-width: 100vw;
 }
 
-/* COMODATO LOGIN STYLE */
-.login-page {
-  min-height: 100vh;
-  width: 100%;
-  max-width: 100%;
-  background-color: #FFFFFF;
+/* FHR (NEXUS GESTOR) LOGIN STYLE */
+.fhr-login-page {
   display: flex;
-  position: relative;
-  overflow: hidden;
-  font-family: 'Inter', sans-serif;
-}
-
-.login-left-image-area {
-  position: relative;
-  width: 65%;
   height: 100vh;
-  z-index: 1;
+  width: 100vw;
+  background-color: #EBF0F6; /* Light gray-blue background */
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  overflow: hidden;
 }
 
-.login-main-bg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.fhr-login-card {
+  box-sizing: border-box;
+  display: flex;
+  width: 1000px;
+  max-width: 95vw;
+  height: 600px;
+  max-height: 95vh;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
 
-.login-image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(255, 85, 0, 0.15) 0%, rgba(255, 85, 0, 0.05) 100%);
-  z-index: 2;
+.fhr-left-area {
+  box-sizing: border-box;
+  flex: 0 0 50%;
+  min-width: 0;
+  background: #3B82F6; /* Nice modern blue */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 30px;
+  color: white;
+  position: relative;
+  border-bottom-right-radius: 120px; /* Curve at the bottom right as seen in image */
 }
 
-.login-text-content {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translateY(-50%);
-  color: #FFFFFF;
-  z-index: 10;
-}
-
-.login-text-content h1 {
-  font-size: 84px;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 0;
-  color: #FFFFFF !important;
-}
-
-.login-text-content p {
-  font-size: 84px;
-  font-weight: 300;
-  font-style: italic;
-  margin-top: -10px;
-  opacity: 0.9;
-}
-
-/* The Orange/White Swoosh */
-.login-swoosh {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.swoosh-path-mobile,
-.swoosh-line-mobile {
-  display: none;
-}
-
-.swoosh-path-desktop,
-.swoosh-line-desktop {
-  display: block;
-}
-
-.login-swoosh svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Right Panel (Card Area) */
-.login-right-area {
-  width: 35%;
-  background: #FFFFFF;
+.fhr-illustration {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 10;
-}
-
-.brago-login-card {
-  background: #0033A0;
-  /* Brago Deep Blue */
-  width: 90%;
-  max-width: 350px;
-  padding: 48px 32px;
-  border-radius: 40px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.card-logo-img {
-  width: 170px;
-  margin-bottom: 40px;
-  filter: brightness(0) invert(1);
-}
-
-.comodato-form {
   width: 100%;
 }
 
-.comodato-label {
-  display: block;
-  color: #FFFFFF;
-  font-size: 13px;
-  font-weight: 500;
-  margin-bottom: 10px;
-  margin-left: 4px;
-  opacity: 0.9;
+.fhr-social-footer {
+  text-align: center;
+  margin-bottom: 0px;
 }
 
-.comodato-input-wrapper {
-  position: relative;
+.fhr-social-icons {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
   margin-bottom: 24px;
 }
 
-.comodato-input {
-  width: 100%;
-  height: 46px;
-  border-radius: 12px;
-  border: none;
-  background: #FFFFFF;
-  padding: 0 18px;
-  font-size: 14px;
-  color: #333;
-  outline: none;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+.fhr-social-icons i {
+  width: 20px;
+  height: 20px;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
-.comodato-password-toggle {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
+.fhr-social-icons i:hover {
+  opacity: 1;
+}
+
+.fhr-copyright {
+  font-size: 13px;
+  opacity: 0.8;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+}
+
+.fhr-right-area {
+  box-sizing: border-box;
+  flex: 0 0 50%;
+  min-width: 0;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 40px;
+  position: relative;
+}
+
+.fhr-logo-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.fhr-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 20px;
+}
+
+.role-toggle-fhr {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 35px;
+}
+
+.role-toggle-fhr .role-btn {
   background: none;
   border: none;
-  color: #999;
+  padding: 0;
+  font-size: 14px;
+  color: #9CA3AF;
   cursor: pointer;
-  display: flex;
-  align-items: center;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 6px;
+  transition: color 0.2s;
 }
 
-.comodato-row {
+.role-toggle-fhr .role-btn:hover {
+  color: #6B7280;
+}
+
+.role-toggle-fhr .role-btn.active {
+  color: #3B82F6;
+}
+
+.role-toggle-fhr .role-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #3B82F6;
+  border-radius: 2px;
+}
+
+.fhr-form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fhr-input-group {
+  margin-bottom: 24px;
+}
+
+.fhr-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.fhr-input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #111827;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.fhr-input::placeholder {
+  color: #D1D5DB;
+}
+
+.fhr-input:focus {
+  border-bottom-color: #3B82F6;
+}
+
+.fhr-actions-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.comodato-checkbox {
+.fhr-checkbox {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #FFFFFF;
   font-size: 13px;
+  color: #4B5563;
   cursor: pointer;
-}
-
-.comodato-forgot {
-  color: #FFFFFF;
-  text-decoration: none;
-  font-size: 13px;
   font-weight: 500;
 }
 
-.comodato-btn {
-  width: 100%;
-  height: 52px;
-  background: #FF5500;
+.fhr-forgot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #3B82F6;
+  font-size: 13px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.fhr-submit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.fhr-no-account {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.fhr-no-account a {
+  color: #3B82F6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.fhr-btn {
+  background: #3B82F6;
+  color: white;
   border: none;
-  border-radius: 14px;
-  color: #FFFFFF;
-  font-size: 16px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 10px 20px rgba(255, 85, 0, 0.3);
-}
-
-.comodato-btn:hover {
-  background: #FF6611;
-  transform: translateY(-2px);
-  box-shadow: 0 15px 25px rgba(255, 85, 0, 0.4);
-}
-
-.comodato-btn:active {
-  transform: translateY(0);
-}
-
-.comodato-btn-pwa {
-  margin-top: 16px;
-  width: 100%;
-  height: 52px;
-  background: #FFFFFF !important;
-  border: 2px solid var(--primary) !important;
-  border-radius: 12px;
-  color: var(--primary) !important;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: 600;
   font-size: 14px;
-  font-weight: 700;
   cursor: pointer;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
-}
-
-.comodato-btn-pwa:hover {
-  background: var(--primary-light) !important;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-
-/* Google Login Styles */
-.comodato-divider {
   display: flex;
   align-items: center;
-  text-align: center;
-  margin: 24px 0;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  width: 100%;
+  gap: 8px;
+  transition: background 0.2s, transform 0.1s;
 }
 
-.comodato-divider::before,
-.comodato-divider::after {
-  content: '';
+.fhr-btn:hover {
+  background: #2563EB;
+}
+
+.fhr-btn:active {
+  transform: scale(0.98);
+}
+
+.fhr-social-logins {
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.fhr-social-btn-google {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+}
+
+.fhr-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
   flex: 1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 100px;
+  white-space: nowrap;
+  transition: background 0.2s;
+  height: 44px;
 }
 
-.comodato-divider:not(:empty)::before {
-  margin-right: .5em;
+.fhr-social-btn:hover {
+  background: #F9FAFB;
 }
 
-.comodato-divider:not(:empty)::after {
-  margin-left: .5em;
-}
-
-.google-btn-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
-  min-height: 44px;
-}
-
-.comodato-footer {
-  position: absolute;
-  bottom: 24px;
-  right: 48px;
-  font-size: 13px;
-  color: #999;
-}
-
-
-/* Responsive */
-@media (max-width: 992px) {
-  .login-page {
+@media (max-width: 900px) {
+  .fhr-login-card {
     flex-direction: column;
+    height: auto;
+    max-height: 95vh;
     overflow-y: auto;
-    background: #FFFFFF;
-    display: block;
-    /* Ensure it stacks */
+    border-radius: 12px;
   }
-
-  .login-left-image-area {
-    width: 100%;
-    height: 50vh;
-    min-height: 400px;
-    position: relative;
+  .fhr-left-area {
+    padding: 30px;
+    flex: none;
+    height: 300px;
+    border-bottom-right-radius: 0;
   }
-
-  .login-image-overlay {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.2) 100%);
-  }
-
-  .login-text-content {
-    left: 32px;
-    top: 35%;
-    transform: translateY(-50%);
-    width: 80%;
-  }
-
-  .login-text-content h1,
-  .login-text-content p {
-    font-size: 42px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  }
-
-  .swoosh-path-desktop,
-  .swoosh-line-desktop {
-    display: none;
-  }
-
-  .swoosh-path-mobile,
-  .swoosh-line-mobile {
-    display: block;
-  }
-
-  .login-swoosh {
-    position: absolute;
-    top: 25vh;
-    left: 0;
-    height: 35vh;
-    width: 100%;
-    z-index: 2;
-    right: auto;
-    transform: none;
-  }
-
-  .login-right-area {
-    width: 100%;
-    padding: 0 24px 60px 24px;
-    margin-top: -120px;
-    /* Stronger overlap as in reference */
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .brago-login-card {
-    width: 100%;
-    max-width: 480px;
-    padding: 48px 32px;
-    border-radius: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  }
-
-  .card-logo-img {
-    width: 200px;
-    margin-bottom: 40px;
-  }
-
-  .comodato-footer {
-    position: relative;
-    margin-top: 40px;
-    width: 100%;
-    text-align: center;
-    color: #999;
-    padding: 0 20px;
-    right: auto;
-    bottom: auto;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-text-content {
-    left: 20px;
-  }
-
-  .login-text-content h1,
-  .login-text-content p {
-    font-size: 34px;
-  }
-
-  .login-left-image-area {
-    height: 45vh;
-  }
-
-  .login-right-area {
-    margin-top: -100px;
-    padding: 0 16px 40px 16px;
-  }
-}
-
-.error-message-comodato {
-  background: rgba(255, 0, 0, 0.1);
-  color: #FFCCCC;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  margin-bottom: 20px;
-  text-align: center;
-  display: none;
-}
-
-.error-message-comodato.active {
-  display: block;
-}
-
-.comodato-spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #FFFFFF;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .fhr-right-area {
+    padding: 30px 20px;
+    flex: none;
   }
 }
 
@@ -490,7 +379,7 @@ html, body {
 }
 
 .blob-input:focus {
-  border-color: var(--brago-blue);
+  border-color: var(--NexusGestor-blue);
   background: white;
   box-shadow: 0 0 0 4px rgba(21, 96, 189, 0.1);
 }
@@ -556,12 +445,12 @@ html, body {
 .floating-input:not(:placeholder-shown)~.floating-label {
   top: 6px;
   font-size: 11px;
-  color: var(--brago-orange);
+  color: var(--NexusGestor-orange);
   font-weight: 600;
 }
 
 .floating-input:focus {
-  border-color: var(--brago-orange);
+  border-color: var(--NexusGestor-orange);
   background: #FFF;
   box-shadow: 0 0 0 4px rgba(232, 93, 4, 0.1);
 }
@@ -583,14 +472,14 @@ html, body {
   cursor: pointer;
 }
 
-.brago-checkbox {
-  accent-color: var(--brago-orange);
+.NexusGestor-checkbox {
+  accent-color: var(--NexusGestor-orange);
   width: 16px;
   height: 16px;
 }
 
 .forgot-link {
-  color: var(--brago-orange);
+  color: var(--NexusGestor-orange);
   font-size: 14px;
   text-decoration: none;
   font-weight: 600;
@@ -628,7 +517,7 @@ html, body {
 
 .login-container-blob .btn-primary,
 .login-card .btn-primary {
-  background-color: var(--brago-blue) !important;
+  background-color: var(--NexusGestor-blue) !important;
   color: #FFFFFF !important;
   border: none !important;
   width: 100% !important;
@@ -642,7 +531,7 @@ html, body {
 
 .login-container-blob .btn-primary:hover,
 .login-card .btn-primary:hover {
-  background-color: var(--brago-orange) !important;
+  background-color: var(--NexusGestor-orange) !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 6px 16px rgba(232, 69, 10, 0.3) !important;
 }
@@ -1642,7 +1531,7 @@ tr:hover .row-actions {
   padding: 0;
   border: none;
   border-radius: 50%;
-  background-color: var(--brago-orange);
+  background-color: var(--NexusGestor-orange);
   color: white;
   cursor: pointer;
   transition: all 0.2s ease;

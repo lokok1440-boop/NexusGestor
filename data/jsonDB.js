@@ -1,9 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { 
-  Padeiro, Produto, Cliente, Colaborador, Admin, 
-  Meta, Atividade, Avaliacao, Cronograma, Criterio 
-} = require('./models');
 
 const DATA_DIR = __dirname;
 
@@ -13,9 +9,8 @@ function generateId() {
 }
 
 class JsonCollection {
-  constructor(name, model, filename) {
+  constructor(name, filename) {
     this.name = name;
-    this.model = model;
     this.filepath = path.join(DATA_DIR, filename);
     this.data = [];
     this.load();
@@ -126,9 +121,6 @@ class JsonCollection {
     this.data.push(newDoc);
     this.save();
     
-    // Backup to MongoDB (Async)
-    this.model.create(newDoc).catch(err => console.log(`Backup error (${this.name}):`, err.message));
-    
     return this.wrapDoc(newDoc);
   }
 
@@ -138,9 +130,6 @@ class JsonCollection {
     
     this.data[index] = { ...this.data[index], ...update };
     this.save();
-    
-    // Backup to MongoDB (Async)
-    this.model.findByIdAndUpdate(id, update).catch(err => console.log(`Backup error (${this.name}):`, err.message));
     
     return this.wrapDoc(this.data[index]);
   }
@@ -152,9 +141,6 @@ class JsonCollection {
     const removed = this.data.splice(index, 1)[0];
     this.save();
     
-    // Backup to MongoDB (Async)
-    this.model.findByIdAndDelete(id).catch(err => console.log(`Backup error (${this.name}):`, err.message));
-    
     return this.wrapDoc(removed);
   }
 
@@ -163,7 +149,6 @@ class JsonCollection {
     if (Object.keys(query).length === 0) {
       this.data = [];
       this.save();
-      await this.model.deleteMany({});
     }
   }
 
@@ -179,7 +164,6 @@ class JsonCollection {
       this.data.push(doc);
     });
     this.save();
-    await this.model.insertMany(docs);
   }
 
   // To support 'new Model(data)' syntax
@@ -199,8 +183,6 @@ class JsonCollection {
           parent.data[index] = { ...this };
         }
         parent.save();
-        // Backup
-        parent.model.create(this).catch(() => {});
         return this;
       },
       toObject: function() {
@@ -232,14 +214,19 @@ function createProxy(dbInstance) {
 }
 
 module.exports = {
-  Padeiro: createProxy(new JsonCollection('Padeiro', Padeiro, 'padeiros.db')),
-  Produto: createProxy(new JsonCollection('Produto', Produto, 'produtos.db')),
-  Cliente: createProxy(new JsonCollection('Cliente', Cliente, 'clientes.db')),
-  Colaborador: createProxy(new JsonCollection('Colaborador', Colaborador, 'colaboradores.db')),
-  Admin: createProxy(new JsonCollection('Admin', Admin, 'admin.db')),
-  Meta: createProxy(new JsonCollection('Meta', Meta, 'metas.db')),
-  Atividade: createProxy(new JsonCollection('Atividade', Atividade, 'atividades.db')),
-  Avaliacao: createProxy(new JsonCollection('Avaliacao', Avaliacao, 'avaliacoes.db')),
-  Cronograma: createProxy(new JsonCollection('Cronograma', Cronograma, 'cronograma.db')),
-  Criterio: createProxy(new JsonCollection('Criterio', Criterio, 'criterios.db'))
+  Padeiro: createProxy(new JsonCollection('Padeiro', 'padeiros.db')),
+  Produto: createProxy(new JsonCollection('Produto', 'produtos.db')),
+  Cliente: createProxy(new JsonCollection('Cliente', 'clientes.db')),
+  Colaborador: createProxy(new JsonCollection('Colaborador', 'colaboradores.db')),
+  Admin: createProxy(new JsonCollection('Admin', 'admin.db')),
+  Meta: createProxy(new JsonCollection('Meta', 'metas.db')),
+  Atividade: createProxy(new JsonCollection('Atividade', 'atividades.db')),
+  Avaliacao: createProxy(new JsonCollection('Avaliacao', 'avaliacoes.db')),
+  Cronograma: createProxy(new JsonCollection('Cronograma', 'cronograma.db')),
+  Criterio: createProxy(new JsonCollection('Criterio', 'criterios.db')),
+  Localizacao: createProxy(new JsonCollection('Localizacao', 'localizacoes.db')),
+  HistoricoLocalizacao: createProxy(new JsonCollection('HistoricoLocalizacao', 'historico_localizacoes.db')),
+  CronogramaTemplate: createProxy(new JsonCollection('CronogramaTemplate', 'cronograma_templates.db')),
+  TimelineEvent: createProxy(new JsonCollection('TimelineEvent', 'timeline_events.db')),
+  PushSubscription: createProxy(new JsonCollection('PushSubscription', 'push_subscriptions.db'))
 };

@@ -1,6 +1,6 @@
 /**
  * Padeiro Dashboard - Personal panel for bakers
- * BRAGO Sistema Padeiro - Premium Redesign
+ * NexusGestor Sistema Padeiro - Premium Redesign
  */
 const PadeiroDashboard = {
   async render() {

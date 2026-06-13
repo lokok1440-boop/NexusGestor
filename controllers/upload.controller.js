@@ -24,7 +24,7 @@ exports.uploadFiles = async (req, res) => {
 
     res.json({ success: true, files });
     
-    // 2. Dispara o upload para o Google Drive em background com pequeno delay para liberar o client
+    // 2. Dispara o upload para o Supabase em background com pequeno delay para liberar o client
     setTimeout(() => {
       req.files.forEach(async (f) => {
         try {

@@ -1,5 +1,5 @@
 /**
- * Rastreamento Component - BRAGO Sistema Padeiro
+ * Rastreamento Component - NexusGestor Sistema Padeiro
  * Admin real-time map dashboard
  */
 window.Rastreamento = {

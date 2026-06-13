@@ -1,6 +1,6 @@
 /**
  * Padeiro Tutorial System - Guided Onboarding for Bakers
- * BRAGO Sistema Padeiro - Premium Design
+ * NexusGestor Sistema Padeiro - Premium Design
  * Features: Full flow simulation with mock data and visual highlights
  */
 
@@ -222,7 +222,7 @@ const PadeiroTutorial = {
     this.clearHighlights();
     Components.closeModal();
     Components.toast('Treinamento concluído! Boa produção.', 'success');
-    localStorage.setItem('brago_padeiro_tutorial_seen', 'true');
+    localStorage.setItem('NexusGestor_padeiro_tutorial_seen', 'true');
     
     // Restore the FAB if we are still on the home page
     if (App.currentRoute === 'padeiro-inicio') {

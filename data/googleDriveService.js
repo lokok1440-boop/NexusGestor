@@ -1,5 +1,5 @@
 /**
- * Google Drive Storage Service - BRAGO Sistema Padeiro
+ * Google Drive Storage Service - NexusGestor Sistema Padeiro
  * 
  * Este módulo gerencia o upload de fotos de produção e assinaturas diretamente
  * no Google Drive usando uma Conta de Serviço (Service Account).

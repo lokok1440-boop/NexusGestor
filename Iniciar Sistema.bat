@@ -1,9 +1,9 @@
 @echo off
-title Sistema Padeiro - Brago Distribuidora
-echo.
-echo  ========================================
-echo    BRAGO - Sistema Padeiro
-echo  ========================================
+title Sistema Padeiro - NexusGestor
+color 0A
+echo ===================================
+echo    NEXUSGESTOR - Sistema Padeiro
+echo =========================================
 echo.
 echo  Iniciando servidor...
 echo.

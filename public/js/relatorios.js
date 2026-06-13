@@ -1,6 +1,6 @@
 /**
  * Relatórios Module - Production, Ratings, Goals, and Visits
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 window.Relatorios = {
   currentFilter: '7d', // 7d, 30d, custom

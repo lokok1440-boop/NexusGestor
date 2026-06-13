@@ -1,6 +1,6 @@
 /**
  * Admin Dashboard - KPIs, Charts, New Sections
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 
 const AdminDashboard = {

@@ -1,5 +1,5 @@
 /**
- * MongoDB Connection - BRAGO Sistema Padeiro
+ * MongoDB Connection - NexusGestor Sistema Padeiro
  * Uses Mongoose to connect to MongoDB Atlas
  */
 require('dotenv').config();

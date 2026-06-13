@@ -1,6 +1,6 @@
 /**
  * Tutorial System - Guided Onboarding
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 
 const Tutorial = {
@@ -8,13 +8,13 @@ const Tutorial = {
     {
       route: 'admin-dashboard',
       title: 'Bem-vindo ao Smart Gestor!',
-      content: 'Este é o seu painel principal. Aqui você tem uma visão geral do desempenho dos padeiros, atividades recentes e métricas cruciais da Brago Distribuidora.',
+      content: 'Este é o seu painel principal. Aqui você tem uma visão geral do desempenho dos padeiros, atividades recentes e métricas cruciais da NexusGestor Distribuidora.',
       target: null
     },
     {
       route: 'filiais',
       title: 'Gerenciamento de Filiais',
-      content: 'Aqui você pode visualizar e gerenciar as diferentes filiais atendidas pela Brago. Cada filial possui seus próprios padeiros e metas específicas.',
+      content: 'Aqui você pode visualizar e gerenciar as diferentes filiais atendidas pela NexusGestor. Cada filial possui seus próprios padeiros e metas específicas.',
       target: '.nav-item[data-route="filiais"]'
     },
     {
@@ -38,7 +38,7 @@ const Tutorial = {
     {
       route: 'avaliacoes',
       title: 'Avaliações de Desempenho',
-      content: 'Registre e consulte as avaliações técnicas dos padeiros. Mantenha o padrão de qualidade Brago em todas as visitas e produções.',
+      content: 'Registre e consulte as avaliações técnicas dos padeiros. Mantenha o padrão de qualidade NexusGestor em todas as visitas e produções.',
       target: '.nav-item[data-route="avaliacoes"]'
     },
     {
@@ -140,7 +140,7 @@ const Tutorial = {
     this.clearHighlights();
     Components.closeModal();
     Components.toast('Tutorial concluído! Bom trabalho.', 'success');
-    localStorage.setItem('brago_tutorial_seen', 'true');
+    localStorage.setItem('NexusGestor_tutorial_seen', 'true');
   },
 
   clearHighlights() {

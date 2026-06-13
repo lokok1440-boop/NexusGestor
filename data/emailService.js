@@ -1,5 +1,5 @@
 /**
- * Email Service Abstraction - BRAGO Sistema Padeiro
+ * Email Service Abstraction - NexusGestor Sistema Padeiro
  * 
  * Este módulo abstrai o envio de e-mails para facilitar a integração futura
  * com SendGrid, SMTP, ou qualquer outro provedor.
@@ -35,8 +35,8 @@ const SENDGRID_CONFIG = {
   apiKey: process.env.SENDGRID_API_KEY || ''
 };
 
-const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@bragodistribuidora.com.br';
-const FROM_NAME = process.env.FROM_NAME || 'Sistema Padeiro - Brago';
+const FROM_EMAIL = process.env.FROM_EMAIL || 'noreply@NexusGestordistribuidora.com.br';
+const FROM_NAME = process.env.FROM_NAME || 'Sistema Padeiro - NexusGestor';
 
 // ============================================================
 // PROVIDERS
@@ -158,11 +158,11 @@ const emailService = {
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a2e; color: #fff; border-radius: 12px; overflow: hidden;">
         <div style="background: linear-gradient(135deg, #F59E0B, #D97706); padding: 30px; text-align: center;">
           <h1 style="margin: 0; font-size: 24px; color: #1a1a2e;">🍞 Sistema Padeiro</h1>
-          <p style="margin: 5px 0 0; color: #1a1a2e; opacity: 0.8;">Brago Distribuidora</p>
+          <p style="margin: 5px 0 0; color: #1a1a2e; opacity: 0.8;">NexusGestor Distribuidora</p>
         </div>
         <div style="padding: 30px;">
           <h2 style="color: #F59E0B; margin-top: 0;">Bem-vindo!</h2>
-          <p>Você foi cadastrado no Sistema de Gerenciamento de Padeiros da Brago.</p>
+          <p>Você foi cadastrado no Sistema de Gerenciamento de Padeiros da NexusGestor.</p>
           <p>Para acessar a plataforma, defina sua senha clicando no botão abaixo:</p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${resetLink}" style="background: linear-gradient(135deg, #F59E0B, #D97706); color: #1a1a2e; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; display: inline-block;">
@@ -176,7 +176,7 @@ const emailService = {
         </div>
       </div>
     `;
-    const text = `Bem-vindo ao Sistema Padeiro - Brago!\n\nDefina sua senha acessando: ${resetLink}\n\nEste link expira em 24 horas.`;
+    const text = `Bem-vindo ao Sistema Padeiro - NexusGestor!\n\nDefina sua senha acessando: ${resetLink}\n\nEste link expira em 24 horas.`;
     return getProvider().sendMail({ to, subject, html, text });
   },
 

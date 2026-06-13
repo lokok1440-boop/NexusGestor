@@ -1,5 +1,5 @@
 /**
- * Mongoose Models - BRAGO Sistema Padeiro
+ * Mongoose Models - NexusGestor Sistema Padeiro
  * All schemas and models for MongoDB
  */
 const { mongoose } = require('./db');

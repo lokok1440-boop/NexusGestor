@@ -1,6 +1,6 @@
 /**
  * Avaliações Module - Client, Manager, and Combined Evaluations
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 const Avaliacoes = {
   currentTab: 'gestor',

@@ -221,7 +221,7 @@ exports.getFiliaisStats = async (req, res) => {
       Avaliacao.find()
     ]);
 
-    const filiais = ['Brago Brasília', 'Brago Goiania', 'Brago Palmas', 'Brago Campo Grande'];
+    const filiais = ['NexusGestor Brasília', 'NexusGestor Goiania', 'NexusGestor Palmas', 'NexusGestor Campo Grande'];
     const metrics = filiais.map(f => {
       const pFilial = padeiros.filter(p => p.filial === f);
       const ids = pFilial.map(p => p.id);

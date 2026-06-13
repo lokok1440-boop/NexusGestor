@@ -1,5 +1,5 @@
 /**
- * Componente Timeline - BRAGO Sistema Padeiro
+ * Componente Timeline - NexusGestor Sistema Padeiro
  * Gestão cronológica das ações do padeiro (Mobile-First / Apple HIG)
  */
 

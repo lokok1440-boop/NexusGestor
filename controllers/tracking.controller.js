@@ -1,5 +1,5 @@
 /**
- * Tracking Controller - BRAGO Sistema Padeiro
+ * Tracking Controller - NexusGestor Sistema Padeiro
  * Manages user location history and trails
  */
 const { HistoricoLocalizacao, Localizacao } = require('../data/db-adapter');

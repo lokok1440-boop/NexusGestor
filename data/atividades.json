@@ -2,7 +2,7 @@
   {
     "id": "moitu8wt8m66kanny",
     "padeiroId": "padeiro-teste-001",
-    "padeiroNome": "Padeiro Brago (Teste)",
+    "padeiroNome": "Padeiro NexusGestor (Teste)",
     "clienteId": "moitruelivz03byxw",
     "clienteNome": "Big Box",
     "status": "finalizada",
@@ -41,7 +41,7 @@
   {
     "id": "moiu2j6ghiozt5gm0",
     "padeiroId": "padeiro-teste-001",
-    "padeiroNome": "Padeiro Brago (Teste)",
+    "padeiroNome": "Padeiro NexusGestor (Teste)",
     "clienteId": "moitruelrne7xdxu9",
     "clienteNome": "J.M.B",
     "status": "finalizada",
@@ -95,7 +95,7 @@
   {
     "id": "moj20pvoxm5u8skq3",
     "padeiroId": "padeiro-teste-001",
-    "padeiroNome": "Padeiro Brago (Teste)",
+    "padeiroNome": "Padeiro NexusGestor (Teste)",
     "clienteId": "moitrueljuj9tvw90",
     "clienteNome": "Pães e Vinho",
     "status": "finalizada",
@@ -145,7 +145,7 @@
   {
     "id": "mok1eik8j5lcztf2t",
     "padeiroId": "padeiro-teste-001",
-    "padeiroNome": "Padeiro Brago (Teste)",
+    "padeiroNome": "Padeiro NexusGestor (Teste)",
     "clienteId": "moitruelrne7xdxu9",
     "clienteNome": "J.M.B",
     "status": "em_andamento",

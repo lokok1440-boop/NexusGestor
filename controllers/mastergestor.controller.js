@@ -13,10 +13,10 @@ function getMetasComerciais() {
     }
   }
   return {
-    'Brago Brasília': { producao: 3000, atividades: 20 },
-    'Brago Goiania': { producao: 2500, atividades: 15 },
-    'Brago Palmas': { producao: 1500, atividades: 10 },
-    'Brago Campo Grande': { producao: 2000, atividades: 12 }
+    'NexusGestor Brasília': { producao: 3000, atividades: 20 },
+    'NexusGestor Goiania': { producao: 2500, atividades: 15 },
+    'NexusGestor Palmas': { producao: 1500, atividades: 10 },
+    'NexusGestor Campo Grande': { producao: 2000, atividades: 12 }
   };
 }
 
@@ -45,7 +45,7 @@ exports.getDashboardData = async (req, res) => {
     const activePadeiros = padeiros.filter(u => u.role === 'padeiro' && u.ativo && !u.deletado);
 
     const metasComerciais = getMetasComerciais();
-    const filiaisNomes = ['Brago Brasília', 'Brago Goiania', 'Brago Palmas', 'Brago Campo Grande'];
+    const filiaisNomes = ['NexusGestor Brasília', 'NexusGestor Goiania', 'NexusGestor Palmas', 'NexusGestor Campo Grande'];
 
     // 1. Calculate Filiais Metrics
     const filiaisMetrics = filiaisNomes.map(f => {
@@ -82,7 +82,7 @@ exports.getDashboardData = async (req, res) => {
 
     // 2. Calculate Gestores Scorecards
     const gestoresScorecards = gestores.map(g => {
-      const filial = g.filial || 'Brago Brasília';
+      const filial = g.filial || 'NexusGestor Brasília';
       const meta = metasComerciais[filial] || { producao: 2000, atividades: 12 };
       const metricReal = filiaisMetrics.find(f => f.nome === filial) || { realizadoProducao: 0, realizadoAtividades: 0 };
 

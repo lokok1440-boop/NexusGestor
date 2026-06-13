@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Admin {
+  id       String @id @default(uuid())
+  nome     String
+  email    String @unique
+  senha    String
+  role     String @default("gestor") // gestor ou admin
+  criadoEm DateTime @default(now())
+}
+
+model Padeiro {
+  id              String   @id @default(uuid())
+  nome            String
+  cpf             String   @unique
+  telefone        String?
+  senha           String   @default("123")
+  role            String   @default("padeiro")
+  status          String   @default("ativo")
+  fotoPerfil      String?
+  filial          String[]
+  foto            String?
+  assinatura      String?
+  ativo           Boolean  @default(true)
+  deletado        Boolean  @default(false)
+  dataContratacao DateTime @default(now())
+  criadoEm        DateTime @default(now())
+  atualizadoEm    DateTime @updatedAt
+  cor             String?  @default("#1976D2")
+
+  metas           PadeiroMeta[]
+  historico       HistoricoMetas[]
+  atividades      Atividade[]
+  cronogramas     Cronograma[]
+  localizacoes    Localizacao[]
+  pushSubs        PushSubscription[]
+}
+
+model PadeiroMeta {
+  id             String   @id @default(uuid())
+  padeiroId      String
+  metaPaoSal     Int      @default(0)
+  metaPaoDoce    Int      @default(0)
+  metaPaoForma   Int      @default(0)
+  metaRosca      Int      @default(0)
+  metaSalgado    Int      @default(0)
+  metaPaoQueijo  Int      @default(0)
+  metaIntegral   Int      @default(0)
+  atualizadoEm   DateTime @updatedAt
+
+  padeiro        Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
+
+  @@unique([padeiroId])
+}
+
+model HistoricoMetas {
+  id             String   @id @default(uuid())
+  padeiroId      String
+  mes            String   // formato YYYY-MM
+  metaPaoSal     Int      @default(0)
+  metaPaoDoce    Int      @default(0)
+  metaPaoForma   Int      @default(0)
+  metaRosca      Int      @default(0)
+  metaSalgado    Int      @default(0)
+  metaPaoQueijo  Int      @default(0)
+  metaIntegral   Int      @default(0)
+
+  padeiro        Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
+
+  @@unique([padeiroId, mes])
+}
+
+model Atividade {
+  id             String   @id @default(uuid())
+  padeiroId      String
+  data           String   // formato YYYY-MM-DD
+  mes            String   // formato YYYY-MM
+  semana         String   // ex: 2024-W12
+  status         String   @default("pendente")
+  nota           Float?   @default(0)
+  
+  prodPaoSal     Int      @default(0)
+  prodPaoDoce    Int      @default(0)
+  prodPaoForma   Int      @default(0)
+  prodRosca      Int      @default(0)
+  prodSalgado    Int      @default(0)
+  prodPaoQueijo  Int      @default(0)
+  prodIntegral   Int      @default(0)
+
+  // Desperdício
+  perdaPaoSal    Int      @default(0)
+  perdaPaoDoce   Int      @default(0)
+  perdaPaoForma  Int      @default(0)
+  perdaRosca     Int      @default(0)
+  perdaSalgado   Int      @default(0)
+  perdaPaoQueijo Int      @default(0)
+  perdaIntegral  Int      @default(0)
+
+  fotoComprovante String?
+  criadoEm       DateTime @default(now())
+
+  padeiro        Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
+}
+
+model Cronograma {
+  id             String   @id @default(uuid())
+  padeiroId      String
+  data           String   // YYYY-MM-DD
+  turno          String   @default("Manhã") // Manhã, Tarde, Noite
+  tarefas        String
+  status         String   @default("pendente") // pendente, concluido
+  atualizadoEm   DateTime @updatedAt
+
+  padeiro        Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
+}
+
+model Localizacao {
+  id             String   @id @default(uuid())
+  padeiroId      String
+  lat            Float
+  lng            Float
+  precisao       Float?
+  timestamp      DateTime @default(now())
+
+  padeiro        Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
+}
+
+model PushSubscription {
+  id             String   @id @default(uuid())
+  padeiroId      String
+  endpoint       String   @unique
+  keys_p256dh    String
+  keys_auth      String
+
+  padeiro        Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
+}
+
+model Configuracao {
+  id             String   @id @default(uuid())
+  chave          String   @unique
+  valor          String
+}

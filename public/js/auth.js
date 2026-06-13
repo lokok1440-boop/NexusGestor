@@ -1,82 +1,102 @@
 /**
  * Auth Module - Login, First Access, Password Setup
- * BRAGO Sistema Padeiro
+ * NexusGestor Sistema Padeiro
  */
 
 const Auth = {
   renderLogin() {
     return `
-    <div class="login-page">
-      <!-- Left Image Area -->
-      <div class="login-left-image-area">
-        <img src="/img/Frame 8656.svg" class="login-main-bg" alt="Brago Comodato">
-        <!-- Overlay removed to favor SVG's internal filters -->
-        <!-- Redundant text removed to favor SVG's internal typography -->
-      </div>
-
-      <!-- Right Form Area -->
-      <div class="login-right-area">
-        <div class="brago-login-card">
-          <img src="/assets/logo.svg" alt="Brago App System" class="card-logo-img">
+    <div class="fhr-login-page">
+      <div class="fhr-login-card">
+        <!-- Left Blue Area -->
+        <div class="fhr-left-area">
+          <div class="fhr-illustration">
+            <img src="/img/login-illustration.svg" alt="Illustration" style="max-width: 90%; height: auto;">
+          </div>
           
-          <div id="login-content" class="comodato-form">
-            ${this.loginForm()}
+          <div class="fhr-social-footer">
+            <div class="fhr-social-icons">
+              <i data-lucide="facebook"></i>
+              <i data-lucide="linkedin"></i>
+              <i data-lucide="instagram"></i>
+            </div>
+            <div class="fhr-copyright">
+              © NexusGestor<br>All rights reserved
+            </div>
           </div>
         </div>
 
-        <div class="comodato-footer">
-          AppBrago © 2026 - Todos os direitos reservados
+        <!-- Right White Area -->
+        <div class="fhr-right-area">
+          <div class="fhr-logo-container">
+            <!-- NexusGestor SVG Logo (estilo FHR) -->
+            <svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="38" fill="#3B82F6" letter-spacing="-1.5">
+                Nexus<tspan fill="#2563EB">Gestor</tspan>
+              </text>
+            </svg>
+          </div>
+          
+          <h1 class="fhr-title">Acessar</h1>
+          
+          <div class="role-toggle-fhr">
+             <button type="button" class="role-btn active" onclick="Auth.setRole(event, 'admin')">Administrador</button>
+             <button type="button" class="role-btn" onclick="Auth.setRole(event, 'padeiro')">Técnico</button>
+          </div>
+
+          <div id="login-content" class="fhr-form-container">
+            ${this.loginForm()}
+          </div>
         </div>
       </div>
     </div>`;
   },
 
+  setRole(event, role) {
+    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  },
+
   loginForm() {
     return `
     <form onsubmit="event.preventDefault(); Auth.handleLogin(event)">
-      <div class="comodato-input-group">
-        <label class="comodato-label">Usuário</label>
-        <div class="comodato-input-wrapper">
-          <input class="comodato-input" type="text" id="login-email" placeholder="Nome de usuário ou e-mail" required autocomplete="username">
-        </div>
+      <div class="fhr-input-group">
+        <label class="fhr-label">E-MAIL</label>
+        <input class="fhr-input" type="text" id="login-email" placeholder="seu.email@exemplo.com" required autocomplete="username">
       </div>
       
-      <div class="comodato-input-group">
-        <label class="comodato-label">Senha</label>
-        <div class="comodato-input-wrapper">
-          <input class="comodato-input" type="password" id="login-senha" placeholder="••••••••" required autocomplete="current-password">
-          <button type="button" class="comodato-password-toggle" onclick="Auth.togglePassword('login-senha', this)">
-            <i data-lucide="eye-off" style="width: 20px; height: 20px;"></i>
-          </button>
+      <div class="fhr-input-group">
+        <label class="fhr-label">SENHA</label>
+        <div style="position: relative;">
+          <input class="fhr-input" type="password" id="login-senha" placeholder="••••••••••••" required autocomplete="current-password">
         </div>
       </div>
 
-      <div class="comodato-row">
-        <label class="comodato-checkbox">
-          <input type="checkbox" style="width: 16px; height: 16px;">
-          Manter conectado
+      <div class="fhr-actions-row">
+        <label class="fhr-checkbox">
+          <input type="checkbox">
+          Lembrar-me
         </label>
-        <a href="#" class="comodato-forgot" onclick="Auth.showFirstAccess(); return false;">Esqueci a senha</a>
+        
+        <a href="#" class="fhr-forgot" onclick="Auth.showFirstAccess(); return false;">
+          <i data-lucide="lock" style="width:14px; height:14px;"></i> Esqueceu a senha?
+        </a>
       </div>
 
-      <div id="login-error" class="error-message-comodato"></div>
-      
-      <button type="submit" class="comodato-btn" id="login-btn">
-        <span>ENTRAR</span>
-      </button>
+      <div id="login-error" class="error-message-comodato" style="margin-top:10px;"></div>
 
-      <div class="comodato-divider">
-        <span>ou acesse com</span>
+      <div class="fhr-submit-row">
+        <div class="fhr-no-account">
+          Sem conta? <a href="#" onclick="alert('Funcionalidade de cadastro em desenvolvimento.'); return false;">Cadastre-se</a>
+        </div>
+        <button type="submit" class="fhr-btn" id="login-btn">
+          <span>Acessar</span> <i data-lucide="arrow-right" style="width:16px; height:16px; margin-left:6px;"></i>
+        </button>
       </div>
 
-      <!-- Google Login Button Container -->
-      <div id="google-login-btn" class="google-btn-container"></div>
-
-      <!-- PWA Install Option -->
-      <button type="button" id="pwa-install-btn" class="comodato-btn-pwa" style="display: flex;" onclick="Auth.handleInstallApp()">
-        <i data-lucide="download" style="width: 18px; height: 18px; margin-right: 8px;"></i>
-        BAIXAR APLICATIVO
-      </button>
+      <div class="fhr-social-logins">
+         <div id="google-login-btn" class="fhr-social-btn-google"></div>
+      </div>
     </form>`;
   },
 

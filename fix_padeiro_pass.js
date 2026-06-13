@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 
 async function fix() {
   await connectDB();
-  const email = 'padeirobrago@gmail.com';
+  const email = 'padeiroNexusGestor@gmail.com';
   const password = '123'; // User can change this later
   
   const passwordHash = await bcrypt.hash(password, 10);

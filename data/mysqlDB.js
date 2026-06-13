@@ -1,5 +1,5 @@
 /**
- * MySQL Database Wrapper - BRAGO Sistema Padeiro
+ * MySQL Database Wrapper - NexusGestor Sistema Padeiro
  * Mimics Mongoose interface for seamless transition
  */
 const mysql = require('mysql2/promise');
