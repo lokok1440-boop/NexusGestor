@@ -28,8 +28,19 @@ exports.getPadeiro = async (req, res) => {
 exports.createPadeiro = async (req, res) => {
   try {
     const { senha, ...rest } = req.body;
+    let filialArray = rest.filial || [];
+    if (typeof filialArray === 'string') {
+      try {
+        filialArray = JSON.parse(filialArray);
+      } catch(e) {
+        filialArray = [filialArray];
+      }
+    }
+    if (!Array.isArray(filialArray)) filialArray = [filialArray];
+
     const novo = {
       ...rest,
+      filial: filialArray,
       ativo: true,
       role: req.body.cargo === 'GESTOR' ? 'gestor' : 'padeiro',
       criadoEm: new Date().toISOString(),
@@ -55,7 +66,16 @@ exports.createPadeiro = async (req, res) => {
       novo.firstAccessToken = null; // Clear if set manually
     }
 
-    const padeiro = new Padeiro(novo);
+    // Sanitize to only allowed fields
+    const allowedFields = ['nome', 'cpf', 'telefone', 'senha', 'role', 'status', 'fotoPerfil', 'filial', 'foto', 'assinatura', 'ativo', 'deletado', 'dataContratacao', 'criadoEm', 'atualizadoEm', 'cor', 'cargo', 'codTec', 'rg', 'email', 'dataNascimento', 'passwordHash', 'firstAccessToken'];
+    const sanitizedNovo = {};
+    for (const key of Object.keys(novo)) {
+      if (allowedFields.includes(key)) {
+        sanitizedNovo[key] = novo[key];
+      }
+    }
+
+    const padeiro = new Padeiro(sanitizedNovo);
     await padeiro.save();
     
     const pObj = padeiro.toObject();
@@ -71,6 +91,19 @@ exports.createPadeiro = async (req, res) => {
 exports.updatePadeiro = async (req, res) => {
   try {
     const { senha, ...rest } = req.body;
+    let filialArray = rest.filial;
+    if (filialArray !== undefined) {
+      if (typeof filialArray === 'string') {
+        try {
+          filialArray = JSON.parse(filialArray);
+        } catch(e) {
+          filialArray = [filialArray];
+        }
+      }
+      if (!Array.isArray(filialArray)) filialArray = [filialArray];
+      rest.filial = filialArray;
+    }
+
     const updateData = { ...rest, atualizadoEm: new Date().toISOString() };
     if (req.body.cargo) updateData.role = req.body.cargo === 'GESTOR' ? 'gestor' : 'padeiro';
     
@@ -82,7 +115,15 @@ exports.updatePadeiro = async (req, res) => {
     // Protect firstAccessToken from general updates unless explicitly clearing it above
     if (!senha) delete updateData.firstAccessToken;
 
-    const p = await Padeiro.findByIdAndUpdate(req.params.id, updateData, { new: true });
+    const allowedFields = ['nome', 'cpf', 'telefone', 'senha', 'role', 'status', 'fotoPerfil', 'filial', 'foto', 'assinatura', 'ativo', 'deletado', 'dataContratacao', 'criadoEm', 'atualizadoEm', 'cor', 'cargo', 'codTec', 'rg', 'email', 'dataNascimento', 'passwordHash', 'firstAccessToken'];
+    const sanitizedUpdate = {};
+    for (const key of Object.keys(updateData)) {
+      if (allowedFields.includes(key)) {
+        sanitizedUpdate[key] = updateData[key];
+      }
+    }
+
+    const p = await Padeiro.findByIdAndUpdate(req.params.id, sanitizedUpdate, { new: true });
     if (!p) return res.status(404).json({ error: 'Não encontrado' });
     res.json(p);
   } catch (e) {

@@ -112,21 +112,35 @@ class PrismaCollectionProxy {
          const obj = { ...this };
          delete obj.save;
          delete obj.toObject;
+         delete obj.toJSON;
          return obj;
+      },
+      toJSON: function() {
+         return this.toObject();
       },
       save: async function() {
         const dataToSave = { ...this };
         delete dataToSave.save;
         delete dataToSave.toObject;
+        delete dataToSave.toJSON;
         delete dataToSave._id; // _id não existe no Prisma nativamente
         delete dataToSave.createdAt; // Geralmente auto-gerenciado ou não atualizável diretamente
         delete dataToSave.updatedAt;
 
-        const updated = await self.model.update({
-          where: { id: this.id },
-          data: dataToSave
-        });
-        
+        let updated;
+        if (this.id) {
+          updated = await self.model.update({
+            where: { id: this.id },
+            data: dataToSave
+          });
+        } else {
+          updated = await self.model.create({
+            data: dataToSave
+          });
+          this.id = updated.id;
+          this._id = updated.id;
+        }
+
         return self.wrapDoc(updated);
       }
     };
@@ -255,21 +269,23 @@ function createProxy(modelName) {
   return proxy;
 }
 
+const jsonDB = require('./jsonDB');
+
 module.exports = {
   Padeiro: createProxy('padeiro'),
-  Produto: createProxy('produto'),
-  Cliente: createProxy('cliente'),
-  Colaborador: createProxy('colaborador'),
+  Produto: jsonDB.Produto,
+  Cliente: jsonDB.Cliente,
+  Colaborador: jsonDB.Colaborador,
   Admin: createProxy('admin'),
-  Meta: createProxy('meta'),
+  Meta: createProxy('padeiroMeta'),
   Atividade: createProxy('atividade'),
-  Avaliacao: createProxy('avaliacao'),
+  Avaliacao: jsonDB.Avaliacao,
   Cronograma: createProxy('cronograma'),
-  Criterio: createProxy('criterio'),
+  Criterio: jsonDB.Criterio,
   Localizacao: createProxy('localizacao'),
-  HistoricoLocalizacao: createProxy('historicoLocalizacao'),
-  CronogramaTemplate: createProxy('cronogramaTemplate'),
-  TimelineEvent: createProxy('timelineEvent'),
+  HistoricoLocalizacao: jsonDB.HistoricoLocalizacao,
+  CronogramaTemplate: jsonDB.CronogramaTemplate,
+  TimelineEvent: jsonDB.TimelineEvent,
   PushSubscription: createProxy('pushSubscription'),
   Configuracao: createProxy('configuracao')
 };

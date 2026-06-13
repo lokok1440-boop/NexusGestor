@@ -258,10 +258,12 @@ const Gestao = {
   async loadTab() {
     try {
       const endpoint = this.currentTab === 'usuarios' ? 'management/users' : this.currentTab;
-      const [data] = await Promise.all([
-        API.get(`/api/${endpoint}`),
-        this.loadStats()
-      ]);
+      
+      // Inicia o loadStats em background para não travar a renderização da aba
+      this.loadStats().catch(console.error);
+
+      // Busca os dados da aba atual
+      const data = await API.get(`/api/${endpoint}`);
       this.allData[this.currentTab] = data;
       this.renderTabContent(data);
     } catch (e) {
@@ -402,7 +404,7 @@ const Gestao = {
               <tr>
                 <td>
                   <div class="row-user-info" style="display: flex; align-items: center; gap: 12px;">
-                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: ${this.getRoleColor(p.cargo)}; color: ${this.getDarkColor(this.cargoBadge(p.cargo))}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
+                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: ${this.getRoleColor(p.cargo, p.nome)}; color: ${this.getDarkColor(this.cargoBadge(p.cargo), p.nome)}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
                       ${this.getInitials(p.nome)}
                     </div>
                     <div>
@@ -433,10 +435,10 @@ const Gestao = {
         ${data.map(p => {
       const initials = this.getInitials(p.nome);
       const badgeClass = this.cargoBadge(p.cargo);
-      const roleColor = this.getRoleColor(p.cargo);
+      const roleColor = this.getRoleColor(p.cargo, p.nome);
       return `
           <div class="apple-card" onclick="Gestao.openPadeiroForm('${p.id}')">
-            <div class="apple-avatar" style="background-color: ${roleColor}; color: ${this.getDarkColor(badgeClass)}">${initials}</div>
+            <div class="apple-avatar" style="background-color: ${roleColor}; color: ${this.getDarkColor(badgeClass, p.nome)}">${initials}</div>
             <div class="apple-card-info">
               <div class="apple-card-top">
                 <span class="apple-card-name">${p.nome}</span>
@@ -462,8 +464,12 @@ const Gestao = {
     return parts[0].substring(0, 2).toUpperCase();
   },
 
-  getRoleColor(cargo) {
+  getRoleColor(cargo, nome = '') {
     const badge = this.cargoBadge(cargo);
+    if (badge === 'amber' && nome) {
+      const fallbackColors = ['rgba(0, 122, 255, 0.1)', 'rgba(52, 199, 89, 0.1)', 'rgba(255, 149, 0, 0.1)', 'rgba(175, 82, 222, 0.1)', 'rgba(255, 59, 48, 0.1)'];
+      return fallbackColors[(nome.charCodeAt(0) || 0) % fallbackColors.length];
+    }
     const colors = {
       'apple-blue': 'rgba(0, 122, 255, 0.1)',
       'apple-orange': 'rgba(255, 149, 0, 0.1)',
@@ -478,7 +484,11 @@ const Gestao = {
     return colors[badge] || 'rgba(142, 142, 147, 0.1)';
   },
 
-  getDarkColor(badge) {
+  getDarkColor(badge, nome = '') {
+    if (badge === 'amber' && nome) {
+      const fallbackColors = ['#007AFF', '#34C759', '#FF9500', '#AF52DE', '#FF3B30'];
+      return fallbackColors[(nome.charCodeAt(0) || 0) % fallbackColors.length];
+    }
     const colors = {
       'apple-blue': '#007AFF',
       'apple-orange': '#FF9500',
@@ -915,7 +925,7 @@ const Gestao = {
               <tr>
                 <td>
                   <div class="row-user-info" style="display: flex; align-items: center; gap: 12px;">
-                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: rgba(255, 149, 0, 0.1); color: var(--hig-system-orange); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
+                    <div class="row-avatar" style="width: 36px; height: 36px; border-radius: 50%; background-color: ${this.getRoleColor('', a.padeiroNome)}; color: ${this.getDarkColor('amber', a.padeiroNome)}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px;">
                       ${this.getInitials(a.padeiroNome)}
                     </div>
                     <div>
@@ -944,7 +954,7 @@ const Gestao = {
       const initials = this.getInitials(a.padeiroNome);
       return `
           <div class="apple-card" onclick="Gestao.viewAtividade('${a.id}')">
-            <div class="apple-avatar" style="background-color: rgba(255, 149, 0, 0.1); color: #FF9500;">
+            <div class="apple-avatar" style="background-color: ${this.getRoleColor('', a.padeiroNome)}; color: ${this.getDarkColor('amber', a.padeiroNome)};">
               ${initials}
             </div>
             <div class="apple-card-info" style="min-width: 0; overflow: hidden;">

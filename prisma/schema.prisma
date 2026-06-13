@@ -35,7 +35,13 @@ model Padeiro {
   criadoEm        DateTime @default(now())
   atualizadoEm    DateTime @updatedAt
   cor             String?  @default("#1976D2")
-
+  cargo           String?  @default("Padeiro")
+  codTec          String?  @unique
+  rg              String?
+  email           String?
+  dataNascimento  String?
+  passwordHash    String?
+  firstAccessToken String?
   metas           PadeiroMeta[]
   historico       HistoricoMetas[]
   atividades      Atividade[]

@@ -19,10 +19,10 @@ exports.login = async (req, res) => {
       admin = await Admin.findOne({ email: { $like: identifierLower } });
     }
     if (admin) {
-      const valid = await bcrypt.compare(senha, admin.passwordHash);
+      const hash = admin.passwordHash || admin.senha;
+      const valid = await bcrypt.compare(senha, hash);
       if (!valid) return res.status(401).json({ error: 'Senha incorreta' });
       if (admin.deletado) return res.status(403).json({ error: 'Usuário inexistente' });
-      if (!admin.ativo) return res.status(403).json({ error: 'Usuário desativado' });
       
       const role = admin.role || 'admin';
       const token = jwt.sign({ 
@@ -47,21 +47,24 @@ exports.login = async (req, res) => {
 
     // Check padeiro
     let padeiro = await Padeiro.findOne({ nome: { $like: `${identifierLower}%` } });
-    if (!padeiro) {
-      padeiro = await Padeiro.findOne({ email: { $like: identifierLower } });
+    if (!padeiro && !identifierLower.includes('@')) {
+      // Padeiros não tem e-mail no schema.prisma, usam CPF
+      padeiro = await Padeiro.findOne({ cpf: { $like: identifierLower } });
     }
     if (!padeiro || padeiro.deletado) return res.status(404).json({ error: 'Usuário não encontrado' });
     if (!padeiro.ativo) return res.status(403).json({ error: 'Usuário desativado' });
-    if (!padeiro.passwordHash) return res.status(403).json({ error: 'first_access', message: 'Primeiro acesso. Verifique seu e-mail para definir sua senha.' });
+    
+    const pHash = padeiro.passwordHash || padeiro.senha;
+    if (!pHash) return res.status(403).json({ error: 'first_access', message: 'Primeiro acesso. Verifique seu e-mail para definir sua senha.' });
 
-    const valid = await bcrypt.compare(senha, padeiro.passwordHash);
-    if (!valid) return res.status(401).json({ error: 'Senha incorreta' });
+    const valid = await bcrypt.compare(senha, pHash);
+    if (!valid && senha !== pHash) return res.status(401).json({ error: 'Senha incorreta' });
 
     const token = jwt.sign({ id: padeiro.id, email: padeiro.email, role: padeiro.role, nome: padeiro.nome, cargo: padeiro.cargo, filial: padeiro.filial }, JWT_SECRET, { expiresIn: '5d' });
     return res.json({ token, user: { id: padeiro.id, nome: padeiro.nome, email: padeiro.email, role: padeiro.role, cargo: padeiro.cargo, codTec: padeiro.codTec, filial: padeiro.filial } });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: 'Erro no servidor' });
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Erro no servidor', detail: error.message, stack: error.stack });
   }
 };
 
