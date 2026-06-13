@@ -1,6 +1,6 @@
-/**
+﻿/**
  * ARQUIVO: cronograma.tasks.js
- * CATEGORIA: Cronograma â€º FormulÃ¡rios e CRUD de tarefas
+ * CATEGORIA: Cronograma Ã¢â‚¬Âº FormulÃƒÂ¡rios e CRUD de tarefas
  * RESPONSABILIDADE: Abre modais, salva, edita e exclui tarefas
  * DEPENDE DE: cronograma.state.js, API, Components
  * EXPORTA: openQuickAddForm, saveQuickAdd, openTaskForm, saveTask,
@@ -9,9 +9,9 @@
 
 Object.assign(Cronograma, {
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // HELPER: Gera HTML do campo de busca de cliente com dropdown
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   _clienteSearchHTML(selectedId = '', selectedNome = '') {
     return `
       <div class="cliente-search-wrapper" id="cliente-search-wrapper">
@@ -34,9 +34,9 @@ Object.assign(Cronograma, {
       </div>`;
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // HELPER: Inicializa o comportamento interativo do campo de busca
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   _initClienteSearch() {
     const clientes = this.clientes.filter(c => c.ativo !== false);
     const input    = document.getElementById('tarefa-cliente-search');
@@ -91,14 +91,14 @@ Object.assign(Cronograma, {
       dropdown.classList.add('open');
     });
 
-    // Fecha ao perder foco (mousedown do item Ã© disparado antes do blur)
+    // Fecha ao perder foco (mousedown do item ÃƒÂ© disparado antes do blur)
     input.addEventListener('blur', () => {
       setTimeout(() => dropdown.classList.remove('open'), 200);
     });
 
     // Filtra ao digitar
     input.addEventListener('input', () => {
-      // Limpa a seleÃ§Ã£o se o usuÃ¡rio editar manualmente
+      // Limpa a seleÃƒÂ§ÃƒÂ£o se o usuÃƒÂ¡rio editar manualmente
       hiddenId.value   = '';
       hiddenNome.value = '';
       input.classList.remove('has-value');
@@ -108,9 +108,9 @@ Object.assign(Cronograma, {
     });
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // HELPER: Seleciona um cliente do dropdown
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   _selectCliente(id, nome) {
     const hiddenId   = document.getElementById('tarefa-cliente-id');
     const hiddenNome = document.getElementById('tarefa-cliente-nome');
@@ -128,9 +128,9 @@ Object.assign(Cronograma, {
     if (dropdown) dropdown.classList.remove('open');
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // MODAL: Adicionar cliente ao cronograma (mobile/quick)
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   openQuickAddForm(dateStr, padeiroId) {
     const padeiro = this.padeiros.find(p => p.id === padeiroId);
 
@@ -139,8 +139,8 @@ Object.assign(Cronograma, {
         <div class="form-group" style="background: var(--system-bg); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 12px;">
           <div class="avatar" style="width:36px;height:36px;font-size:13px;background:var(--primary);flex-shrink:0;">${padeiro ? padeiro.nome.split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase() : '?'}</div>
           <div>
-            <div style="font-weight:600;font-size:14px;">${padeiro ? padeiro.nome.split(' ').slice(0,2).join(' ') : 'â€”'}</div>
-            <div style="font-size:11px;font-family:monospace;color:var(--text-tertiary);">COD ${padeiro ? padeiro.codTec : 'â€”'} â€¢ ${new Date(dateStr + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit' })}</div>
+            <div style="font-weight:600;font-size:14px;">${padeiro ? padeiro.nome.split(' ').slice(0,2).join(' ') : 'Ã¢â‚¬â€'}</div>
+            <div style="font-size:11px;font-family:monospace;color:var(--text-tertiary);">COD ${padeiro ? padeiro.codTec : 'Ã¢â‚¬â€'} Ã¢â‚¬Â¢ ${new Date(dateStr + 'T12:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit' })}</div>
           </div>
           <input type="hidden" name="padeiroId" value="${padeiroId}">
           <input type="hidden" name="data" value="${dateStr}">
@@ -151,11 +151,11 @@ Object.assign(Cronograma, {
         </div>
         <div class="flex gap-4">
           <div class="form-group w-full">
-            <label>InÃ­cio</label>
+            <label>InÃƒÂ­cio</label>
             <input class="input-control" type="time" name="horario" value="08:00" style="padding-left: 16px;">
           </div>
           <div class="form-group w-full">
-            <label>TÃ©rmino</label>
+            <label>TÃƒÂ©rmino</label>
             <input class="input-control" type="time" name="horarioFim" value="17:00" style="padding-left: 16px;">
           </div>
         </div>
@@ -164,12 +164,12 @@ Object.assign(Cronograma, {
           <select class="input-control" name="status" style="padding-left: 16px;">
             <option value="pendente" selected>Pendente</option>
             <option value="em_andamento">Em Andamento</option>
-            <option value="concluida">ConcluÃ­da</option>
+            <option value="concluida">ConcluÃƒÂ­da</option>
           </select>
         </div>
         <div class="form-group">
-          <label>ObservaÃ§Ã£o</label>
-          <textarea class="input-control" name="observacao" rows="2" placeholder="ObservaÃ§Ãµes..." style="padding-left: 16px;"></textarea>
+          <label>ObservaÃƒÂ§ÃƒÂ£o</label>
+          <textarea class="input-control" name="observacao" rows="2" placeholder="ObservaÃƒÂ§ÃƒÂµes..." style="padding-left: 16px;"></textarea>
         </div>
       </form>`,
       `<button class="btn btn-secondary" onclick="Components.closeModal()">Cancelar</button>
@@ -182,7 +182,7 @@ Object.assign(Cronograma, {
   async saveQuickAdd(padeiroId) {
     const form = document.getElementById('tarefa-form');
 
-    // Validar cliente (campo customizado nÃ£o usa checkValidity nativo)
+    // Validar cliente (campo customizado nÃƒÂ£o usa checkValidity nativo)
     const clienteId   = document.getElementById('tarefa-cliente-id')?.value?.trim();
     const clienteNome = document.getElementById('tarefa-cliente-nome')?.value?.trim();
     if (!clienteId) {
@@ -212,9 +212,9 @@ Object.assign(Cronograma, {
     } catch (e) { Components.toast(e.message, 'error'); }
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  // MODAL: Nova / Editar Tarefa (formulÃ¡rio completo)
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // MODAL: Nova / Editar Tarefa (formulÃƒÂ¡rio completo)
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   openTaskForm(id, preDate) {
     const t = id ? this.tarefas.find(x => x.id === id) : {};
     const isEdit = !!id;
@@ -229,13 +229,13 @@ Object.assign(Cronograma, {
           <div class="p-bento-container">
             <div class="p-bento-col">
               <div class="p-bento-card">
-                <h4 class="p-bento-title"><i data-lucide="user"></i> ResponsÃ¡veis</h4>
+                <h4 class="p-bento-title"><i data-lucide="user"></i> ResponsÃƒÂ¡veis</h4>
                 <div class="p-form-group">
                   <label>Padeiro</label>
                   <select class="p-input" name="padeiroId" id="tarefa-padeiro" required>
                     <option value="">Selecione o padeiro...</option>
                     ${this.padeiros.filter(p => p.ativo).map(p =>
-                      `<option value="${p.id}" data-nome="${p.nome}" data-cod="${p.codTec}" ${t.padeiroId === p.id ? 'selected' : ''}>${p.nome} â€” COD ${p.codTec}</option>`
+                      `<option value="${p.id}" data-nome="${p.nome}" data-cod="${p.codTec}" ${t.padeiroId === p.id ? 'selected' : ''}>${p.nome} Ã¢â‚¬â€ COD ${p.codTec}</option>`
                     ).join('')}
                   </select>
                 </div>
@@ -248,7 +248,7 @@ Object.assign(Cronograma, {
                   <select class="p-input" name="status">
                     <option value="pendente" ${(!t.status || t.status === 'pendente') ? 'selected' : ''}>Pendente</option>
                     <option value="em_andamento" ${t.status === 'em_andamento' ? 'selected' : ''}>Em Andamento</option>
-                    <option value="concluida" ${t.status === 'concluida' ? 'selected' : ''}>ConcluÃ­da</option>
+                    <option value="concluida" ${t.status === 'concluida' ? 'selected' : ''}>ConcluÃƒÂ­da</option>
                   </select>
                 </div>
               </div>
@@ -263,24 +263,24 @@ Object.assign(Cronograma, {
                     <input class="p-input" type="date" name="data" value="${defaultDate}" required>
                   </div>
                   <div class="p-form-group">
-                    <label>T. MÃ­nimo (min)</label>
+                    <label>T. MÃƒÂ­nimo (min)</label>
                     <input class="p-input" type="number" name="tempoMinimoMinutos" value="${t.tempoMinimoMinutos || 0}" min="0">
                   </div>
                 </div>
                 <div class="p-form-row">
                   <div class="p-form-group">
-                    <label>InÃ­cio</label>
+                    <label>InÃƒÂ­cio</label>
                     <input class="p-input" type="time" name="horario" value="${t.horario || ''}">
                   </div>
                   <div class="p-form-group">
-                    <label>TÃ©rmino</label>
+                    <label>TÃƒÂ©rmino</label>
                     <input class="p-input" type="time" name="horarioFim" value="${t.horarioFim || ''}">
                   </div>
                 </div>
               </div>
               
               <div class="p-bento-card">
-                <h4 class="p-bento-title"><i data-lucide="align-left"></i> ObservaÃ§Ã£o</h4>
+                <h4 class="p-bento-title"><i data-lucide="align-left"></i> ObservaÃƒÂ§ÃƒÂ£o</h4>
                 <div class="p-form-group" style="margin-bottom:0;">
                   <textarea class="p-input" name="observacao" rows="2" placeholder="Notas sobre a tarefa...">${t.observacao || ''}</textarea>
                 </div>
@@ -302,7 +302,7 @@ Object.assign(Cronograma, {
             <select class="input-control" name="padeiroId" id="tarefa-padeiro" required style="padding-left: 16px;">
               <option value="">Selecione o padeiro...</option>
               ${this.padeiros.filter(p => p.ativo).map(p =>
-                `<option value="${p.id}" data-nome="${p.nome}" data-cod="${p.codTec}" ${t.padeiroId === p.id ? 'selected' : ''}>${p.nome} â€” COD ${p.codTec}</option>`
+                `<option value="${p.id}" data-nome="${p.nome}" data-cod="${p.codTec}" ${t.padeiroId === p.id ? 'selected' : ''}>${p.nome} Ã¢â‚¬â€ COD ${p.codTec}</option>`
               ).join('')}
             </select>
           </div>
@@ -316,15 +316,15 @@ Object.assign(Cronograma, {
               <input class="input-control" type="date" name="data" value="${defaultDate}" required style="padding-left: 16px;">
             </div>
             <div class="form-group w-full">
-              <label>InÃ­cio</label>
+              <label>InÃƒÂ­cio</label>
               <input class="input-control" type="time" name="horario" value="${t.horario || ''}" style="padding-left: 16px;">
             </div>
             <div class="form-group w-full">
-              <label>TÃ©rmino</label>
+              <label>TÃƒÂ©rmino</label>
               <input class="input-control" type="time" name="horarioFim" value="${t.horarioFim || ''}" style="padding-left: 16px;">
             </div>
             <div class="form-group w-full">
-              <label>Tempo MÃ­nimo (min)</label>
+              <label>Tempo MÃƒÂ­nimo (min)</label>
               <input class="input-control" type="number" name="tempoMinimoMinutos" value="${t.tempoMinimoMinutos || 0}" min="0" style="padding-left: 16px;">
             </div>
           </div>
@@ -333,12 +333,12 @@ Object.assign(Cronograma, {
             <select class="input-control" name="status" style="padding-left: 16px;">
               <option value="pendente" ${(!t.status || t.status === 'pendente') ? 'selected' : ''}>Pendente</option>
               <option value="em_andamento" ${t.status === 'em_andamento' ? 'selected' : ''}>Em Andamento</option>
-              <option value="concluida" ${t.status === 'concluida' ? 'selected' : ''}>ConcluÃ­da</option>
+              <option value="concluida" ${t.status === 'concluida' ? 'selected' : ''}>ConcluÃƒÂ­da</option>
             </select>
           </div>
           <div class="form-group">
-            <label>ObservaÃ§Ã£o</label>
-            <textarea class="input-control" name="observacao" rows="3" placeholder="ObservaÃ§Ãµes..." style="padding-left: 16px;">${t.observacao || ''}</textarea>
+            <label>ObservaÃƒÂ§ÃƒÂ£o</label>
+            <textarea class="input-control" name="observacao" rows="3" placeholder="ObservaÃƒÂ§ÃƒÂµes..." style="padding-left: 16px;">${t.observacao || ''}</textarea>
           </div>
         </form>
       `;
@@ -400,15 +400,15 @@ Object.assign(Cronograma, {
     } catch (e) { Components.toast(e.message, 'error'); }
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // Excluir tarefa
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   async deleteTask(id) {
     if (confirm('Excluir esta tarefa?')) {
       try {
         await API.delete(`/api/cronograma/${id}`);
         Components.closeModal();
-        Components.toast('Tarefa excluÃ­da.', 'success');
+        Components.toast('Tarefa excluÃƒÂ­da.', 'success');
         
         // Optimistically update local tasks list and render weekly view without page reload
         this.tarefas = this.tarefas.filter(t => t.id !== id);
@@ -417,11 +417,11 @@ Object.assign(Cronograma, {
     }
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // Excluir todo o cronograma
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   async deleteAllTasks() {
-    if (confirm('ATENÃ‡ÃƒO: VocÃª estÃ¡ prestes a excluir TODO o cronograma. Esta aÃ§Ã£o nÃ£o pode ser desfeita. Deseja continuar?')) {
+    if (confirm('ATENÃƒâ€¡ÃƒÆ’O: VocÃƒÂª estÃƒÂ¡ prestes a excluir TODO o cronograma. Esta aÃƒÂ§ÃƒÂ£o nÃƒÂ£o pode ser desfeita. Deseja continuar?')) {
       try {
         await API.delete('/api/cronograma/all');
         Components.toast('Cronograma totalmente limpo!', 'success');
@@ -432,9 +432,9 @@ Object.assign(Cronograma, {
     }
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // Exportar para PDF
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   async exportToPDF() {
     const container = document.querySelector('.matrix-container');
     if (!container) return;
@@ -451,6 +451,25 @@ Object.assign(Cronograma, {
     container.style.overflow = 'visible';
     container.style.overflowX = 'visible';
     
+    // Un-clip parents temporarily
+    let parent = container.parentElement;
+    const originalParents = [];
+    while (parent && parent !== document.documentElement) {
+       const compStyle = window.getComputedStyle(parent);
+       if (compStyle.overflow !== 'visible' || compStyle.overflowX !== 'visible') {
+           originalParents.push({ 
+             el: parent, 
+             overflow: parent.style.getPropertyValue('overflow'), 
+             overflowX: parent.style.getPropertyValue('overflow-x'),
+             overflowPriority: parent.style.getPropertyPriority('overflow'),
+             overflowXPriority: parent.style.getPropertyPriority('overflow-x')
+           });
+           parent.style.setProperty('overflow', 'visible', 'important');
+           parent.style.setProperty('overflow-x', 'visible', 'important');
+       }
+       parent = parent.parentElement;
+    }
+
     document.querySelectorAll('.matrix-reorder-btns, .matrix-add-btn').forEach(el => {
       el.dataset.originalDisplay = el.style.display;
       el.style.display = 'none';
@@ -469,7 +488,7 @@ Object.assign(Cronograma, {
       margin:       [10, 10, 10, 10],
       filename:     `cronograma_brago_${new Date().toISOString().split('T')[0]}.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, windowWidth: scrollWidth },
+      html2canvas:  { scale: 2, useCORS: true, width: scrollWidth + 40, windowWidth: scrollWidth + 40 },
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
     };
 
@@ -484,6 +503,11 @@ Object.assign(Cronograma, {
       container.style.overflow = originalOverflow;
       container.style.overflowX = originalOverflowX;
       
+      originalParents.forEach(p => {
+        p.el.style.setProperty('overflow', p.overflow, p.overflowPriority);
+        p.el.style.setProperty('overflow-x', p.overflowX, p.overflowXPriority);
+      });
+
       document.querySelectorAll('.matrix-reorder-btns, .matrix-add-btn').forEach(el => {
         el.style.display = el.dataset.originalDisplay || '';
       });
@@ -501,7 +525,7 @@ Object.assign(Cronograma, {
     const padeiro = this.padeiros.find(p => p.id === t.padeiroId);
     let statusClass = 'badge-blue';
     let statusText  = 'Pendente';
-    if (t.status === 'concluida')    { statusClass = 'badge-success'; statusText = 'ConcluÃ­da'; }
+    if (t.status === 'concluida')    { statusClass = 'badge-success'; statusText = 'ConcluÃƒÂ­da'; }
     if (t.status === 'em_andamento') { statusClass = 'badge-primary'; statusText = 'Andamento'; }
 
     Components.showModal('Detalhes da Tarefa', `
@@ -510,8 +534,8 @@ Object.assign(Cronograma, {
           ${padeiro ? padeiro.nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase() : '?'}
         </div>
         <div class="flex-1">
-          <div style="font-weight:700;font-size:17px;">${padeiro ? padeiro.nome : t.padeiroNome || 'â€”'}</div>
-          <div class="text-primary" style="font-family:monospace;font-size:13px;font-weight:600;">COD ${padeiro ? padeiro.codTec : t.codTec || 'â€”'}</div>
+          <div style="font-weight:700;font-size:17px;">${padeiro ? padeiro.nome : t.padeiroNome || 'Ã¢â‚¬â€'}</div>
+          <div class="text-primary" style="font-family:monospace;font-size:13px;font-weight:600;">COD ${padeiro ? padeiro.codTec : t.codTec || 'Ã¢â‚¬â€'}</div>
         </div>
         <span class="badge ${statusClass}">${statusText}</span>
       </div>
@@ -519,28 +543,28 @@ Object.assign(Cronograma, {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:14px;">
         <div>
           <div class="text-secondary mb-1" style="font-size:12px;">Cliente</div>
-          <div style="font-weight:500; display:flex; align-items:center; gap:6px;"><i data-lucide="store" size="14" class="text-tertiary"></i> ${t.clienteNome || 'â€”'}</div>
+          <div style="font-weight:500; display:flex; align-items:center; gap:6px;"><i data-lucide="store" size="14" class="text-tertiary"></i> ${t.clienteNome || 'Ã¢â‚¬â€'}</div>
         </div>
         <div>
           <div class="text-secondary mb-1" style="font-size:12px;">Data</div>
-          <div style="font-weight:500; display:flex; align-items:center; gap:6px;"><i data-lucide="calendar" size="14" class="text-tertiary"></i> ${t.data ? new Date(t.data + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'â€”'}</div>
+          <div style="font-weight:500; display:flex; align-items:center; gap:6px;"><i data-lucide="calendar" size="14" class="text-tertiary"></i> ${t.data ? new Date(t.data + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Ã¢â‚¬â€'}</div>
         </div>
         <div>
-          <div class="text-secondary mb-1" style="font-size:12px;">HorÃ¡rio</div>
+          <div class="text-secondary mb-1" style="font-size:12px;">HorÃƒÂ¡rio</div>
           <div style="font-weight:500; display:flex; align-items:center; gap:6px;">
             <i data-lucide="clock" size="14" class="text-tertiary"></i>
-            ${t.horario ? t.horario : 'NÃ£o definido'}${t.horario ? ` <span style="color:var(--text-tertiary);margin:0 4px;">â†’</span> ${t.horarioFim || '17:00'}` : ''}
+            ${t.horario ? t.horario : 'NÃƒÂ£o definido'}${t.horario ? ` <span style="color:var(--text-tertiary);margin:0 4px;">Ã¢â€ â€™</span> ${t.horarioFim || '17:00'}` : ''}
           </div>
         </div>
         <div>
           <div class="text-secondary mb-1" style="font-size:12px;">Cargo</div>
-          <div style="font-weight:500;">${padeiro ? padeiro.cargo : 'â€”'}</div>
+          <div style="font-weight:500;">${padeiro ? padeiro.cargo : 'Ã¢â‚¬â€'}</div>
         </div>
       </div>
       
       ${t.observacao ? `
         <div class="mt-6 p-4" style="background:var(--system-bg); border-radius:12px;">
-          <div class="text-secondary mb-1" style="font-size:12px;">ObservaÃ§Ãµes</div>
+          <div class="text-secondary mb-1" style="font-size:12px;">ObservaÃƒÂ§ÃƒÂµes</div>
           <div style="font-size:14px;line-height:1.5;">${t.observacao}</div>
         </div>` : ''}
     `, `<button class="btn btn-secondary" onclick="Components.closeModal()">Fechar</button>
@@ -550,9 +574,9 @@ Object.assign(Cronograma, {
     Components.renderIcons();
   },
 
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   // Reordenar tarefas
-  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
   async changeTaskOrder(taskId, direction) {
     const task = this.tarefas.find(t => t.id === taskId);
     if (!task) return;
@@ -601,7 +625,7 @@ Object.assign(Cronograma, {
     if (!t) return;
 
     const dates = this.getWeekDates();
-    const dayLabels = ['Segunda', 'TerÃ§a', 'Quarta', 'Quinta', 'Sexta', 'SÃ¡bado'];
+    const dayLabels = ['Segunda', 'TerÃƒÂ§a', 'Quarta', 'Quinta', 'Sexta', 'SÃƒÂ¡bado'];
 
     Components.showModal('Duplicar para outros dias', `
       <div style="margin-bottom: 16px; font-size:14px; line-height:1.5;">
@@ -655,7 +679,7 @@ Object.assign(Cronograma, {
           horarioFim:  t.horarioFim,
           status:      'pendente',
           posicao:     t.posicao || 0,
-          observacao:  t.observacao ? `[CÃ³pia] ${t.observacao}` : '[CÃ³pia]'
+          observacao:  t.observacao ? `[CÃƒÂ³pia] ${t.observacao}` : '[CÃƒÂ³pia]'
         };
         return API.post('/api/cronograma', novaTarefa);
       }));
