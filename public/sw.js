@@ -1,4 +1,4 @@
-const CACHE_NAME = 'brago-padeiro-v61';
+const CACHE_NAME = 'brago-padeiro-v62';
 
 // Arquivos externos (CDN) — cache-first, raramente mudam
 const STATIC_CDN = [
@@ -58,7 +58,8 @@ self.addEventListener('install', (event) => {
       return cache.addAll(LOCAL_ASSETS).catch(() => {});
     })
   );
-  // O skipWaiting foi removido daqui para permitir que o banner de "Atualizar agora" apareça
+  // Forçando a atualização imediata para garantir que os clientes peguem as mudanças de design
+  self.skipWaiting();
 });
 
 // ─── ACTIVATE: Remove caches antigos e toma controle de todos os clientes ────
