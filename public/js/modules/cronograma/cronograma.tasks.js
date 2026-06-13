@@ -439,17 +439,34 @@ Object.assign(Cronograma, {
     const container = document.querySelector('.matrix-container');
     if (!container) return;
     
+    const table = container.querySelector('.matrix-table');
+    
     Components.toast('Gerando PDF, aguarde...', 'info');
 
-    const originalWidth = container.style.width;
-    const originalOverflow = container.style.overflow;
-    const originalOverflowX = container.style.overflowX;
+    const originalContainerWidth = container.style.width;
+    const originalContainerMaxWidth = container.style.maxWidth;
+    const originalContainerOverflow = container.style.overflow;
+    const originalContainerOverflowX = container.style.overflowX;
+    
+    let originalTableWidth = '';
+    let originalTableMinWidth = '';
+    if (table) {
+      originalTableWidth = table.style.width;
+      originalTableMinWidth = table.style.minWidth;
+    }
+
     const isMobile = window.innerWidth <= 768;
     
+    // Força o container e a tabela a expandirem para o tamanho real do conteúdo
     container.style.width = 'max-content'; 
     container.style.maxWidth = 'none';
     container.style.overflow = 'visible';
     container.style.overflowX = 'visible';
+    
+    if (table) {
+      table.style.width = 'max-content';
+      table.style.minWidth = '1200px';
+    }
     
     // Un-clip parents temporarily
     let parent = container.parentElement;
@@ -482,7 +499,7 @@ Object.assign(Cronograma, {
 
     await new Promise(r => setTimeout(r, 100));
 
-    const scrollWidth = container.scrollWidth;
+    const scrollWidth = table ? table.scrollWidth : container.scrollWidth;
 
     const opt = {
       margin:       [10, 10, 10, 10],
@@ -498,10 +515,15 @@ Object.assign(Cronograma, {
     } catch (e) {
       Components.toast('Erro ao exportar PDF: ' + e.message, 'error');
     } finally {
-      container.style.width = originalWidth;
-      container.style.maxWidth = '';
-      container.style.overflow = originalOverflow;
-      container.style.overflowX = originalOverflowX;
+      container.style.width = originalContainerWidth;
+      container.style.maxWidth = originalContainerMaxWidth;
+      container.style.overflow = originalContainerOverflow;
+      container.style.overflowX = originalContainerOverflowX;
+      
+      if (table) {
+        table.style.width = originalTableWidth;
+        table.style.minWidth = originalTableMinWidth;
+      }
       
       originalParents.forEach(p => {
         p.el.style.setProperty('overflow', p.overflow, p.overflowPriority);
