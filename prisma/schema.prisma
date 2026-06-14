@@ -171,6 +171,7 @@ model Cliente {
   nome           String
   razaoSocial    String?
   cnpj           String?
+  ie             String?
   email          String?
   telefone       String?
   celular        String?
