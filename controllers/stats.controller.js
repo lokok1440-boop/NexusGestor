@@ -147,6 +147,11 @@ exports.getGeneralStats = async (req, res) => {
           items = a.kgItens;
         }
       }
+      
+      if (!Array.isArray(items)) {
+        items = [];
+      }
+      
       items.forEach(item => {
         const name = item.produtoNome || item.produto || 'Produto Desconhecido';
         const id = item.produtoId || '';

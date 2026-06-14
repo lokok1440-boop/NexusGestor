@@ -16,6 +16,12 @@ function buildWhere(query) {
        continue;
     }
     
+    // Handling string exact match for scalar list fields
+    if (key === 'filial' && typeof where[key] === 'string') {
+      where[key] = { has: where[key] };
+      continue;
+    }
+
     // Tratamento para operadores do tipo MongoDB / Sequelize
     const val = where[key];
     if (val && typeof val === 'object' && !Array.isArray(val) && !(val instanceof RegExp)) {
@@ -43,7 +49,11 @@ function buildWhere(query) {
         hasOp = true;
       }
       if (val.$in !== undefined) {
-        prismaOp.in = val.$in;
+        if (key === 'filial') {
+          prismaOp.hasSome = val.$in;
+        } else {
+          prismaOp.in = val.$in;
+        }
         hasOp = true;
       }
       if (val.$gte !== undefined) {

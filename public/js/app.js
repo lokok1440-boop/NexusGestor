@@ -329,14 +329,12 @@ const App = {
           Nexus<span style="font-weight: 300; color: var(--text-secondary, rgba(0,0,0,0.6));">Gestor</span>
         </div>
       </div>
-      <div class="hig-sidebar-logo hig-desktop-only" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; box-sizing: border-box; width: 100%;">
-        <div class="hig-logo-text-group" style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;">
-          <div class="hig-logo-img" style="background: white; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-            <img src="/assets/nexus-icon.svg" style="height: 28px; width: 28px; border-radius: 6px;" alt="Logo">
-          </div>
-          <span style="white-space: nowrap;">Nexus<span style="font-weight: 300; color: rgba(255,255,255,0.7);">Gestor</span></span>
+      <div class="sidebar-header hig-desktop-only" style="justify-content: space-between; padding: 0 20px; width: 100%; box-sizing: border-box;">
+        <div class="hig-logo-text-group" style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: var(--text-primary, #1D1D1F); letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;">
+          <img src="/assets/nexus-icon.svg" style="height: 24px; width: 24px; flex-shrink: 0;" alt="Logo">
+          <span style="white-space: nowrap;">Nexus<span style="font-weight: 300; color: var(--text-secondary, rgba(0,0,0,0.6));">Gestor</span></span>
         </div>
-        <button class="sidebar-toggle-btn hig-desktop-toggle-btn" onclick="App.toggleSidebar()" style="color: rgba(255, 255, 255, 0.7); background: transparent; border: none; cursor: pointer; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; outline: none; transition: background-color 0.2s; flex-shrink: 0;">
+        <button class="sidebar-toggle-btn hig-desktop-toggle-btn" onclick="App.toggleSidebar()" style="color: var(--text-primary, #1D1D1F); background: transparent; border: none; cursor: pointer; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; outline: none; transition: background-color 0.2s; flex-shrink: 0;">
           <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
         </button>
       </div>
