@@ -118,15 +118,25 @@ model Atividade {
 }
 
 model Cronograma {
-  id             String   @id @default(uuid())
-  padeiroId      String
-  data           String   // YYYY-MM-DD
-  turno          String   @default("Manhã") // Manhã, Tarde, Noite
-  tarefas        String
-  status         String   @default("pendente") // pendente, concluido
-  atualizadoEm   DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  padeiroId           String
+  padeiroNome         String?
+  codTec              String?
+  clienteId           String?
+  clienteNome         String?
+  data                String   // YYYY-MM-DD
+  horario             String?
+  turno               String?  @default("Manhã") // Manhã, Tarde, Noite
+  tarefas             String?
+  status              String   @default("pendente") // pendente, concluido, em_andamento
+  tempoMinimoMinutos  Int?
+  posicao             Int?
+  observacao          String?
+  criadoPor           String?
+  criadoEm            DateTime @default(now())
+  atualizadoEm        DateTime @updatedAt
 
-  padeiro        Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
+  padeiro             Padeiro  @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
 }
 
 model Localizacao {
