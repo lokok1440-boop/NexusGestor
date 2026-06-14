@@ -48,6 +48,7 @@ model Padeiro {
   cronogramas     Cronograma[]
   localizacoes    Localizacao[]
   pushSubs        PushSubscription[]
+  avaliacoes      Avaliacao[]
 }
 
 model PadeiroMeta {
@@ -184,4 +185,28 @@ model Cliente {
   cidade            String?
   estado            String?
   ativo             Boolean  @default(true)
+}
+
+model Criterio {
+  id     String @id @default(uuid())
+  texto  String
+  tipo   String
+}
+
+model Avaliacao {
+  id              String   @id @default(uuid())
+  padeiroId       String?
+  padeiroNome     String?
+  clienteId       String?
+  clienteNome     String?
+  atividadeId     String?
+  tipo            String?
+  respostas       Json?
+  nota            Float?   @default(0)
+  observacao      String?
+  avaliadoPor     String?
+  avaliadoPorNome String?
+  criadoEm        DateTime @default(now())
+
+  padeiro         Padeiro? @relation(fields: [padeiroId], references: [id], onDelete: Cascade)
 }
