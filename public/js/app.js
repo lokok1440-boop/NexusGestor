@@ -20,6 +20,15 @@ const App = {
       }
     });
 
+    // Fechar sidebar mobile ao clicar fora
+    document.addEventListener('click', (e) => {
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = e.target.closest('.ios-menu-btn, .sidebar-toggle-btn, .toggle-sidebar');
+      if (sidebar && sidebar.classList.contains('mobile-open') && !sidebar.contains(e.target) && !toggleBtn) {
+        App.closeDrawer();
+      }
+    });
+
     // PWA Install Prompt Listener
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
@@ -157,10 +166,12 @@ const App = {
     }
 
     // Highlight active nav
-    // Highlight active nav
     document.querySelectorAll('.nav-item').forEach(item => {
       item.classList.toggle('active', item.dataset.route === route);
     });
+
+    // Fechar sidebar no mobile após navegação
+    this.closeDrawer();
 
     // Update nav indicator (if exists)
     requestAnimationFrame(() => {
@@ -311,10 +322,16 @@ const App = {
         <button class="sidebar-toggle-btn" onclick="App.toggleSidebar()">
           <i data-lucide="menu"></i>
         </button>
-        <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; width: 100%;">Nexus<span style="font-weight: 300; color: rgba(255,255,255,0.7);">Gestor</span></div>
+        <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: var(--text-primary, #1D1D1F); letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; width: 100%; gap: 8px;">
+          <img src="/assets/nexus-icon.svg" style="height: 24px;" alt="Logo">
+          Nexus<span style="font-weight: 300; color: var(--text-secondary, rgba(0,0,0,0.6));">Gestor</span>
+        </div>
       </div>
       <div class="hig-sidebar-logo hig-desktop-only" style="align-items: center; gap: 10px;">
-        <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; display: flex; align-items: center;">Nexus<span style="font-weight: 300; color: rgba(255,255,255,0.7);">Gestor</span></div>
+        <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;">
+          <img src="/assets/nexus-icon.svg" style="height: 26px; filter: brightness(0) invert(1);" alt="Logo">
+          Nexus<span style="font-weight: 300; color: rgba(255,255,255,0.7);">Gestor</span>
+        </div>
         <button class="sidebar-toggle-btn hig-desktop-toggle-btn" onclick="App.toggleSidebar()" style="margin-left: auto; color: rgba(255, 255, 255, 0.7); background: transparent; border: none; cursor: pointer; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; outline: none; transition: background-color 0.2s;">
           <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
         </button>
@@ -444,6 +461,10 @@ const App = {
         </button>
         <div class="ios-navbar-center">
           <span class="ios-nav-title" id="ios-nav-title">${cfg.title}</span>
+          <span class="ios-logo-text" style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <img src="/assets/nexus-icon.svg" style="height: 20px;" alt="Logo">
+            Nexus Gestor
+          </span>
         </div>
         <div class="ios-navbar-right">
           <button class="ios-nav-btn ios-notif-btn" aria-label="Notificações">
@@ -596,20 +617,26 @@ const App = {
   },
 
   // === iOS HEADER SCROLL COLLAPSE ===
-  _scrollBound: false,
   bindHeaderScroll() {
     const pageContainer = document.getElementById('page-container');
     const largeTitleRow = document.getElementById('ios-large-title-row');
     const navTitle = document.getElementById('ios-nav-title');
     const separator = document.getElementById('ios-header-separator');
+    const logoText = document.querySelector('.ios-logo-text');
 
     if (!pageContainer || !largeTitleRow) return;
+
+    // Remove event listener antigo se houver para evitar vazamento de memória e conflitos
+    if (this._scrollListener) {
+      pageContainer.removeEventListener('scroll', this._scrollListener);
+    }
 
     // Reset state
     navTitle && navTitle.classList.remove('visible');
     separator && separator.classList.remove('visible');
+    if (logoText) logoText.style.display = 'flex';
 
-    pageContainer.addEventListener('scroll', () => {
+    this._scrollListener = () => {
       const scrollY = pageContainer.scrollTop;
       const threshold = 44; // Altura aproximada do Large Title
 
@@ -617,12 +644,16 @@ const App = {
         largeTitleRow.classList.add('collapsed');
         navTitle && navTitle.classList.add('visible');
         separator && separator.classList.add('visible');
+        if (logoText) logoText.style.display = 'none';
       } else {
         largeTitleRow.classList.remove('collapsed');
         navTitle && navTitle.classList.remove('visible');
         separator && separator.classList.remove('visible');
+        if (logoText) logoText.style.display = 'flex';
       }
-    }, { passive: true });
+    };
+
+    pageContainer.addEventListener('scroll', this._scrollListener, { passive: true });
 
     // Conectar busca iOS com a lógica global
     const iosSearchInput = document.getElementById('ios-search-input');
