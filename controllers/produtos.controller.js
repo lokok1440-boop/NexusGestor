@@ -40,6 +40,14 @@ exports.createProduto = async (req, res) => {
     }
     if (novo.preco !== undefined) {
       novo.preco = parseFloat(novo.preco);
+      if (isNaN(novo.preco)) novo.preco = 0;
+    }
+    
+    // Convert empty strings to null
+    for (const key of Object.keys(novo)) {
+      if (typeof novo[key] === 'string' && novo[key].trim() === '') {
+        novo[key] = null;
+      }
     }
     const produto = await Produto.create(novo);
     res.status(201).json(produto);
@@ -57,6 +65,14 @@ exports.updateProduto = async (req, res) => {
     }
     if (updateData.preco !== undefined) {
       updateData.preco = parseFloat(updateData.preco);
+      if (isNaN(updateData.preco)) updateData.preco = 0;
+    }
+    
+    // Convert empty strings to null
+    for (const key of Object.keys(updateData)) {
+      if (typeof updateData[key] === 'string' && updateData[key].trim() === '') {
+        updateData[key] = null;
+      }
     }
     const produto = await Produto.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!produto) return res.status(404).json({ error: 'Não encontrado' });

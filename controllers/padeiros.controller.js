@@ -82,7 +82,12 @@ exports.createPadeiro = async (req, res) => {
     const sanitizedNovo = {};
     for (const key of Object.keys(novo)) {
       if (allowedFields.includes(key)) {
-        sanitizedNovo[key] = novo[key];
+        let val = novo[key];
+        // Convert empty strings to null for unique fields and optional strings
+        if (typeof val === 'string' && val.trim() === '' && ['cpf', 'codTec', 'rg', 'email', 'telefone', 'dataNascimento'].includes(key)) {
+          val = null;
+        }
+        sanitizedNovo[key] = val;
       }
     }
 
@@ -145,6 +150,11 @@ exports.updatePadeiro = async (req, res) => {
           } catch(e) {
             continue;
           }
+        }
+        
+        // Convert empty strings to null for unique fields and optional strings
+        if (typeof val === 'string' && val.trim() === '' && ['cpf', 'codTec', 'rg', 'email', 'telefone', 'dataNascimento'].includes(key)) {
+          val = null;
         }
         
         sanitizedUpdate[key] = val;

@@ -43,6 +43,13 @@ exports.createCliente = async (req, res) => {
     } else {
       novo.ativo = true;
     }
+    
+    // Convert empty strings to null
+    for (const key of Object.keys(novo)) {
+      if (typeof novo[key] === 'string' && novo[key].trim() === '') {
+        novo[key] = null;
+      }
+    }
     const cliente = await Cliente.create(novo);
     res.status(201).json(cliente);
   } catch (error) {
@@ -56,6 +63,13 @@ exports.updateCliente = async (req, res) => {
     const updateData = { ...req.body };
     if (updateData.ativo !== undefined) {
       updateData.ativo = (updateData.ativo === 'true' || updateData.ativo === 'on' || updateData.ativo === true || updateData.ativo === '1');
+    }
+    
+    // Convert empty strings to null
+    for (const key of Object.keys(updateData)) {
+      if (typeof updateData[key] === 'string' && updateData[key].trim() === '') {
+        updateData[key] = null;
+      }
     }
     const cliente = await Cliente.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!cliente) return res.status(404).json({ error: 'Não encontrado' });
