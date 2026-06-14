@@ -211,16 +211,24 @@ exports.seedPadeiro = async (req, res) => {
     const { cargo, filial } = req.body;
     if (!cargo || !filial) return res.status(400).json({ error: 'Cargo e filial são obrigatórios' });
     
+    const nomes = ["Carlos", "João", "José", "Marcos", "Paulo", "Antônio", "Luiz", "Fernando", "Rafael", "Pedro", "Felipe", "Lucas", "Gabriel", "Mateus", "Bruno", "Eduardo"];
+    const sobrenomes = ["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes", "Costa", "Ribeiro", "Martins", "Carvalho", "Almeida"];
+    
+    const nomeReal = `${nomes[Math.floor(Math.random() * nomes.length)]} ${sobrenomes[Math.floor(Math.random() * sobrenomes.length)]}`;
+    
     const randomId = Math.floor(Math.random() * 10000);
+    const codTec = `TEC${Math.floor(1000 + Math.random() * 9000)}`;
+
     const novo = {
-      nome: `Padeiro Fictício ${randomId}`,
+      nome: nomeReal,
       cargo,
       filial: [filial],
+      codTec,
       role: cargo === 'GESTOR' ? 'gestor' : 'padeiro',
       status: 'ativo',
       ativo: true,
       cpf: `${Math.floor(100+Math.random()*899)}.${Math.floor(100+Math.random()*899)}.${Math.floor(100+Math.random()*899)}-${Math.floor(10+Math.random()*89)}`,
-      email: `padeiro${randomId}@nexusgestor.com`,
+      email: `${nomeReal.split(' ')[0].toLowerCase()}${randomId}@nexusgestor.com`,
       telefone: `619${Math.floor(10000000+Math.random()*89999999)}`,
       dataContratacao: new Date().toISOString(),
       criadoEm: new Date().toISOString()
