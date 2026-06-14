@@ -2,7 +2,7 @@
   {
     "id": "prod_1",
     "codigo": "10001",
-    "descricao": "Bolo Artesanal 1 Especial",
+    "descricao": "Pão Francês Congelado (Caixa 10kg)",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -11,7 +11,7 @@
   {
     "id": "prod_2",
     "codigo": "10002",
-    "descricao": "Torta Artesanal 2 Especial",
+    "descricao": "Pão de Queijo Tradicional (Caixa 5kg)",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -20,7 +20,7 @@
   {
     "id": "prod_3",
     "codigo": "10003",
-    "descricao": "Biscoito Artesanal 3 Especial",
+    "descricao": "Massa de Pizza Pré-assada",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -29,7 +29,7 @@
   {
     "id": "prod_4",
     "codigo": "10004",
-    "descricao": "Salgado Artesanal 4 Especial",
+    "descricao": "Bolo de Cenoura com Chocolate",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -38,7 +38,7 @@
   {
     "id": "prod_5",
     "codigo": "10005",
-    "descricao": "Doce Artesanal 5 Especial",
+    "descricao": "Torta de Frango com Recheio",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -47,7 +47,7 @@
   {
     "id": "prod_6",
     "codigo": "10006",
-    "descricao": "Pão Artesanal 6 Especial",
+    "descricao": "Croissant de Manteiga",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -56,7 +56,7 @@
   {
     "id": "prod_7",
     "codigo": "10007",
-    "descricao": "Bolo Artesanal 7 Especial",
+    "descricao": "Pão de Hamburguer Brioche",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -65,7 +65,7 @@
   {
     "id": "prod_8",
     "codigo": "10008",
-    "descricao": "Torta Artesanal 8 Especial",
+    "descricao": "Massa de Esfiha Aberta",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -74,7 +74,7 @@
   {
     "id": "prod_9",
     "codigo": "10009",
-    "descricao": "Biscoito Artesanal 9 Especial",
+    "descricao": "Biscoito Amanteigado 500g",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -83,7 +83,7 @@
   {
     "id": "prod_10",
     "codigo": "10010",
-    "descricao": "Salgado Artesanal 10 Especial",
+    "descricao": "Pão Doce com Creme",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -92,7 +92,7 @@
   {
     "id": "prod_11",
     "codigo": "10011",
-    "descricao": "Doce Artesanal 11 Especial",
+    "descricao": "Bolo de Fubá Cremoso",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -101,7 +101,7 @@
   {
     "id": "prod_12",
     "codigo": "10012",
-    "descricao": "Pão Artesanal 12 Especial",
+    "descricao": "Torta Holandesa Inteira",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -110,7 +110,7 @@
   {
     "id": "prod_13",
     "codigo": "10013",
-    "descricao": "Bolo Artesanal 13 Especial",
+    "descricao": "Pão Integral com Grãos",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -119,7 +119,7 @@
   {
     "id": "prod_14",
     "codigo": "10014",
-    "descricao": "Torta Artesanal 14 Especial",
+    "descricao": "Mini Pão de Queijo",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -128,7 +128,7 @@
   {
     "id": "prod_15",
     "codigo": "10015",
-    "descricao": "Biscoito Artesanal 15 Especial",
+    "descricao": "Quiche de Alho Poró",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -137,7 +137,7 @@
   {
     "id": "prod_16",
     "codigo": "10016",
-    "descricao": "Salgado Artesanal 16 Especial",
+    "descricao": "Bolo Red Velvet",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -146,7 +146,7 @@
   {
     "id": "prod_17",
     "codigo": "10017",
-    "descricao": "Doce Artesanal 17 Especial",
+    "descricao": "Empadão de Palmito",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -155,7 +155,7 @@
   {
     "id": "prod_18",
     "codigo": "10018",
-    "descricao": "Pão Artesanal 18 Especial",
+    "descricao": "Pão Australiano",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -164,7 +164,7 @@
   {
     "id": "prod_19",
     "codigo": "10019",
-    "descricao": "Bolo Artesanal 19 Especial",
+    "descricao": "Cookie de Gotas de Chocolate",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -173,7 +173,7 @@
   {
     "id": "prod_20",
     "codigo": "10020",
-    "descricao": "Torta Artesanal 20 Especial",
+    "descricao": "Pudim de Leite Condensado",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -182,7 +182,7 @@
   {
     "id": "prod_21",
     "codigo": "10021",
-    "descricao": "Biscoito Artesanal 21 Especial",
+    "descricao": "Pão de Forma Artesanal",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -191,7 +191,7 @@
   {
     "id": "prod_22",
     "codigo": "10022",
-    "descricao": "Salgado Artesanal 22 Especial",
+    "descricao": "Rosca Doce com Coco",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -200,7 +200,7 @@
   {
     "id": "prod_23",
     "codigo": "10023",
-    "descricao": "Doce Artesanal 23 Especial",
+    "descricao": "Torta de Morango",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -209,7 +209,7 @@
   {
     "id": "prod_24",
     "codigo": "10024",
-    "descricao": "Pão Artesanal 24 Especial",
+    "descricao": "Massa para Pastel de Forno",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -218,7 +218,7 @@
   {
     "id": "prod_25",
     "codigo": "10025",
-    "descricao": "Bolo Artesanal 25 Especial",
+    "descricao": "Bolo de Milho Verde",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -227,7 +227,7 @@
   {
     "id": "prod_26",
     "codigo": "10026",
-    "descricao": "Torta Artesanal 26 Especial",
+    "descricao": "Salgado Maromba de Frango",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -236,7 +236,7 @@
   {
     "id": "prod_27",
     "codigo": "10027",
-    "descricao": "Biscoito Artesanal 27 Especial",
+    "descricao": "Pão Ciabatta",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -245,7 +245,7 @@
   {
     "id": "prod_28",
     "codigo": "10028",
-    "descricao": "Salgado Artesanal 28 Especial",
+    "descricao": "Pão de Hot Dog",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -254,7 +254,7 @@
   {
     "id": "prod_29",
     "codigo": "10029",
-    "descricao": "Doce Artesanal 29 Especial",
+    "descricao": "Biscoito de Polvilho",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -263,7 +263,7 @@
   {
     "id": "prod_30",
     "codigo": "10030",
-    "descricao": "Pão Artesanal 30 Especial",
+    "descricao": "Torta de Limão",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -272,7 +272,7 @@
   {
     "id": "prod_31",
     "codigo": "10031",
-    "descricao": "Bolo Artesanal 31 Especial",
+    "descricao": "Pão Sírio",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -281,7 +281,7 @@
   {
     "id": "prod_32",
     "codigo": "10032",
-    "descricao": "Torta Artesanal 32 Especial",
+    "descricao": "Bolo de Chocolate Trufado",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -290,7 +290,7 @@
   {
     "id": "prod_33",
     "codigo": "10033",
-    "descricao": "Biscoito Artesanal 33 Especial",
+    "descricao": "Coxinha de Frango",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -299,7 +299,7 @@
   {
     "id": "prod_34",
     "codigo": "10034",
-    "descricao": "Salgado Artesanal 34 Especial",
+    "descricao": "Pão de Mel com Doce de Leite",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -308,7 +308,7 @@
   {
     "id": "prod_35",
     "codigo": "10035",
-    "descricao": "Doce Artesanal 35 Especial",
+    "descricao": "Empada de Camarão",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -317,7 +317,7 @@
   {
     "id": "prod_36",
     "codigo": "10036",
-    "descricao": "Pão Artesanal 36 Especial",
+    "descricao": "Baguete Tradicional",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -326,7 +326,7 @@
   {
     "id": "prod_37",
     "codigo": "10037",
-    "descricao": "Bolo Artesanal 37 Especial",
+    "descricao": "Bolo de Laranja",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -335,7 +335,7 @@
   {
     "id": "prod_38",
     "codigo": "10038",
-    "descricao": "Torta Artesanal 38 Especial",
+    "descricao": "Torta de Maçã Americana",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -344,7 +344,7 @@
   {
     "id": "prod_39",
     "codigo": "10039",
-    "descricao": "Biscoito Artesanal 39 Especial",
+    "descricao": "Mini Churros",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -353,7 +353,7 @@
   {
     "id": "prod_40",
     "codigo": "10040",
-    "descricao": "Salgado Artesanal 40 Especial",
+    "descricao": "Pão de Alho Especial",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -362,7 +362,7 @@
   {
     "id": "prod_41",
     "codigo": "10041",
-    "descricao": "Doce Artesanal 41 Especial",
+    "descricao": "Sonho Recheado com Creme",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -371,7 +371,7 @@
   {
     "id": "prod_42",
     "codigo": "10042",
-    "descricao": "Pão Artesanal 42 Especial",
+    "descricao": "Quiche Loraine",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -380,7 +380,7 @@
   {
     "id": "prod_43",
     "codigo": "10043",
-    "descricao": "Bolo Artesanal 43 Especial",
+    "descricao": "Bolo Formigueiro",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -389,7 +389,7 @@
   {
     "id": "prod_44",
     "codigo": "10044",
-    "descricao": "Torta Artesanal 44 Especial",
+    "descricao": "Pão Caseiro Tradicional",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -398,7 +398,7 @@
   {
     "id": "prod_45",
     "codigo": "10045",
-    "descricao": "Biscoito Artesanal 45 Especial",
+    "descricao": "Carolina Recheada",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -407,7 +407,7 @@
   {
     "id": "prod_46",
     "codigo": "10046",
-    "descricao": "Salgado Artesanal 46 Especial",
+    "descricao": "Torta de Frutas Vermelhas",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -416,7 +416,7 @@
   {
     "id": "prod_47",
     "codigo": "10047",
-    "descricao": "Doce Artesanal 47 Especial",
+    "descricao": "Biscoito Sequilhos de Coco",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -425,7 +425,7 @@
   {
     "id": "prod_48",
     "codigo": "10048",
-    "descricao": "Pão Artesanal 48 Especial",
+    "descricao": "Massa de Calzone",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -434,7 +434,7 @@
   {
     "id": "prod_49",
     "codigo": "10049",
-    "descricao": "Bolo Artesanal 49 Especial",
+    "descricao": "Pão Italiano",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,
@@ -443,7 +443,7 @@
   {
     "id": "prod_50",
     "codigo": "10050",
-    "descricao": "Torta Artesanal 50 Especial",
+    "descricao": "Bolo Mármore",
     "fornecedor": "Padaria Interna",
     "fotoPath": "",
     "ativo": true,

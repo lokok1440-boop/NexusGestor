@@ -1,272 +1,302 @@
 [
   {
     "id": "cli_1",
-    "nome": "Cliente Premium 1",
+    "nome": "Padaria Pão de Ouro",
     "email": "cliente1@email.com",
     "telefone": "(11) 99999-1001",
     "endereco": "Rua das Flores, 10, Jardins",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Padaria Pão de Ouro LTDA"
   },
   {
     "id": "cli_2",
-    "nome": "Cliente Premium 2",
+    "nome": "Empório Cecília",
     "email": "cliente2@email.com",
     "telefone": "(11) 99999-1002",
     "endereco": "Rua das Flores, 20, Vila Nova",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Empório Cecília LTDA"
   },
   {
     "id": "cli_3",
-    "nome": "Cliente Premium 3",
+    "nome": "Panificadora Nápoles",
     "email": "cliente3@email.com",
     "telefone": "(11) 99999-1003",
     "endereco": "Rua das Flores, 30, Copacabana",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Panificadora Nápoles LTDA"
   },
   {
     "id": "cli_4",
-    "nome": "Cliente Premium 4",
+    "nome": "Supermercado Vida",
     "email": "cliente4@email.com",
     "telefone": "(11) 99999-1004",
     "endereco": "Rua das Flores, 40, Botafogo",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Supermercado Vida LTDA"
   },
   {
     "id": "cli_5",
-    "nome": "Cliente Premium 5",
+    "nome": "Mercado Central",
     "email": "cliente5@email.com",
     "telefone": "(11) 99999-1005",
     "endereco": "Rua das Flores, 50, Centro",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Mercado Central LTDA"
   },
   {
     "id": "cli_6",
-    "nome": "Cliente Premium 6",
+    "nome": "Padaria Doce Sabor",
     "email": "cliente6@email.com",
     "telefone": "(11) 99999-1006",
     "endereco": "Rua das Flores, 60, Jardins",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Padaria Doce Sabor LTDA"
   },
   {
     "id": "cli_7",
-    "nome": "Cliente Premium 7",
+    "nome": "Empório São João",
     "email": "cliente7@email.com",
     "telefone": "(11) 99999-1007",
     "endereco": "Rua das Flores, 70, Vila Nova",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Empório São João LTDA"
   },
   {
     "id": "cli_8",
-    "nome": "Cliente Premium 8",
+    "nome": "Conveniência Express",
     "email": "cliente8@email.com",
     "telefone": "(11) 99999-1008",
     "endereco": "Rua das Flores, 80, Copacabana",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Conveniência Express LTDA"
   },
   {
     "id": "cli_9",
-    "nome": "Cliente Premium 9",
+    "nome": "Panificadora Pão Quente",
     "email": "cliente9@email.com",
     "telefone": "(11) 99999-1009",
     "endereco": "Rua das Flores, 90, Botafogo",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Panificadora Pão Quente LTDA"
   },
   {
     "id": "cli_10",
-    "nome": "Cliente Premium 10",
+    "nome": "Doceria Sonho Meu",
     "email": "cliente10@email.com",
     "telefone": "(11) 99999-1010",
     "endereco": "Rua das Flores, 100, Centro",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Doceria Sonho Meu LTDA"
   },
   {
     "id": "cli_11",
-    "nome": "Cliente Premium 11",
+    "nome": "Mercado Bom Preço",
     "email": "cliente11@email.com",
     "telefone": "(11) 99999-1011",
     "endereco": "Rua das Flores, 110, Jardins",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Mercado Bom Preço LTDA"
   },
   {
     "id": "cli_12",
-    "nome": "Cliente Premium 12",
+    "nome": "Padaria Trigo Fino",
     "email": "cliente12@email.com",
     "telefone": "(11) 99999-1012",
     "endereco": "Rua das Flores, 120, Vila Nova",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Padaria Trigo Fino LTDA"
   },
   {
     "id": "cli_13",
-    "nome": "Cliente Premium 13",
+    "nome": "Empório Gourmet",
     "email": "cliente13@email.com",
     "telefone": "(11) 99999-1013",
     "endereco": "Rua das Flores, 130, Copacabana",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Empório Gourmet LTDA"
   },
   {
     "id": "cli_14",
-    "nome": "Cliente Premium 14",
+    "nome": "Casa do Pão",
     "email": "cliente14@email.com",
     "telefone": "(11) 99999-1014",
     "endereco": "Rua das Flores, 140, Botafogo",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Casa do Pão LTDA"
   },
   {
     "id": "cli_15",
-    "nome": "Cliente Premium 15",
+    "nome": "Panificadora Estrela",
     "email": "cliente15@email.com",
     "telefone": "(11) 99999-1015",
     "endereco": "Rua das Flores, 150, Centro",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Panificadora Estrela LTDA"
   },
   {
     "id": "cli_16",
-    "nome": "Cliente Premium 16",
+    "nome": "Supermercado Nova Era",
     "email": "cliente16@email.com",
     "telefone": "(11) 99999-1016",
     "endereco": "Rua das Flores, 160, Jardins",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Supermercado Nova Era LTDA"
   },
   {
     "id": "cli_17",
-    "nome": "Cliente Premium 17",
+    "nome": "Padaria Pão Nosso",
     "email": "cliente17@email.com",
     "telefone": "(11) 99999-1017",
     "endereco": "Rua das Flores, 170, Vila Nova",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Padaria Pão Nosso LTDA"
   },
   {
     "id": "cli_18",
-    "nome": "Cliente Premium 18",
+    "nome": "Empório da Vila",
     "email": "cliente18@email.com",
     "telefone": "(11) 99999-1018",
     "endereco": "Rua das Flores, 180, Copacabana",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Empório da Vila LTDA"
   },
   {
     "id": "cli_19",
-    "nome": "Cliente Premium 19",
+    "nome": "Mercado Popular",
     "email": "cliente19@email.com",
     "telefone": "(11) 99999-1019",
     "endereco": "Rua das Flores, 190, Botafogo",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Mercado Popular LTDA"
   },
   {
     "id": "cli_20",
-    "nome": "Cliente Premium 20",
+    "nome": "Delicatessen Sabor",
     "email": "cliente20@email.com",
     "telefone": "(11) 99999-1020",
     "endereco": "Rua das Flores, 200, Centro",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Delicatessen Sabor LTDA"
   },
   {
     "id": "cli_21",
-    "nome": "Cliente Premium 21",
+    "nome": "Padaria Bella",
     "email": "cliente21@email.com",
     "telefone": "(11) 99999-1021",
     "endereco": "Rua das Flores, 210, Jardins",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Padaria Bella LTDA"
   },
   {
     "id": "cli_22",
-    "nome": "Cliente Premium 22",
+    "nome": "Café Central",
     "email": "cliente22@email.com",
     "telefone": "(11) 99999-1022",
     "endereco": "Rua das Flores, 220, Vila Nova",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Café Central LTDA"
   },
   {
     "id": "cli_23",
-    "nome": "Cliente Premium 23",
+    "nome": "Panificadora Aurora",
     "email": "cliente23@email.com",
     "telefone": "(11) 99999-1023",
     "endereco": "Rua das Flores, 230, Copacabana",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Panificadora Aurora LTDA"
   },
   {
     "id": "cli_24",
-    "nome": "Cliente Premium 24",
+    "nome": "Empório Santa Maria",
     "email": "cliente24@email.com",
     "telefone": "(11) 99999-1024",
     "endereco": "Rua das Flores, 240, Botafogo",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Empório Santa Maria LTDA"
   },
   {
     "id": "cli_25",
-    "nome": "Cliente Premium 25",
+    "nome": "Supermercado Dia a Dia",
     "email": "cliente25@email.com",
     "telefone": "(11) 99999-1025",
     "endereco": "Rua das Flores, 250, Centro",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Supermercado Dia a Dia LTDA"
   },
   {
     "id": "cli_26",
-    "nome": "Cliente Premium 26",
+    "nome": "Padaria Pão & Cia",
     "email": "cliente26@email.com",
     "telefone": "(11) 99999-1026",
     "endereco": "Rua das Flores, 260, Jardins",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Padaria Pão & Cia LTDA"
   },
   {
     "id": "cli_27",
-    "nome": "Cliente Premium 27",
+    "nome": "Mercado Econômico",
     "email": "cliente27@email.com",
     "telefone": "(11) 99999-1027",
     "endereco": "Rua das Flores, 270, Vila Nova",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Mercado Econômico LTDA"
   },
   {
     "id": "cli_28",
-    "nome": "Cliente Premium 28",
+    "nome": "Confeitaria Real",
     "email": "cliente28@email.com",
     "telefone": "(11) 99999-1028",
     "endereco": "Rua das Flores, 280, Copacabana",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Confeitaria Real LTDA"
   },
   {
     "id": "cli_29",
-    "nome": "Cliente Premium 29",
+    "nome": "Panificadora União",
     "email": "cliente29@email.com",
     "telefone": "(11) 99999-1029",
     "endereco": "Rua das Flores, 290, Botafogo",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Panificadora União LTDA"
   },
   {
     "id": "cli_30",
-    "nome": "Cliente Premium 30",
+    "nome": "Empório do Trigo",
     "email": "cliente30@email.com",
     "telefone": "(11) 99999-1030",
     "endereco": "Rua das Flores, 300, Centro",
     "ativo": true,
-    "criadoEm": "2026-06-13T23:12:03.256Z"
+    "criadoEm": "2026-06-13T23:12:03.256Z",
+    "razaoSocial": "Empório do Trigo LTDA"
   }
 ]
