@@ -167,19 +167,21 @@ model Produto {
 }
 
 model Cliente {
-  id             String   @id @default(uuid())
-  nome           String
-  razaoSocial    String?
-  cnpj           String?
-  ie             String?
-  email          String?
-  telefone       String?
-  celular        String?
-  cep            String?
-  endereco       String?
-  numero         String?
-  bairro         String?
-  cidade         String?
-  uf             String?
-  ativo          Boolean  @default(true)
+  id                String   @id @default(uuid())
+  codigo            String?
+  nome              String
+  razaoSocial       String?
+  nomeFantasia      String?
+  cnpj              String?
+  inscricaoEstadual String?
+  email             String?
+  telefone          String?
+  celular           String?
+  cep               String?
+  endereco          String?
+  numero            String?
+  bairro            String?
+  cidade            String?
+  estado            String?
+  ativo             Boolean  @default(true)
 }

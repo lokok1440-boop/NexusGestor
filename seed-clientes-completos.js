@@ -25,27 +25,32 @@ const bairros = ['Jardins', 'Pinheiros', 'Itaim Bibi', 'Moema', 'Vila Madalena',
 async function updateClientes() {
   const clientes = await prisma.cliente.findMany();
   
+  let counter = 1000;
   for (const cliente of clientes) {
     const nomeLimpo = cliente.nome.toLowerCase().replace(/ /g, '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     
     await prisma.$executeRawUnsafe(`
       UPDATE "Cliente" 
       SET 
-        cnpj = $1, 
-        ie = $2, 
-        email = $3, 
-        telefone = $4, 
-        celular = $5, 
-        cep = $6, 
-        endereco = $7, 
-        numero = $8, 
-        bairro = $9, 
-        cidade = $10, 
-        uf = $11
-      WHERE id = $12
+        codigo = $1,
+        "nomeFantasia" = $2,
+        cnpj = $3, 
+        "inscricaoEstadual" = $4, 
+        email = $5, 
+        telefone = $6, 
+        celular = $7, 
+        cep = $8, 
+        endereco = $9, 
+        numero = $10, 
+        bairro = $11, 
+        cidade = $12, 
+        estado = $13
+      WHERE id = $14
     `,
+      cliente.codigo || `CLI-${counter++}`,
+      cliente.nomeFantasia || cliente.nome,
       cliente.cnpj || generateCNPJ(),
-      cliente.ie || generateIE(),
+      cliente.inscricaoEstadual || generateIE(),
       cliente.email || `contato@${nomeLimpo}.com.br`,
       cliente.telefone || generateTelefone(),
       cliente.celular || generateCelular(),
@@ -54,11 +59,11 @@ async function updateClientes() {
       cliente.numero || Math.floor(Math.random() * 1000 + 1).toString(),
       cliente.bairro || bairros[Math.floor(Math.random() * bairros.length)],
       cliente.cidade || 'São Paulo',
-      cliente.uf || 'SP',
+      cliente.estado || 'SP',
       cliente.id
     );
   }
-  console.log(`Foram atualizados ${clientes.length} clientes com dados completos!`);
+  console.log(`Foram atualizados ${clientes.length} clientes com dados completos (nomes corretos)!`);
 }
 
 updateClientes()
