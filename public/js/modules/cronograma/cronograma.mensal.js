@@ -164,7 +164,7 @@ Object.assign(Cronograma, {
     const labelMes = meses[monthIndex];
     const targetYear = midDate.getFullYear();
 
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = Cronograma.getLocalISO(new Date());
     const atividadesHoje = this.atividades.filter(a => a.data === todayStr && a.status === 'finalizada');
     const kgHoje = atividadesHoje.reduce((sum, a) => sum + (parseFloat(a.kgTotal) || 0), 0);
     const totalPadeirosAtivos = this.padeiros.filter(p => p.ativo).length;
@@ -200,7 +200,7 @@ Object.assign(Cronograma, {
       .filter(w => daysMap[w].some(day => day !== null));
 
     // Highlight set for active week selection
-    const selectedWeekSet = new Set(dates.map(d => d.toISOString().split('T')[0]));
+    const selectedWeekSet = new Set(dates.map(d => Cronograma.getLocalISO(d)));
 
     // Mobile View Calculations
     const activeDate = this.selectedMobileDate;
@@ -531,8 +531,8 @@ Object.assign(Cronograma, {
     const padeirosAtivos = this.padeiros.filter(p => p.ativo);
     const today = new Date();
     // Use the midpoint of the week dates to pick which day to display
-    const selectedDate = dates.find(d => d.toISOString().split('T')[0] === todayStr) || dates[0];
-    const selectedDateStr = selectedDate.toISOString().split('T')[0];
+    const selectedDate = dates.find(d => Cronograma.getLocalISO(d) === todayStr) || dates[0];
+    const selectedDateStr = Cronograma.getLocalISO(selectedDate);
     const diasDaSemana = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
     const dayLabel = `${diasDaSemana[selectedDate.getDay()]}, ${selectedDate.getDate()}`;
     const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -540,7 +540,7 @@ Object.assign(Cronograma, {
 
     // Day picker row
     const dayPickerHtml = dates.map(d => {
-      const ds = d.toISOString().split('T')[0];
+      const ds = Cronograma.getLocalISO(d);
       const isActive = ds === selectedDateStr;
       const dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
       return `<div class="tf-daily-day-pill ${isActive ? 'active' : ''}" onclick="Cronograma._selectDailyDate('${ds}')">
@@ -623,7 +623,7 @@ Object.assign(Cronograma, {
     const dates = this.getWeekDates();
     const target = new Date(dateStr + 'T12:00:00');
     // Check if the target is within current dates
-    const inCurrentWeek = dates.some(d => d.toISOString().split('T')[0] === dateStr);
+    const inCurrentWeek = dates.some(d => Cronograma.getLocalISO(d) === dateStr);
     if (!inCurrentWeek) {
       // Navigate weeks to reach this date
       const today = new Date();
@@ -643,7 +643,7 @@ Object.assign(Cronograma, {
 
     // Build columns for each day
     const columnsHtml = dates.map((date, i) => {
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = Cronograma.getLocalISO(date);
       const isToday = dateStr === todayStr;
       const dayTasks = this.tarefas.filter(t => t.data === dateStr)
         .sort((a, b) => (a.horario || '08:00').localeCompare(b.horario || '08:00'));
@@ -684,10 +684,10 @@ Object.assign(Cronograma, {
 
     // Summary stats for the week
     const totalWeekTasks = dates.reduce((sum, d) => {
-      return sum + this.tarefas.filter(t => t.data === d.toISOString().split('T')[0]).length;
+      return sum + this.tarefas.filter(t => t.data === Cronograma.getLocalISO(d)).length;
     }, 0);
     const concluidas = dates.reduce((sum, d) => {
-      return sum + this.tarefas.filter(t => t.data === d.toISOString().split('T')[0] && t.status === 'concluida').length;
+      return sum + this.tarefas.filter(t => t.data === Cronograma.getLocalISO(d) && t.status === 'concluida').length;
     }, 0);
 
     return `

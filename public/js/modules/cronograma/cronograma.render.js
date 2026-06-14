@@ -200,7 +200,7 @@ Object.assign(Cronograma, {
     const dates = this.getWeekDates();
     const startStr = dates[0].toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
     const endStr = dates[5].toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-    const today = new Date().toISOString().split('T')[0];
+    const today = Cronograma.getLocalISO(new Date());
     const currentFilial = this.padeiros.find(p => p.ativo)?.filial || 'NexusGestor Distribuidora';
 
     const cc = document.getElementById('cronograma-content');
@@ -265,7 +265,7 @@ Object.assign(Cronograma, {
                       ${dates.map((date, i) => {
                         const dayName = this.diasSemana[i].substring(0, 3);
                         const dayNum = date.getDate();
-                        const dateStr = date.toISOString().split('T')[0];
+                        const dateStr = Cronograma.getLocalISO(date);
                         const isToday = dateStr === today;
                         return `
                           <div class="day-pill-item ${isToday ? 'active' : ''}">
@@ -297,7 +297,7 @@ Object.assign(Cronograma, {
 
                     <div class="days-scroll-mobile">
                       ${dates.map((date, i) => {
-                        const dateStr = date.toISOString().split('T')[0];
+                        const dateStr = Cronograma.getLocalISO(date);
                         const dayName = this.diasSemana[i];
                         const dayNum = date.getDate();
                         const tarefasDaCelula = this.tarefas
@@ -330,7 +330,7 @@ Object.assign(Cronograma, {
 
                   <!-- Desktop Cells -->
                   ${dates.map(date => {
-                    const dateStr = date.toISOString().split('T')[0];
+                    const dateStr = Cronograma.getLocalISO(date);
                     const tarefasDaCelula = this.tarefas
                       .filter(t => t.data === dateStr && t.padeiroId === p.id)
                       .sort((a, b) => (a.posicao || 0) - (b.posicao || 0));

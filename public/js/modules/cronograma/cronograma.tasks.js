@@ -218,7 +218,7 @@ Object.assign(Cronograma, {
   openTaskForm(id, preDate) {
     const t = id ? this.tarefas.find(x => x.id === id) : {};
     const isEdit = !!id;
-    const defaultDate = preDate || t.data || new Date().toISOString().split('T')[0];
+    const defaultDate = preDate || t.data || Cronograma.getLocalISO(new Date());
 
     const isDesktop = window.innerWidth >= 768;
     let contentHtml, footerHtml;
@@ -762,7 +762,7 @@ Object.assign(Cronograma, {
       </div>
       <form id="duplicate-days-form" style="display:flex; flex-direction:column; gap:10px;">
         ${dates.map((date, idx) => {
-          const dateStr = date.toISOString().split('T')[0];
+          const dateStr = Cronograma.getLocalISO(date);
           const formattedDate = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
           const isCurrentDay = t.data === dateStr;
           return `

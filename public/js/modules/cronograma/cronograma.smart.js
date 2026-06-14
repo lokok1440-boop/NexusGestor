@@ -21,7 +21,7 @@ Object.assign(Cronograma, {
       return;
     }
 
-    const weekDates = dates.map(d => d.toISOString().split('T')[0]);
+    const weekDates = dates.map(d => Cronograma.getLocalISO(d));
     const existingThisWeek = this.tarefas.filter(t => weekDates.includes(t.data));
 
     const distribuicao = this.generateSmartDistribution(padeiroAtivos, clienteAtivos, dates);
@@ -94,7 +94,7 @@ Object.assign(Cronograma, {
 
     for (let diaIdx = 0; diaIdx < 6; diaIdx++) { // For each day (Mon-Sat)
       const date = dates[diaIdx];
-      const dateStr = date.toISOString().split('T')[0];
+      const dateStr = Cronograma.getLocalISO(date);
       const tarefasDia = [];
       const clientesUsadosNesteDia = new Set();
 
