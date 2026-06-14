@@ -32,7 +32,15 @@ exports.listProdutos = async (req, res) => {
 
 exports.createProduto = async (req, res) => {
   try {
-    const novo = { ...req.body, ativo: true, criadoEm: new Date().toISOString() };
+    const novo = { ...req.body, criadoEm: new Date().toISOString() };
+    if (novo.ativo !== undefined) {
+      novo.ativo = (novo.ativo === 'true' || novo.ativo === 'on' || novo.ativo === true || novo.ativo === '1');
+    } else {
+      novo.ativo = true;
+    }
+    if (novo.preco !== undefined) {
+      novo.preco = parseFloat(novo.preco);
+    }
     const produto = await Produto.create(novo);
     res.status(201).json(produto);
   } catch (error) {
@@ -43,7 +51,14 @@ exports.createProduto = async (req, res) => {
 
 exports.updateProduto = async (req, res) => {
   try {
-    const produto = await Produto.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updateData = { ...req.body };
+    if (updateData.ativo !== undefined) {
+      updateData.ativo = (updateData.ativo === 'true' || updateData.ativo === 'on' || updateData.ativo === true || updateData.ativo === '1');
+    }
+    if (updateData.preco !== undefined) {
+      updateData.preco = parseFloat(updateData.preco);
+    }
+    const produto = await Produto.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!produto) return res.status(404).json({ error: 'Não encontrado' });
     res.json(produto);
   } catch (e) {

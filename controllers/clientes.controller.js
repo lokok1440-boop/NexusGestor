@@ -37,7 +37,12 @@ exports.listClientes = async (req, res) => {
 
 exports.createCliente = async (req, res) => {
   try {
-    const novo = { ...req.body, ativo: true, criadoEm: new Date().toISOString() };
+    const novo = { ...req.body, criadoEm: new Date().toISOString() };
+    if (novo.ativo !== undefined) {
+      novo.ativo = (novo.ativo === 'true' || novo.ativo === 'on' || novo.ativo === true || novo.ativo === '1');
+    } else {
+      novo.ativo = true;
+    }
     const cliente = await Cliente.create(novo);
     res.status(201).json(cliente);
   } catch (error) {
@@ -48,7 +53,11 @@ exports.createCliente = async (req, res) => {
 
 exports.updateCliente = async (req, res) => {
   try {
-    const cliente = await Cliente.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updateData = { ...req.body };
+    if (updateData.ativo !== undefined) {
+      updateData.ativo = (updateData.ativo === 'true' || updateData.ativo === 'on' || updateData.ativo === true || updateData.ativo === '1');
+    }
+    const cliente = await Cliente.findByIdAndUpdate(req.params.id, updateData, { new: true });
     if (!cliente) return res.status(404).json({ error: 'Não encontrado' });
     res.json(cliente);
   } catch (e) {

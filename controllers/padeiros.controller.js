@@ -41,11 +41,22 @@ exports.createPadeiro = async (req, res) => {
     const novo = {
       ...rest,
       filial: filialArray,
-      ativo: true,
+      ativo: rest.ativo !== undefined ? (rest.ativo === 'true' || rest.ativo === 'on' || rest.ativo === true || rest.ativo === '1') : true,
+      deletado: rest.deletado !== undefined ? (rest.deletado === 'true' || rest.deletado === 'on' || rest.deletado === true || rest.deletado === '1') : false,
       role: req.body.cargo === 'GESTOR' ? 'gestor' : 'padeiro',
       criadoEm: new Date().toISOString(),
       atualizadoEm: new Date().toISOString()
     };
+
+    if (novo.dataContratacao) {
+      try {
+        novo.dataContratacao = new Date(novo.dataContratacao).toISOString();
+      } catch (e) {
+        delete novo.dataContratacao;
+      }
+    } else {
+      delete novo.dataContratacao;
+    }
 
     // Auto-generate codTec if not provided
     if (!novo.codTec) {
@@ -119,7 +130,24 @@ exports.updatePadeiro = async (req, res) => {
     const sanitizedUpdate = {};
     for (const key of Object.keys(updateData)) {
       if (allowedFields.includes(key)) {
-        sanitizedUpdate[key] = updateData[key];
+        let val = updateData[key];
+        
+        // Handle Booleans
+        if (key === 'ativo' || key === 'deletado') {
+          val = (val === 'true' || val === 'on' || val === true || val === '1');
+        }
+        
+        // Handle Dates
+        if (key === 'dataContratacao' || key === 'criadoEm' || key === 'atualizadoEm') {
+          if (!val) continue;
+          try {
+            val = new Date(val).toISOString();
+          } catch(e) {
+            continue;
+          }
+        }
+        
+        sanitizedUpdate[key] = val;
       }
     }
 
