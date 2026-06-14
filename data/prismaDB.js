@@ -273,8 +273,8 @@ const jsonDB = require('./jsonDB');
 
 module.exports = {
   Padeiro: createProxy('padeiro'),
-  Produto: jsonDB.Produto,
-  Cliente: jsonDB.Cliente,
+  Produto: createProxy('produto'),
+  Cliente: createProxy('cliente'),
   Colaborador: jsonDB.Colaborador,
   Admin: createProxy('admin'),
   Meta: createProxy('padeiroMeta'),

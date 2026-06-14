@@ -154,3 +154,31 @@ model Configuracao {
   chave          String   @unique
   valor          String
 }
+
+model Produto {
+  id          String   @id @default(uuid())
+  descricao   String
+  codigo      String?
+  fornecedor  String?
+  categoria   String?
+  preco       Float?
+  unidade     String?
+  ativo       Boolean  @default(true)
+}
+
+model Cliente {
+  id             String   @id @default(uuid())
+  nome           String
+  razaoSocial    String?
+  cnpj           String?
+  email          String?
+  telefone       String?
+  celular        String?
+  cep            String?
+  endereco       String?
+  numero         String?
+  bairro         String?
+  cidade         String?
+  uf             String?
+  ativo          Boolean  @default(true)
+}
