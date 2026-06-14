@@ -119,6 +119,18 @@ const Dev = {
         </button>
       </div>
 
+      <div class="card mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="kpi-icon text-primary"><i data-lucide="database"></i></div>
+          <h3 style="margin:0;">Gerar Dados Fictícios em Massa</h3>
+        </div>
+        <p class="text-secondary mb-6">Gera e sobrescreve metas, atividades, rastreamento e o cronograma semanal para TODOS os padeiros atuais. Útil para preencher todos os dashboards simultaneamente.</p>
+        
+        <button class="btn btn-primary w-full" onclick="Dev.seedAllData()" style="background: var(--primary);">
+          <i data-lucide="layers"></i> Gerar Todos os Dados
+        </button>
+      </div>
+
       <div class="card">
         <div class="flex items-center gap-3 mb-4">
           <i data-lucide="info" class="text-blue"></i>
@@ -220,6 +232,19 @@ const Dev = {
       this.render();
     } catch(e) {
       Components.toast(e.message || 'Erro ao gerar padeiro', 'error');
+    }
+  },
+
+  async seedAllData() {
+    if (confirm('Deseja gerar dados em massa para todos os padeiros? Isso apagará o cronograma e rastreamentos atuais.')) {
+      try {
+        Components.toast('Gerando dados em massa, aguarde...', 'info');
+        await API.post('/api/padeiros/seed-all');
+        Components.toast('Dados gerados com sucesso!', 'success');
+        this.render();
+      } catch(e) {
+        Components.toast(e.message || 'Erro ao gerar dados', 'error');
+      }
     }
   }
 };

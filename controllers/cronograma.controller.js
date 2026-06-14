@@ -10,11 +10,11 @@ exports.listCronograma = async (req, res) => {
   }
   if (req.query.semana) {
     const monday = new Date(req.query.semana);
-    const saturday = new Date(monday);
-    saturday.setDate(monday.getDate() + 5);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
     const monStr = monday.toISOString().split('T')[0];
-    const satStr = saturday.toISOString().split('T')[0];
-    query.data = { $gte: monStr, $lte: satStr };
+    const sunStr = sunday.toISOString().split('T')[0];
+    query.data = { $gte: monStr, $lte: sunStr };
   }
   
   let tarefas = await Cronograma.find(query);
@@ -43,15 +43,15 @@ exports.getWeeklyAgenda = async (req, res) => {
     const padeiros = await Padeiro.find(filter).sort({ nome: 1 });
 
     const monday = new Date(semana);
-    const saturday = new Date(monday);
-    saturday.setDate(monday.getDate() + 5);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
     const monStr = monday.toISOString().split('T')[0];
-    const satStr = saturday.toISOString().split('T')[0];
+    const sunStr = sunday.toISOString().split('T')[0];
 
     const padeiroIds = padeiros.map(p => p.id);
     const agenda = await Cronograma.find({
       padeiroId: { $in: padeiroIds },
-      data: { $gte: monStr, $lte: satStr }
+      data: { $gte: monStr, $lte: sunStr }
     }).sort({ data: 1 }); // Simplificando sort para evitar ambiguidade no mock
 
     res.json({ padeiros, agenda });

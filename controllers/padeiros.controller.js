@@ -1,5 +1,5 @@
 const bcrypt = require('bcryptjs');
-const { Padeiro, Atividade, Meta, Avaliacao, Cronograma } = require('../data/db-adapter');
+const { Padeiro, Atividade, Meta, Avaliacao, Cronograma, Cliente, Tracking } = require('../data/db-adapter');
 
 exports.listPadeiros = async (req, res) => {
   try {
@@ -289,5 +289,123 @@ exports.seedPadeiro = async (req, res) => {
   } catch (e) {
     console.error("Erro no seed padeiro:", e);
     res.status(500).json({ error: 'Erro ao gerar padeiro fictício' });
+  }
+};
+
+exports.seedAllData = async (req, res) => {
+  try {
+    const padeiros = await Padeiro.find({ deletado: { $ne: true } });
+    const clientes = await Cliente.find();
+    
+    // Clear existing Cronograma as requested
+    await Cronograma.deleteMany({});
+    
+    if (padeiros.length === 0) return res.status(400).json({ error: "Nenhum padeiro encontrado. Gere um padeiro primeiro." });
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const todayStr = today.toISOString().split("T")[0];
+
+    const weekDates = [];
+    const dayOfWeek = today.getDay();
+    const diff = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(diff);
+    
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(startOfWeek);
+      d.setDate(startOfWeek.getDate() + i);
+      weekDates.push(d.toISOString().split("T")[0]);
+    }
+
+    const mockLat = -15.793889;
+    const mockLng = -47.882778;
+
+    const atividadesToCreate = [];
+    const metasToCreate = [];
+    const cronogramaToCreate = [];
+    const trackingToCreate = [];
+
+    // Delete existing tracking, metas, atividades to avoid duplicating infinitely
+    await Atividade.deleteMany({});
+    await Meta.deleteMany({});
+    await Tracking.deleteMany({});
+
+    for (const p of padeiros) {
+      // 1. Meta
+      metasToCreate.push({
+        padeiroId: p.id,
+        metaPaoSal: 1000 + Math.floor(Math.random() * 500),
+        metaPaoDoce: 500 + Math.floor(Math.random() * 200),
+        metaPaoForma: 200 + Math.floor(Math.random() * 100),
+        metaRosca: 100 + Math.floor(Math.random() * 50),
+        metaSalgado: 300 + Math.floor(Math.random() * 100),
+        metaPaoQueijo: 400 + Math.floor(Math.random() * 150),
+        metaIntegral: 150 + Math.floor(Math.random() * 100)
+      });
+
+      // 2. Tracking
+      trackingToCreate.push({
+        padeiroId: p.id,
+        timestamp: new Date().toISOString(),
+        latitude: mockLat + (Math.random() * 0.01 - 0.005),
+        longitude: mockLng + (Math.random() * 0.01 - 0.005),
+        accuracy: 10 + Math.random() * 10,
+        provider: "mock_seed"
+      });
+
+      // 3. Atividades (Last 30 days)
+      for (let i = 0; i < 30; i++) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        if (d.getDay() === 0) continue;
+
+        const c = clientes.length > 0 ? clientes[Math.floor(Math.random() * clientes.length)] : { id: "mock-cliente", nomeFantasia: "Cliente Fictício" };
+        
+        atividadesToCreate.push({
+          padeiroId: p.id,
+          clienteId: c.id,
+          tipo: "Produção",
+          data: d.toISOString(),
+          produtos: {
+            paoSal: Math.floor(Math.random() * 1000),
+            paoDoce: Math.floor(Math.random() * 500),
+            paoForma: Math.floor(Math.random() * 200)
+          },
+          status: "Concluída",
+          observacao: "Gerado automaticamente"
+        });
+      }
+
+      // 4. Cronograma (This Week)
+      for (const dStr of weekDates) {
+        if (new Date(dStr).getDay() === 0) continue;
+        const c = clientes.length > 0 ? clientes[Math.floor(Math.random() * clientes.length)] : { id: "mock-cliente", nomeFantasia: "Cliente Fictício" };
+        
+        cronogramaToCreate.push({
+          padeiroId: p.id,
+          padeiroNome: p.nome,
+          codTec: p.codTec,
+          clienteId: c.id,
+          clienteNome: c.nomeFantasia || c.razaoSocial || "Cliente Fictício",
+          data: dStr,
+          horario: "08:00",
+          turno: "Manhã",
+          status: "pendente",
+          observacao: "Gerado pelo Seed em Massa",
+          criadoPor: "sistema"
+        });
+      }
+    }
+
+    if (metasToCreate.length > 0) await Meta.insertMany(metasToCreate);
+    if (atividadesToCreate.length > 0) await Atividade.insertMany(atividadesToCreate);
+    if (cronogramaToCreate.length > 0) await Cronograma.insertMany(cronogramaToCreate);
+    if (trackingToCreate.length > 0) await Tracking.insertMany(trackingToCreate);
+
+    res.json({ success: true, message: "Dados fictícios gerados para todos os padeiros." });
+  } catch (e) {
+    console.error("Erro no seed-all:", e);
+    res.status(500).json({ error: "Erro ao gerar dados fictícios." });
   }
 };
