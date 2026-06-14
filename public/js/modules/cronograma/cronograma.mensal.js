@@ -314,7 +314,7 @@ Object.assign(Cronograma, {
       <!-- Top Header -->
       <div class="tf-header">
         <div class="tf-brand" style="display: flex; align-items: center; gap: 10px;">
-          <img src="/assets/nexus-icon.svg" alt="NexusGestor" style="height: 32px; filter: brightness(0) invert(1);">
+          <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; display: flex; align-items: center;">Nexus<span style="font-weight: 300; color: rgba(255,255,255,0.7);">Gestor</span></div>
         </div>
         
         <div class="tf-controls">

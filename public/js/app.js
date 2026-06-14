@@ -311,10 +311,10 @@ const App = {
         <button class="sidebar-toggle-btn" onclick="App.toggleSidebar()">
           <i data-lucide="menu"></i>
         </button>
-        <img src="/assets/nexus-icon.svg" alt="NexusGestor" class="sidebar-logo-img">
+        <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; width: 100%;">Nexus<span style="font-weight: 300; color: rgba(255,255,255,0.7);">Gestor</span></div>
       </div>
       <div class="hig-sidebar-logo hig-desktop-only" style="align-items: center; gap: 10px;">
-        <img src="/assets/nexus-icon.svg" alt="NexusGestor" style="height: 32px; filter: brightness(0) invert(1);" class="hig-logo-img">
+        <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 22px; font-weight: 800; color: #FFFFFF; letter-spacing: -0.02em; display: flex; align-items: center;">Nexus<span style="font-weight: 300; color: rgba(255,255,255,0.7);">Gestor</span></div>
         <button class="sidebar-toggle-btn hig-desktop-toggle-btn" onclick="App.toggleSidebar()" style="margin-left: auto; color: rgba(255, 255, 255, 0.7); background: transparent; border: none; cursor: pointer; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; outline: none; transition: background-color 0.2s;">
           <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
         </button>

@@ -530,7 +530,7 @@ Object.assign(Cronograma, {
         
         <div class="header-main">
           <div class="brand">
-            <img src="/assets/nexus-icon.svg" alt="NexusGestor" style="height: 36px; margin-bottom: 4px;">
+            <div style="font-family: 'Outfit', 'Inter', sans-serif; font-size: 26px; font-weight: 800; color: #111827; letter-spacing: -0.02em; margin-bottom: 4px;">Nexus<span style="font-weight: 300; color: #6b7280;">Gestor</span></div>
             <p>SISTEMA DE GESTÃO DE PANIFICAÇÃO</p>
           </div>
           <div class="title-area">
