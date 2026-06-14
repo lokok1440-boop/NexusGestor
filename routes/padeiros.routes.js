@@ -5,6 +5,8 @@ const { authMiddleware, adminOnly } = require('../middleware/auth');
 
 router.get('/', authMiddleware, ctrl.listPadeiros);
 router.get('/:id', authMiddleware, ctrl.getPadeiro);
+router.delete('/reset/all', authMiddleware, adminOnly, ctrl.deleteAllPadeiros);
+router.post('/seed', authMiddleware, adminOnly, ctrl.seedPadeiro);
 router.post('/', authMiddleware, adminOnly, ctrl.createPadeiro);
 router.put('/:id', authMiddleware, adminOnly, ctrl.updatePadeiro);
 router.delete('/:id', authMiddleware, adminOnly, ctrl.deletePadeiro);

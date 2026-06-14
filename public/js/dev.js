@@ -22,6 +22,18 @@ const Dev = {
         <p class="text-secondary mb-6">Utilize as ferramentas abaixo para resetar dados do sistema durante a fase de desenvolvimento e testes. <strong>Atenção: Estas ações são irreversíveis.</strong></p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Reset Padeiros -->
+          <div class="card" style="background:#fff5f5; border-color:#feb2b2;">
+            <div class="flex items-center gap-3 mb-3">
+              <i data-lucide="users" class="text-danger"></i>
+              <strong style="color:var(--danger)">Resetar Padeiros</strong>
+            </div>
+            <p class="text-secondary" style="font-size:13px; margin-bottom:16px;">Remove todos os padeiros e TODOS os registros associados a eles (metas, atividades, etc).</p>
+            <button class="btn btn-primary bg-danger border-none w-full" onclick="Dev.resetPadeiros()">
+              <i data-lucide="trash-2"></i> Resetar Todos os Padeiros
+            </button>
+          </div>
+
           <!-- Reset Metas -->
           <div class="card" style="background:#fff5f5; border-color:#feb2b2;">
             <div class="flex items-center gap-3 mb-3">
@@ -72,6 +84,41 @@ const Dev = {
         </div>
       </div>
 
+      <div class="card mb-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="kpi-icon text-primary"><i data-lucide="user-plus"></i></div>
+          <h3 style="margin:0;">Gerar Padeiro Fictício</h3>
+        </div>
+        <p class="text-secondary mb-6">Gere um padeiro com dados completos, incluindo metas e 30 dias de atividades concluídas para testes.</p>
+        
+        <div class="flex gap-4 mb-4">
+          <div class="form-group w-full">
+            <label>Cargo</label>
+            <select id="seed-cargo" class="input-control">
+              <option>PADEIRO TREINEE</option>
+              <option>PADEIRO JUNIOR</option>
+              <option>PADEIRO PLENO</option>
+              <option>PADEIRO SENIOR</option>
+              <option>GESTOR</option>
+              <option>PROMOTOR</option>
+              <option>ASSISTENTE DE PANIFICAÇÃO</option>
+            </select>
+          </div>
+          <div class="form-group w-full">
+            <label>Filial</label>
+            <select id="seed-filial" class="input-control">
+              <option>NexusGestor Brasília</option>
+              <option>NexusGestor Goiania</option>
+              <option>NexusGestor Palmas</option>
+              <option>NexusGestor Campo Grande</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary w-full" onclick="Dev.seedPadeiro()">
+          <i data-lucide="zap"></i> Gerar Padeiro
+        </button>
+      </div>
+
       <div class="card">
         <div class="flex items-center gap-3 mb-4">
           <i data-lucide="info" class="text-blue"></i>
@@ -89,13 +136,15 @@ const Dev = {
 
   async loadStats() {
     try {
-      const [metas, atividades, avaliacoes] = await Promise.all([
+      const [padeiros, metas, atividades, avaliacoes] = await Promise.all([
+        API.get('/api/padeiros'),
         API.get('/api/metas'),
         API.get('/api/atividades'),
         API.get('/api/avaliacoes')
       ]);
       document.getElementById('system-stats-dev').innerHTML = `
         <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px;">
+          <li>• Total de Padeiros: <strong>${padeiros.length}</strong></li>
           <li>• Total de Metas: <strong>${metas.length}</strong></li>
           <li>• Total de Atividades: <strong>${atividades.length}</strong></li>
           <li>• Total de Avaliações: <strong>${avaliacoes.length}</strong></li>
@@ -145,6 +194,32 @@ const Dev = {
           this.render();
         } catch(e) { Components.toast(e.message, 'error'); }
       }
+    }
+  },
+
+  async resetPadeiros() {
+    if (confirm('Deseja realmente apagar TODOS os padeiros e seus dados?')) {
+      if (confirm('Atenção: Ação irreversível! Apagará padeiros, atividades, avaliações, metas. Continuar?')) {
+        try {
+          await API.delete('/api/padeiros/reset/all');
+          Components.toast('Padeiros resetados!', 'success');
+          this.render();
+        } catch(e) { Components.toast(e.message, 'error'); }
+      }
+    }
+  },
+
+  async seedPadeiro() {
+    const cargo = document.getElementById('seed-cargo').value;
+    const filial = document.getElementById('seed-filial').value;
+    
+    try {
+      Components.toast('Gerando padeiro fictício...', 'info');
+      await API.post('/api/padeiros/seed', { cargo, filial });
+      Components.toast('Padeiro gerado com sucesso!', 'success');
+      this.render();
+    } catch(e) {
+      Components.toast(e.message || 'Erro ao gerar padeiro', 'error');
     }
   }
 };
