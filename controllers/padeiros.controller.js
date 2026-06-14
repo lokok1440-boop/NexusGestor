@@ -398,10 +398,18 @@ exports.seedAllData = async (req, res) => {
       }
     }
 
-    if (metasToCreate.length > 0) await Meta.insertMany(metasToCreate);
-    if (atividadesToCreate.length > 0) await Atividade.insertMany(atividadesToCreate);
-    if (cronogramaToCreate.length > 0) await Cronograma.insertMany(cronogramaToCreate);
-    if (trackingToCreate.length > 0) await Tracking.insertMany(trackingToCreate);
+    if (metasToCreate.length > 0) {
+      for (const m of metasToCreate) await Meta.create(m);
+    }
+    if (atividadesToCreate.length > 0) {
+      for (const a of atividadesToCreate) await Atividade.create(a);
+    }
+    if (cronogramaToCreate.length > 0) {
+      for (const c of cronogramaToCreate) await Cronograma.create(c);
+    }
+    if (trackingToCreate.length > 0) {
+      for (const t of trackingToCreate) await Tracking.create(t);
+    }
 
     res.json({ success: true, message: "Dados fictícios gerados para todos os padeiros." });
   } catch (e) {

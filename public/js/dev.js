@@ -154,16 +154,20 @@ const Dev = {
         API.get('/api/atividades'),
         API.get('/api/avaliacoes')
       ]);
-      document.getElementById('system-stats-dev').innerHTML = `
-        <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px;">
-          <li>• Total de Padeiros: <strong>${padeiros.length}</strong></li>
-          <li>• Total de Metas: <strong>${metas.length}</strong></li>
-          <li>• Total de Atividades: <strong>${atividades.length}</strong></li>
-          <li>• Total de Avaliações: <strong>${avaliacoes.length}</strong></li>
-        </ul>
-      `;
+      const el = document.getElementById('system-stats-dev');
+      if (el) {
+        el.innerHTML = `
+          <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px;">
+            <li>• Total de Padeiros: <strong>${padeiros.length}</strong></li>
+            <li>• Total de Metas: <strong>${metas.length}</strong></li>
+            <li>• Total de Atividades: <strong>${atividades.length}</strong></li>
+            <li>• Total de Avaliações: <strong>${avaliacoes.length}</strong></li>
+          </ul>
+        `;
+      }
     } catch(e) {
-      document.getElementById('system-stats-dev').innerHTML = 'Erro ao carregar estatísticas: ' + e.message;
+      const el = document.getElementById('system-stats-dev');
+      if (el) el.innerHTML = 'Erro ao carregar estatísticas: ' + e.message;
     }
   },
 
