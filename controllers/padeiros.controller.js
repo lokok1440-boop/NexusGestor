@@ -262,7 +262,7 @@ exports.seedPadeiro = async (req, res) => {
         mes: mesStr,
         semana: semanaStr,
         status: 'concluido',
-        notaPadeiroCliente: Math.floor(Math.random() * 2) + 4, // 4 or 5
+        nota: Math.floor(Math.random() * 2) + 4, // 4 or 5
         prodPaoSal: Math.floor(Math.random() * 300) + 800,
         prodPaoDoce: Math.floor(Math.random() * 200) + 300,
         prodPaoForma: Math.floor(Math.random() * 100) + 100,
