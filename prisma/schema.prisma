@@ -88,6 +88,10 @@ model HistoricoMetas {
 model Atividade {
   id             String   @id @default(uuid())
   padeiroId      String
+  padeiroNome    String?
+  cronogramaId   String?
+  clienteId      String?
+  clienteNome    String?
   data           String   // formato YYYY-MM-DD
   mes            String   // formato YYYY-MM
   semana         String   // ex: 2024-W12
