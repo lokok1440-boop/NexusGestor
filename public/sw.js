@@ -46,7 +46,7 @@ const LOCAL_ASSETS = [
   '/js/modules/cronograma/cronograma.smart.js',
   '/js/modules/cronograma/cronograma.templates.js',
   '/js/lucide.min.js',
-  '/assets/logo.svg'
+  '/assets/nexus-icon.svg'
 ];
 
 // ─── INSTALL: Pré-cacheia apenas assets mínimos ─────────

@@ -530,7 +530,7 @@ Object.assign(Cronograma, {
         
         <div class="header-main">
           <div class="brand">
-            <img src="/assets/logo.svg" alt="NexusGestor" style="height: 36px; margin-bottom: 4px;">
+            <img src="/assets/nexus-icon.svg" alt="NexusGestor" style="height: 36px; margin-bottom: 4px;">
             <p>SISTEMA DE GESTÃO DE PANIFICAÇÃO</p>
           </div>
           <div class="title-area">

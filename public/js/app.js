@@ -311,14 +311,10 @@ const App = {
         <button class="sidebar-toggle-btn" onclick="App.toggleSidebar()">
           <i data-lucide="menu"></i>
         </button>
-        <img src="/assets/logo.svg" alt="NexusGestor" class="sidebar-logo-img">
+        <img src="/assets/nexus-icon.svg" alt="NexusGestor" class="sidebar-logo-img">
       </div>
       <div class="hig-sidebar-logo hig-desktop-only" style="align-items: center; gap: 10px;">
-        <img src="/assets/logo.svg" alt="NexusGestor" style="height: 32px; filter: brightness(0) invert(1);" class="hig-logo-img">
-        <div class="hig-logo-text-group">
-          <span class="hig-sidebar-logo-name">Smart</span>
-          <span class="hig-sidebar-logo-subtitle">Gestor</span>
-        </div>
+        <img src="/assets/nexus-icon.svg" alt="NexusGestor" style="height: 32px; filter: brightness(0) invert(1);" class="hig-logo-img">
         <button class="sidebar-toggle-btn hig-desktop-toggle-btn" onclick="App.toggleSidebar()" style="margin-left: auto; color: rgba(255, 255, 255, 0.7); background: transparent; border: none; cursor: pointer; padding: 4px; border-radius: 4px; display: flex; align-items: center; justify-content: center; outline: none; transition: background-color 0.2s;">
           <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
         </button>
@@ -448,7 +444,6 @@ const App = {
         </button>
         <div class="ios-navbar-center">
           <span class="ios-nav-title" id="ios-nav-title">${cfg.title}</span>
-          <span class="ios-logo-text">Smart Gestor</span>
         </div>
         <div class="ios-navbar-right">
           <button class="ios-nav-btn ios-notif-btn" aria-label="Notificações">

@@ -7,7 +7,7 @@ const Tutorial = {
   steps: [
     {
       route: 'admin-dashboard',
-      title: 'Bem-vindo ao Smart Gestor!',
+      title: 'Bem-vindo ao Nexus Gestor!',
       content: 'Este é o seu painel principal. Aqui você tem uma visão geral do desempenho dos padeiros, atividades recentes e métricas cruciais da NexusGestor Distribuidora.',
       target: null
     },
