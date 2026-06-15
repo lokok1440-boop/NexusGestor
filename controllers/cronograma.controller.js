@@ -80,6 +80,24 @@ exports.createTarefa = async (req, res) => {
     nova.criadoPor = req.user.id;
     nova.criadoEm = new Date().toISOString();
 
+    // Convert numeric fields to Int or null
+    if (nova.tempoMinimoMinutos !== undefined) {
+      if (nova.tempoMinimoMinutos === null || nova.tempoMinimoMinutos === '') {
+        nova.tempoMinimoMinutos = null;
+      } else {
+        const parsed = parseInt(nova.tempoMinimoMinutos, 10);
+        nova.tempoMinimoMinutos = isNaN(parsed) ? null : parsed;
+      }
+    }
+    if (nova.posicao !== undefined) {
+      if (nova.posicao === null || nova.posicao === '') {
+        nova.posicao = null;
+      } else {
+        const parsed = parseInt(nova.posicao, 10);
+        nova.posicao = isNaN(parsed) ? null : parsed;
+      }
+    }
+
     const tarefa = await Cronograma.create(nova);
     res.status(201).json(tarefa);
   } catch (e) {
@@ -91,6 +109,25 @@ exports.createTarefa = async (req, res) => {
 exports.updateTarefa = async (req, res) => {
   try {
     const { _id, id, ...updateData } = req.body;
+
+    // Convert numeric fields to Int or null
+    if (updateData.tempoMinimoMinutos !== undefined) {
+      if (updateData.tempoMinimoMinutos === null || updateData.tempoMinimoMinutos === '') {
+        updateData.tempoMinimoMinutos = null;
+      } else {
+        const parsed = parseInt(updateData.tempoMinimoMinutos, 10);
+        updateData.tempoMinimoMinutos = isNaN(parsed) ? null : parsed;
+      }
+    }
+    if (updateData.posicao !== undefined) {
+      if (updateData.posicao === null || updateData.posicao === '') {
+        updateData.posicao = null;
+      } else {
+        const parsed = parseInt(updateData.posicao, 10);
+        updateData.posicao = isNaN(parsed) ? null : parsed;
+      }
+    }
+
     const tarefa = await Cronograma.findByIdAndUpdate(req.params.id, { ...updateData, atualizadoEm: new Date().toISOString() }, { new: true });
     if (!tarefa) return res.status(404).json({ error: 'Tarefa não encontrada' });
     res.json(tarefa);

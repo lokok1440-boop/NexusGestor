@@ -101,6 +101,86 @@ function buildWhere(query) {
   return where;
 }
 
+const modelFieldTypes = {
+  padeiro: {
+    booleans: ['ativo', 'deletado']
+  },
+  padeiroMeta: {
+    ints: ['metaPaoSal', 'metaPaoDoce', 'metaPaoForma', 'metaRosca', 'metaSalgado', 'metaPaoQueijo', 'metaIntegral']
+  },
+  atividade: {
+    floats: ['nota'],
+    ints: [
+      'prodPaoSal', 'prodPaoDoce', 'prodPaoForma', 'prodRosca', 'prodSalgado', 'prodPaoQueijo', 'prodIntegral',
+      'perdaPaoSal', 'perdaPaoDoce', 'perdaPaoForma', 'perdaRosca', 'perdaSalgado', 'perdaPaoQueijo', 'perdaIntegral'
+    ]
+  },
+  cronograma: {
+    ints: ['tempoMinimoMinutos', 'posicao']
+  },
+  localizacao: {
+    floats: ['lat', 'lng', 'precisao']
+  },
+  produto: {
+    floats: ['preco'],
+    booleans: ['ativo']
+  },
+  cliente: {
+    booleans: ['ativo']
+  },
+  avaliacao: {
+    floats: ['nota']
+  }
+};
+
+function coerceFields(modelName, data) {
+  if (!data || typeof data !== 'object') return data;
+  const types = modelFieldTypes[modelName];
+  if (!types) return data;
+
+  const coerced = { ...data };
+
+  if (types.ints) {
+    for (const field of types.ints) {
+      if (coerced[field] !== undefined) {
+        if (coerced[field] === null || coerced[field] === '') {
+          coerced[field] = null;
+        } else {
+          const val = parseInt(coerced[field], 10);
+          coerced[field] = isNaN(val) ? null : val;
+        }
+      }
+    }
+  }
+
+  if (types.floats) {
+    for (const field of types.floats) {
+      if (coerced[field] !== undefined) {
+        if (coerced[field] === null || coerced[field] === '') {
+          coerced[field] = null;
+        } else {
+          const val = parseFloat(coerced[field]);
+          coerced[field] = isNaN(val) ? null : val;
+        }
+      }
+    }
+  }
+
+  if (types.booleans) {
+    for (const field of types.booleans) {
+      if (coerced[field] !== undefined) {
+        if (coerced[field] === null || coerced[field] === '') {
+          coerced[field] = null;
+        } else {
+          coerced[field] = coerced[field] === 'true' || coerced[field] === 'on' || coerced[field] === true || coerced[field] === '1';
+        }
+      }
+    }
+  }
+
+  return coerced;
+}
+
 // Wrapper flexível para tornar o Prisma Client parecido com Mongoose,
 // retornando objetos com método save() para compatibilidade e lidando com async chaining.
 class PrismaCollectionProxy {
@@ -129,7 +209,7 @@ class PrismaCollectionProxy {
          return this.toObject();
       },
       save: async function() {
-        const dataToSave = { ...this };
+        const dataToSave = coerceFields(self.modelName, { ...this });
         delete dataToSave.save;
         delete dataToSave.toObject;
         delete dataToSave.toJSON;
@@ -203,7 +283,7 @@ class PrismaCollectionProxy {
   }
 
   async create(data) {
-    const dataToSave = { ...data };
+    const dataToSave = coerceFields(this.modelName, { ...data });
     delete dataToSave._id; // Limpa _id se houver
     const doc = await this.model.create({ data: dataToSave });
     return this.wrapDoc(doc);
@@ -211,7 +291,7 @@ class PrismaCollectionProxy {
 
   async findByIdAndUpdate(id, update, options = {}) {
     try {
-      const dataToSave = { ...update };
+      const dataToSave = coerceFields(this.modelName, { ...update });
       delete dataToSave._id;
       delete dataToSave.id;
 
@@ -246,7 +326,7 @@ class PrismaCollectionProxy {
 
   async insertMany(docs) {
     const data = docs.map(d => {
-      const c = { ...d };
+      const c = coerceFields(this.modelName, { ...d });
       delete c._id;
       return c;
     });
